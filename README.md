@@ -4,12 +4,6 @@
 
 **Vego** is an easy to use diet management application that helps users determine if ingredients in food products are allowed in various diets. Users can select from a variety of preset diets and also create their own customizable diets. After selecting a diet or diets, the user can scan a list of ingredients on a food product to check its suitability. There is also the option to enter a list of ingredients manually. 
 
-## Features
-
-- **Preset Diets**: Choose from a list of predefined diets.
-- **Custom Diets**: Create and manage your own custom diets.
-- **Ingredient Scanning**: Use the camera to scan and analyze food ingredient lists.
-
 ## Resources Used
 
 - **Barcode Lookup API**: [barcodelookup.com](https://barcodelookup.com)

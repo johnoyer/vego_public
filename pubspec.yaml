@@ -1,0 +1,46 @@
+name: vego_flutter_project
+description: VeGo Flutter Project
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 0.0.1+1
+
+environment:
+  sdk: ^3.1.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  async: ^2.11.0
+  camera: ^0.11.0
+  camera_web: ^0.3.0
+  cross_file_image: ^1.1.0
+  english_words: ^4.0.0
+  flutter_dotenv: 5.1.0
+  google_ml_kit: ^0.18.0 
+  http: ^1.2.1
+  image: ^4.2.0
+  image_picker: ^1.0.4
+  mobile_scanner: ^5.0.0
+  path_provider: ^2.0.11
+  platform: ^3.1.5
+  provider: ^6.0.0
+  qr_code_scanner: ^1.0.0
+  shared_preferences: ^2.2.3
+  shared_preferences_web: ^2.2.3
+  google_fonts: ^6.2.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  fonts: 
+    - family: Roboto
+      fonts:
+        - asset: fonts/Roboto-Regular.ttf
+  assets:
+    - .env

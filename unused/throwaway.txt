@@ -1,0 +1,375 @@
+// import 'package:google_ml_kit/google_ml_kit.dart';
+// import 'package:qr_code_scanner/qr_code_scanner.dart';
+
+// void _onQRViewCreated(QRViewController controller) {
+  //   setState(() {
+  //     this.controller = controller;
+  //   });
+  //   controller.scannedDataStream.listen((scanData) {
+  //     setState(() {
+  //       result = scanData;
+  //     });
+  //   });
+  // }
+
+  // @override
+  // Widget build(BuildContext context) {
+    // return Scaffold(
+    //   // appBar: AppBar(title: Text('Camera')),
+    //   body: FutureBuilder<void>(
+    //     future: _initializeControllerFuture,
+    //     builder: (context, snapshot) {
+    //       if (snapshot.connectionState == ConnectionState.done) {
+    //         return LayoutBuilder(
+    //           builder: (context, constraints) {
+    //             double overlayWidth = constraints.maxWidth * 0.75; // 75% of the screen width (todo: change to min with camera size)
+    //             double overlayHeight = constraints.maxHeight * 0.75; // 75% of the screen height (todo: change to min with camera size)
+
+    //             return Stack(
+    //               children: [
+    //                 // CameraPreview(_controller),
+    //                 QRView(
+    //                   key: qrKey,
+    //                   onQRViewCreated: _onQRViewCreated,
+    //                 ),
+    //                 Expanded(
+    //                   flex: 1,
+    //                   child: Center(
+    //                     child: (result != null)
+    //                         ? Text(
+    //                             'Barcode Type: ${(result!.format).name}\nData: ${result!.code}')
+    //                         : Text('Scan a code'),
+    //                   ),
+    //                 ),
+    //                 // Add your overlay here
+    //                 Positioned(
+    //                   top: (constraints.maxHeight - overlayHeight) / 2,
+    //                   left: (constraints.maxWidth - overlayWidth) / 2,
+    //                   child: Container(
+    //                     width: overlayWidth,
+    //                     height: overlayHeight,
+    //                     decoration: BoxDecoration(
+    //                       border: Border.all(color: Colors.white, width: 3),
+    //                     ),
+    //                     child: Center(
+    //                       child: Text(
+    //                         'Place Item/Barcode in the Center of the Frame',
+    //                         style: TextStyle(
+    //                           color: Colors.white,
+    //                           fontSize: 24,
+    //                         ),
+    //                       ),
+    //                     ),
+    //                   ),
+    //                 ),
+    //               ],
+    //             );
+    //           },
+    //         );
+    //       } else {
+    //         return Center(child: CircularProgressIndicator());
+    //       }
+    //     },
+    //   ),
+    //   floatingActionButton: FloatingActionButton(
+    //     child: Icon(Icons.camera_alt),
+    //     onPressed: () async {
+    //       print('arrived');
+    //       try {
+    //         await _initializeControllerFuture;
+    //         final image = await _controller.takePicture();
+    //         // In a web app, the picture data can be used directly or saved as needed
+    //         print('Picture taken: ${image.path}');
+    //       } catch (e) {
+    //         print(e);
+    //       }
+    //     },
+    //   ),
+    // );
+  // }
+  
+
+  // final barcodeImage = barcode.image;
+
+                  // if (barcodeImage == null) {
+                  //   return const Center(
+                  //     child: Text('No image for this barcode.'),
+                  //   );
+                  // }
+
+                  // return Image.memory(
+                  //   barcodeImage,
+                  //   fit: BoxFit.contain,
+                  //   errorBuilder: (context, error, stackTrace) {
+                  //     return Center(
+                  //       child: Text('Could not decode image bytes. $error'),
+                  //     );
+                  //   },
+                  //   frameBuilder: (
+                  //     BuildContext context,
+                  //     Widget child,
+                  //     int? frame,
+                  //     bool? wasSynchronouslyLoaded,
+                  //   ) {
+                  //     if (wasSynchronouslyLoaded == true || frame != null) {
+                  //       return Transform.rotate(
+                  //         angle: 90 * pi / 180,
+                  //         child: child,
+                  //       );
+                  //     }
+
+                  //     return const Center(
+                  //       child: CircularProgressIndicator(),
+                  //     );
+                  //   },
+                  // );
+
+
+
+                  // ElevatedButton(
+            //   onPressed: () {
+            //     Navigator.of(context).push(
+            //       MaterialPageRoute(
+            //         builder: (context) => const BarcodeScannerListView(),
+            //       ),
+            //     );
+            //   },
+            //   child: const Text('MobileScanner with ListView'),
+            // ),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     Navigator.of(context).push(
+            //       MaterialPageRoute(
+            //         builder: (context) => const BarcodeScannerWithController(),
+            //       ),
+            //     );
+            //   },
+            //   child: const Text('MobileScanner with Controller'),
+            // ),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     Navigator.of(context).push(
+            //       MaterialPageRoute(
+            //         builder: (context) => const BarcodeScannerWithScanWindow(),
+            //       ),
+            //     );
+            //   },
+            //   child: const Text('MobileScanner with ScanWindow'),
+            // ),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     Navigator.of(context).push(
+            //       MaterialPageRoute(
+            //         builder: (context) => const BarcodeScannerReturningImage(),
+            //       ),
+            //     );
+            //   },
+            //   child: const Text(
+            //     'MobileScanner with Controller (returning image)',
+            //   ),
+            // ),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     Navigator.of(context).push(
+            //       MaterialPageRoute(
+            //         builder: (context) => const BarcodeScannerWithZoom(),
+            //       ),
+            //     );
+            //   },
+            //   child: const Text('MobileScanner with zoom slider'),
+            // ),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     Navigator.of(context).push(
+            //       MaterialPageRoute(
+            //         builder: (context) => const BarcodeScannerPageView(),
+            //       ),
+            //     );
+            //   },
+            //   child: const Text('MobileScanner pageView'),
+            // ),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     Navigator.of(context).push(
+            //       MaterialPageRoute(
+            //         builder: (context) => BarcodeScannerWithOverlay(),
+            //       ),
+            //     );
+            //   },
+            //   child: const Text('MobileScanner with Overlay'),
+            // ),
+
+
+
+
+            
+// class ScannerPage extends StatefulWidget {
+//   final CameraDescription camera;
+
+//   const ScannerPage({super.key, required this.camera});
+
+//   @override
+//   ScannerPageState createState() => ScannerPageState();
+// }
+
+// class ScannerPageState extends State<ScannerPage> {
+//   // late CameraController _controller;
+
+//   final MobileScannerController controller = MobileScannerController(); //todo: add options for the scanner (?)
+
+//   // @override
+//   // void initState() {
+//   //   super.initState();
+//   //   // _controller = CameraController(
+//   //   //   widget.camera,
+//   //   //   ResolutionPreset.high,
+//   //   // );
+//   //   // _controller.initialize().catchError((error) {
+//   //   //   print('Camera initialization error: $error');
+//   //   // });
+//   // }
+
+//   @override
+//   void dispose() {
+//     // _controller.dispose();
+//     controller.dispose();
+//     super.dispose();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       // appBar: AppBar(title: const Text('Mobile Scanner Example'), centerTitle: true),
+//       body: Center(
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.spaceAround,
+//           children: [
+//             ElevatedButton(
+//               onPressed: () {
+//                 Navigator.of(context).push(
+//                   MaterialPageRoute(
+//                     builder: (context) => const BarcodeScannerReturningImage(),
+//                   ),
+//                 );
+//               },
+//               child: Padding(
+//                 padding: EdgeInsets.all(20.0), 
+//                 child: const Text(
+//                   'Tap/Click Here for the Barcode Scanner',
+//                   style: TextStyle(fontSize: 24.0),
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+// class ManualPage extends StatefulWidget {
+//   @override
+//   ManualPageState createState() => ManualPageState();
+// }
+
+// class ManualPageState extends State<ManualPage> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       // appBar: AppBar(title: const Text('Mobile Scanner Example'), centerTitle: true),
+//       body: Center(
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.spaceAround,
+//           children: [
+//             ElevatedButton(
+//               onPressed: () {
+//                 Navigator.of(context).push(
+//                   MaterialPageRoute(
+//                     builder: (context) => const ManualEntry(),
+//                   ),
+//                 );
+//               },
+//               child: Padding(
+//                 padding: EdgeInsets.all(20.0), 
+//                 child: const Text(
+//                   'Tap/Click Here to Enter Information Manually',
+//                   style: TextStyle(fontSize: 24.0),
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+// class IngredientRecognitionPage extends StatefulWidget {
+//   final CameraDescription camera;
+
+//   const IngredientRecognitionPage({super.key, required this.camera});
+
+//   @override
+//   IngredientRecognitionPageState createState() => IngredientRecognitionPageState();
+// }
+
+// class IngredientRecognitionPageState extends State<IngredientRecognitionPage> {
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       // appBar: AppBar(title: const Text('Mobile Scanner Example'), centerTitle: true),
+//       body: Center(
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.spaceAround,
+//           children: [
+//             ElevatedButton(
+//               onPressed: () {
+//                 Navigator.of(context).push(
+//                   MaterialPageRoute(
+//                     builder: (context) => IngredientRecognition(camera: widget.camera),
+//                   ),
+//                 );
+//               },
+//               child: Padding(
+//                 padding: EdgeInsets.all(20.0), 
+//                 child: const Text(
+//                   'Tap/Click Here to Scan an Ingredient List',
+//                   style: TextStyle(fontSize: 24.0),
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+
+  // void onIngredientListObtained(String text) async {//todo: delete (?)
+  //   final ingredientInfo = await loadDataAndProcessIngredients(text);
+  //   setState(() {
+  //     _ingredientListObtained = true;
+  //     _ingredientInfo = ingredientInfo;
+  //   });
+  // }
+
+  // Future<Map<String, dynamic>?> loadDataAndProcessIngredients(String text) async {
+  //   final VeganChecker veganChecker = VeganChecker();
+  //   await veganChecker.loadPresetData(['vegan']);
+
+  //   const ingredients = 'Almonds, Banana, Organic Coconut Sugar, Arrowroot Powder, gluconolactone, Organic Coconut Flour, Chicken, beef, milk, Baking Soda, Sea Salt';
+
+  //   List<String> ingredientsListFormat = ingredients.split(', ');
+  //   ingredientsListFormat = ingredientsListFormat.map((string) => string.toLowerCase().trim()).toList();
+
+  //   final nonVeganIngredients = veganChecker.getNonVeganIngredients(ingredientsListFormat);
+  //   final canBeVeganIngredients = veganChecker.getPossiblyNonVeganIngredients(ingredientsListFormat);
+
+  //   return {
+  //     'ingredients': ingredients,
+  //     'nonVeganIngredients': nonVeganIngredients,
+  //     'canBeVeganIngredients': canBeVeganIngredients
+  //   };
+  // }

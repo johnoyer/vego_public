@@ -18,7 +18,8 @@
 
 ## Sources for Diets
 
-- **Vegan Ingredients**: [GitHub - is-vegan](https://github.com/hmontazeri/is-vegan)
+- **Vegan Ingredients**: 
+  - [GitHub - is-vegan](https://github.com/hmontazeri/is-vegan)
 - **Gluten-Free Ingredients**:
   - [National Celiac Association](https://nationalceliac.org/ingredients-people-question/)
   - [WebMD - Hidden Sources of Gluten](https://www.webmd.com/diet/features/hidden-sources-of-gluten)
@@ -27,7 +28,8 @@
   - [EUR-Lex - Food Dye Regulation](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A02008R1333-20240423)
 - **Additive-Free Ingredients**:
   - [Health Canada - Food Additives Dictionary](https://www.canada.ca/en/health-canada/services/food-nutrition/food-safety/food-additives/dictionary/permitted-use-canada.html)
-- **Nut-Free Ingredients**: [FDA - Major Food Allergens](https://www.fda.gov/industry/fda-basics-industry/section-201qq-act-defines-term-major-food-allergen-include-tree-nuts-addition-three-examples)
+- **Nut-Free Ingredients**: 
+  - [FDA - Major Food Allergens](https://www.fda.gov/industry/fda-basics-industry/section-201qq-act-defines-term-major-food-allergen-include-tree-nuts-addition-three-examples)
 - **Seafood-Free Ingredients**:
   - [Food Allergy - Shellfish Allergens](https://www.foodallergy.org/living-food-allergies/food-allergy-essentials/common-allergens/shellfish#:~:text=There%20are%20two%20groups%20of,squid%2C%20abalone%2C%20snail)
   - [Wikipedia - List of Seafood](https://en.wikipedia.org/wiki/List_of_types_of_seafood)

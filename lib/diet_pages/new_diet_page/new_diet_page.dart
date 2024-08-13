@@ -30,6 +30,7 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
   bool _controllingSlowness = DietState.slowAnimations; // Used to control animation speed
   bool _animationDone = false;
   bool _fieldEntered = false;
+  bool _showExpansionPanelList = false;
   bool? _enforcingProhibitive; // true if enforcing that the diet prohibits, false if enforcing the diet is allowing, null if neither
   String textFieldValue = '';
   final List<CancelableOperation> _operations = [];
@@ -50,11 +51,17 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
     );
     // If the animations are "slow" there should be an animation during the page transition
     if(DietState.slowAnimations) {
+      if(stage==Stage.dietAttributes || stage==Stage.dietInfo) {
+        _showExpansionPanelList = false; // hides the expansionPanelList at the beginning of the transition to and from Stage.dietAttributes
+      }
       await _pageController.animateToPage(
         stages.indexOf(newStage), 
         duration : const Duration(milliseconds: 800), 
         curve: Curves.easeInOutExpo
       );
+      if(stage==Stage.dietAttributes) {
+        _showExpansionPanelList = true;
+      }
     }
     // Otherwise there should not be an animation during the page transition
     else {
@@ -165,9 +172,6 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
                 itemBuilder: (final context, final index) {
                   return _buildPage(stages[index]);
                 },
-                onPageChanged: (final index) {
-                  // Optionally handle page change events
-                },
               ),
             ),
             Padding(
@@ -226,22 +230,14 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
         ),
         const Padding(padding: EdgeInsets.all(5)),
         isAndroid() ? InkWell(
-          onTap: () {
-            if(_counter>=3) {
-              Navigator.of(context).pop();
-            }
-          },
+          onTap: () => stageSevenOnTap(),
           child: const SizedBox(
             height: 60,
             width: 280,
           ),
         ) : CupertinoButton(
           padding: EdgeInsets.zero,
-          onPressed: () {
-            if(_counter>=3) {
-              Navigator.of(context).pop();
-            }
-          },
+          onPressed: () => stageSevenOnTap(),
           child: const SizedBox(
             height: 60,
             width: 280,
@@ -249,6 +245,12 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
         ),
       ],
     );
+  }
+
+  void stageSevenOnTap() {
+    if(_counter>=3) {
+      Navigator.of(context).pop();
+    }
   }
 
   Widget dietSecondaryItemsStage() {
@@ -290,24 +292,14 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
         ),
         const Padding(padding: EdgeInsets.all(5)),
         isAndroid() ? InkWell(
-          onTap: () {
-            if(_animationDone) {
-              DietState().addDietItemsAll(widget.index, textFieldValue.split(', '), false)
-                .then((final _) => updateStage(Stage.end));
-            }
-          },
+          onTap: () => stageSixOnTap(),
           child: const SizedBox(
             height: 60,
             width: 75,
           ),
         ) : CupertinoButton(
           padding: EdgeInsets.zero,
-          onPressed: () {
-            if(_animationDone) {
-              DietState().addDietItemsAll(widget.index, textFieldValue.split(', '), false)
-                .then((final _) => updateStage(Stage.end));
-            }
-          },
+          onPressed: () => stageSixOnTap(),
           child: const SizedBox(
             height: 60,
             width: 75,
@@ -315,6 +307,13 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
         ),
       ],
     );
+  }
+
+  void stageSixOnTap() {
+    if(_animationDone) {
+      DietState().addDietItemsAll(widget.index, textFieldValue.split(', '), false)
+        .then((final _) => updateStage(Stage.end));
+    }
   }
 
   Widget primaryDietItemsStage() {
@@ -380,32 +379,14 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
         ),
         const Padding(padding: EdgeInsets.all(5)),
         isAndroid() ? InkWell(
-          onTap: () {
-            if(_animationDone) {
-              if(textFieldValue!=''||_enforcingProhibitive!=null) {
-                DietState().addDietItemsAll(widget.index, textFieldValue.split(', '), true)
-                  .then((final _) => updateStage(Stage.dietSecondaryItems));
-              } else {
-                showErrorMessage(context, 'Diet items must be entered before continuing.');
-              }
-            }
-          },
+          onTap: () => stageFiveOnTap(),
           child: const SizedBox(
             height: 60,
             width: 75,
           ),
         ) : CupertinoButton(
           padding: EdgeInsets.zero,
-          onPressed: () {
-            if(_animationDone) {
-              if(textFieldValue!=''||_enforcingProhibitive!=null) {
-                DietState().addDietItemsAll(widget.index, textFieldValue.split(', '), true)
-                  .then((final _) => updateStage(Stage.dietSecondaryItems));
-              } else {
-                showErrorMessage(context, 'Diet items must be entered before continuing.');
-              }
-            }
-          },
+          onPressed: () => stageFiveOnTap(),
           child: const SizedBox(
             height: 60,
             width: 75,
@@ -413,6 +394,17 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
         ),
       ],
     );
+  }
+  
+  void stageFiveOnTap() {
+    if(_animationDone) {
+      if(textFieldValue!=''||_enforcingProhibitive!=null) {
+        DietState().addDietItemsAll(widget.index, textFieldValue.split(', '), true)
+          .then((final _) => updateStage(Stage.dietSecondaryItems));
+      } else {
+        showErrorMessage(context, 'Diet items must be entered before continuing.');
+      }
+    }
   }
 
   Widget dietProhibitiveStage() {
@@ -502,22 +494,14 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
         ),
         const Padding(padding: EdgeInsets.all(5)),
         isAndroid() ? InkWell(
-          onTap: () {
-            if(_animationDone) {
-              updateStage(Stage.dietPrimaryItems);
-            }
-          },
+          onTap: () => stageFourOnTap(),
           child: const SizedBox(
             height: 60,
             width: 75,
           ),
         ) : CupertinoButton(
           padding: EdgeInsets.zero,
-          onPressed: () {
-            if(_animationDone) {
-              updateStage(Stage.dietPrimaryItems);
-            }
-          },
+          onPressed: () => stageFourOnTap(),
           child: const SizedBox(
             height: 60,
             width: 75,
@@ -525,6 +509,12 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
         ),
       ],
     );
+  }
+
+  void stageFourOnTap() {
+    if(_animationDone) {
+      updateStage(Stage.dietPrimaryItems);
+    }
   }
 
   Widget dietInfoStage() {
@@ -563,30 +553,14 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
         ),
         const Padding(padding: EdgeInsets.all(5)),
         isAndroid() ? InkWell(
-          onTap: () {
-            if(_animationDone) {
-              if(_enforcingProhibitive!=null) {
-                updateStage(Stage.dietPrimaryItems);
-              } else {
-                updateStage(Stage.dietProhibitive);
-              }
-            }
-          },
+          onTap: () => stageThreeOnTap(),
           child: const SizedBox(
             height: 60,
             width: 75,
           ),
         ) : CupertinoButton(
           padding: EdgeInsets.zero,
-          onPressed: () {
-            if(_animationDone) {
-              if(_enforcingProhibitive!=null) {
-                updateStage(Stage.dietPrimaryItems);
-              } else {
-                updateStage(Stage.dietProhibitive);
-              }
-            }
-          },
+          onPressed: () => stageThreeOnTap(),
           child: const SizedBox(
             height: 60,
             width: 75,
@@ -594,6 +568,16 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
         ),
       ],
     );
+  }
+
+  void stageThreeOnTap() {
+    if(_animationDone) {
+      if(_enforcingProhibitive!=null) {
+        updateStage(Stage.dietPrimaryItems);
+      } else {
+        updateStage(Stage.dietProhibitive);
+      }
+    }
   }
 
   Widget dietAttributesStage() {
@@ -613,8 +597,7 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
               AnimatedOpacity(
                 duration: _controllingSlowness ? const Duration(seconds: 2) : Duration.zero,
                 opacity: _counter>=1 ? 1.0 : 0.0, // Fade in
-                child: 
-                Scaffold(
+                child: _showExpansionPanelList ? Scaffold(
                   body: SingleChildScrollView(
                     physics: const AlwaysScrollableScrollPhysics(),
                     child: ExpansionPanelList.radio(
@@ -696,7 +679,7 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
                       }).toList(),
                     ),
                   ),
-                ),
+                ) : Container(),
               ),
               StepTitle(slow: _controllingSlowness, counter: _counter, title: 'Step 2: Select Diet Attributes'),
             ],
@@ -704,50 +687,14 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
         ),
         const Padding(padding: EdgeInsets.all(5)),
         isAndroid() ? InkWell(
-          onTap: () async {
-            if(_animationDone) {
-              for(DietAttributeContainer dietAttributeContainer in DietState.dietAttributesManager.dietAttributes) {
-                if(dietAttributeContainer.selectionStatus!=SelectionStatus.notSelected){
-                  if(dietAttributeContainer.diet.isProhibitive) {
-                    if(!(_enforcingProhibitive==null||_enforcingProhibitive==true)) throw Exception('enforcingProhibitive issue');
-                    _enforcingProhibitive = true;
-                  } else {
-                    if(!(_enforcingProhibitive==null||_enforcingProhibitive==false)) throw Exception('enforcingProhibitive issue');
-                    _enforcingProhibitive = false;
-                  }
-                  DietState().updateIsProhibitive(widget.index, _enforcingProhibitive!);
-                  await DietState().addDietItemsFromDiet(widget.index, dietAttributeContainer.diet, dietAttributeContainer.itemSelectedList);
-                }
-                dietAttributeContainer.selectionStatus=SelectionStatus.notSelected;
-              }
-              updateStage(Stage.dietInfo);
-            }
-          },
+          onTap: () async => stageTwoOnTap,
           child: const SizedBox(
             height: 60,
             width: 75,
           ),
         ) : CupertinoButton(
           padding: EdgeInsets.zero,
-          onPressed: () async {
-            if(_animationDone) {
-              for(DietAttributeContainer dietAttributeContainer in DietState.dietAttributesManager.dietAttributes) {
-                if(dietAttributeContainer.selectionStatus!=SelectionStatus.notSelected){
-                  if(dietAttributeContainer.diet.isProhibitive) {
-                    if(!(_enforcingProhibitive==null||_enforcingProhibitive==true)) throw Exception('enforcingProhibitive issue');
-                    _enforcingProhibitive = true;
-                  } else {
-                    if(!(_enforcingProhibitive==null||_enforcingProhibitive==false)) throw Exception('enforcingProhibitive issue');
-                    _enforcingProhibitive = false;
-                  }
-                  DietState().updateIsProhibitive(widget.index, _enforcingProhibitive!);
-                  await DietState().addDietItemsFromDiet(widget.index, dietAttributeContainer.diet, dietAttributeContainer.itemSelectedList);
-                }
-                dietAttributeContainer.selectionStatus=SelectionStatus.notSelected;
-              }
-              updateStage(Stage.dietInfo);
-            }
-          },
+          onPressed: () async => stageTwoOnTap,
           child: const SizedBox(
             height: 60,
             width: 75,
@@ -755,6 +702,26 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
         ),
       ],
     );
+  }
+
+  Future<void> stageTwoOnTap() async {
+    if(_animationDone) {
+      for(DietAttributeContainer dietAttributeContainer in DietState.dietAttributesManager.dietAttributes) {
+        if(dietAttributeContainer.selectionStatus!=SelectionStatus.notSelected){
+          if(dietAttributeContainer.diet.isProhibitive) {
+            if(!(_enforcingProhibitive==null||_enforcingProhibitive==true)) throw Exception('enforcingProhibitive issue');
+            _enforcingProhibitive = true;
+          } else {
+            if(!(_enforcingProhibitive==null||_enforcingProhibitive==false)) throw Exception('enforcingProhibitive issue');
+            _enforcingProhibitive = false;
+          }
+          DietState().updateIsProhibitive(widget.index, _enforcingProhibitive!);
+          await DietState().addDietItemsFromDiet(widget.index, dietAttributeContainer.diet, dietAttributeContainer.itemSelectedList);
+        }
+        dietAttributeContainer.selectionStatus=SelectionStatus.notSelected;
+      }
+      updateStage(Stage.dietInfo);
+    }
   }
 
   Widget dietNameStage() {
@@ -812,14 +779,14 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
         ),
         const Padding(padding: EdgeInsets.all(5)),
         isAndroid() ? InkWell(
-          onTap: () async => stageOneOnTap(),
+          onTap: () async => await stageOneOnTap(),
           child: const SizedBox(
             height: 60,
             width: 75,
           ),
         ) : CupertinoButton(
           padding: EdgeInsets.zero,
-          onPressed: () async => stageOneOnTap(),
+          onPressed: () async => await stageOneOnTap(),
           child: const SizedBox(
             height: 60,
             width: 75,

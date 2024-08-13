@@ -131,6 +131,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       ],
                     ),
                     CupertinoButton(
+                      padding: EdgeInsets.zero,
                       onPressed: () {
                         showCupertinoDialog(
                           context: context,
@@ -150,6 +151,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       )
                     ),
                     CupertinoButton(
+                      padding: EdgeInsets.zero,
                       onPressed: () {
                         showCupertinoDialog(
                           context: context,

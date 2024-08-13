@@ -17,8 +17,6 @@ import 'package:vego_flutter_project/ingredient_recognition/line_animations.dart
 import 'package:vego_flutter_project/ingredient_recognition/camera_preview_overlay.dart';
 import 'package:vego_flutter_project/ingredient_recognition/helper_functions.dart';
 
-// import 'package:flutter/cupertino.dart';
-
 class IngredientRecognition extends StatefulWidget {
 
   const IngredientRecognition({super.key});

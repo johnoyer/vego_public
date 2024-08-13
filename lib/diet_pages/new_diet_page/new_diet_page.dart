@@ -225,8 +225,19 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
           ],
         ),
         const Padding(padding: EdgeInsets.all(5)),
-        InkWell(
+        isAndroid() ? InkWell(
           onTap: () {
+            if(_counter>=3) {
+              Navigator.of(context).pop();
+            }
+          },
+          child: const SizedBox(
+            height: 60,
+            width: 280,
+          ),
+        ) : CupertinoButton(
+          padding: EdgeInsets.zero,
+          onPressed: () {
             if(_counter>=3) {
               Navigator.of(context).pop();
             }
@@ -278,8 +289,20 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
           ],
         ),
         const Padding(padding: EdgeInsets.all(5)),
-        InkWell(
+        isAndroid() ? InkWell(
           onTap: () {
+            if(_animationDone) {
+              DietState().addDietItemsAll(widget.index, textFieldValue.split(', '), false)
+                .then((final _) => updateStage(Stage.end));
+            }
+          },
+          child: const SizedBox(
+            height: 60,
+            width: 75,
+          ),
+        ) : CupertinoButton(
+          padding: EdgeInsets.zero,
+          onPressed: () {
             if(_animationDone) {
               DietState().addDietItemsAll(widget.index, textFieldValue.split(', '), false)
                 .then((final _) => updateStage(Stage.end));
@@ -356,8 +379,24 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
           ],
         ),
         const Padding(padding: EdgeInsets.all(5)),
-        InkWell(
+        isAndroid() ? InkWell(
           onTap: () {
+            if(_animationDone) {
+              if(textFieldValue!=''||_enforcingProhibitive!=null) {
+                DietState().addDietItemsAll(widget.index, textFieldValue.split(', '), true)
+                  .then((final _) => updateStage(Stage.dietSecondaryItems));
+              } else {
+                showErrorMessage(context, 'Diet items must be entered before continuing.');
+              }
+            }
+          },
+          child: const SizedBox(
+            height: 60,
+            width: 75,
+          ),
+        ) : CupertinoButton(
+          padding: EdgeInsets.zero,
+          onPressed: () {
             if(_animationDone) {
               if(textFieldValue!=''||_enforcingProhibitive!=null) {
                 DietState().addDietItemsAll(widget.index, textFieldValue.split(', '), true)
@@ -462,8 +501,19 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
           ],
         ),
         const Padding(padding: EdgeInsets.all(5)),
-        InkWell(
+        isAndroid() ? InkWell(
           onTap: () {
+            if(_animationDone) {
+              updateStage(Stage.dietPrimaryItems);
+            }
+          },
+          child: const SizedBox(
+            height: 60,
+            width: 75,
+          ),
+        ) : CupertinoButton(
+          padding: EdgeInsets.zero,
+          onPressed: () {
             if(_animationDone) {
               updateStage(Stage.dietPrimaryItems);
             }
@@ -512,8 +562,23 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
           ],
         ),
         const Padding(padding: EdgeInsets.all(5)),
-        InkWell(
+        isAndroid() ? InkWell(
           onTap: () {
+            if(_animationDone) {
+              if(_enforcingProhibitive!=null) {
+                updateStage(Stage.dietPrimaryItems);
+              } else {
+                updateStage(Stage.dietProhibitive);
+              }
+            }
+          },
+          child: const SizedBox(
+            height: 60,
+            width: 75,
+          ),
+        ) : CupertinoButton(
+          padding: EdgeInsets.zero,
+          onPressed: () {
             if(_animationDone) {
               if(_enforcingProhibitive!=null) {
                 updateStage(Stage.dietPrimaryItems);
@@ -638,8 +703,33 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
           ),
         ),
         const Padding(padding: EdgeInsets.all(5)),
-        InkWell(
+        isAndroid() ? InkWell(
           onTap: () async {
+            if(_animationDone) {
+              for(DietAttributeContainer dietAttributeContainer in DietState.dietAttributesManager.dietAttributes) {
+                if(dietAttributeContainer.selectionStatus!=SelectionStatus.notSelected){
+                  if(dietAttributeContainer.diet.isProhibitive) {
+                    if(!(_enforcingProhibitive==null||_enforcingProhibitive==true)) throw Exception('enforcingProhibitive issue');
+                    _enforcingProhibitive = true;
+                  } else {
+                    if(!(_enforcingProhibitive==null||_enforcingProhibitive==false)) throw Exception('enforcingProhibitive issue');
+                    _enforcingProhibitive = false;
+                  }
+                  DietState().updateIsProhibitive(widget.index, _enforcingProhibitive!);
+                  await DietState().addDietItemsFromDiet(widget.index, dietAttributeContainer.diet, dietAttributeContainer.itemSelectedList);
+                }
+                dietAttributeContainer.selectionStatus=SelectionStatus.notSelected;
+              }
+              updateStage(Stage.dietInfo);
+            }
+          },
+          child: const SizedBox(
+            height: 60,
+            width: 75,
+          ),
+        ) : CupertinoButton(
+          padding: EdgeInsets.zero,
+          onPressed: () async {
             if(_animationDone) {
               for(DietAttributeContainer dietAttributeContainer in DietState.dietAttributesManager.dietAttributes) {
                 if(dietAttributeContainer.selectionStatus!=SelectionStatus.notSelected){
@@ -721,8 +811,15 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
           ],
         ),
         const Padding(padding: EdgeInsets.all(5)),
-        InkWell(
+        isAndroid() ? InkWell(
           onTap: () async => stageOneOnTap(),
+          child: const SizedBox(
+            height: 60,
+            width: 75,
+          ),
+        ) : CupertinoButton(
+          padding: EdgeInsets.zero,
+          onPressed: () async => stageOneOnTap(),
           child: const SizedBox(
             height: 60,
             width: 75,

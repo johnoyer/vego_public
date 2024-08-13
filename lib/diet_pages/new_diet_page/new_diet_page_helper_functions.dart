@@ -74,7 +74,6 @@ class NextCard extends StatelessWidget {
       child: AnimatedOpacity(
         duration: slow ? const Duration(seconds: 1)  : Duration.zero,
         opacity: ((counter>=3)&&(!onlyShowUponEntering||fieldEntered)) ? 1.0 : 0.0,
-        // opacity: (counter>=3) ? 1.0 : 0.0,
         child: libraryCard(
           fieldEntered||onlyShowUponEntering ? 'Next' : 'Skip',
           TextFeatures.normal,

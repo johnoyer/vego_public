@@ -15,6 +15,7 @@ import 'package:vego_flutter_project/diet_classes/diet_state.dart';
 import 'package:vego_flutter_project/ingredient_recognition/ingredient_processing_functions.dart';
 import 'package:vego_flutter_project/ingredient_recognition/line_animations.dart';
 import 'package:vego_flutter_project/ingredient_recognition/camera_preview_overlay.dart';
+import 'package:vego_flutter_project/ingredient_recognition/helper_functions.dart';
 
 // import 'package:flutter/cupertino.dart';
 
@@ -132,16 +133,23 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
   Future<void> _captureImage() async {
     setState(() {
       _awaitingResult = true;
+      _controller.pausePreview();
     });
     try {
       final XFile image = await _controller.takePicture();
+      print('arrived1');
       final bytes = await image.readAsBytes();
+      print('arrived2');
 
       img.Image imageToReverse = img.decodeImage(Uint8List.fromList(bytes))!;
+      print('arrived3');
       imageToReverse = img.flipHorizontal(imageToReverse); //flip image
+      print('arrived4');
       final reversedBytes = img.encodeJpg(imageToReverse); 
+      print('arrived5');
       setState(() {
         _capturedImage = Uint8List.fromList(reversedBytes);
+        print('arrived');
       });
 
       final base64Image = base64Encode(reversedBytes);
@@ -181,14 +189,14 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
     );
 
     if (response.statusCode == 200) {
-      ingredientProcessing(response.body);
+      await ingredientProcessing(response.body);
     } else {
       print('Request failed with status: ${response.statusCode}');
       print('Response body: ${response.body}');
     }
   }
 
-  void ingredientProcessing(final String responseBody) {
+  Future<void> ingredientProcessing(final String responseBody) async {
     final jsonResponse = json.decode(responseBody);
     if (jsonResponse['responses'] != null && jsonResponse['responses'][0]['textAnnotations'] != null) {
       // textAnnotations contains the full text ('description') as well as every word with information
@@ -240,9 +248,6 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
       final List<String> shortenedTextListFormat = handleSeparation(shortenedText, separationStyle);
 
       // Fifth step: add lines and determine status
-      setState(() {
-        DietState().setStatus(Status.none); // setstate? TODO
-      });
       final StatusLinesReturn statusLinesReturn = addLinesAndDetermineStatus(
         shortenedTextListFormat, 
         wordList, 
@@ -254,16 +259,18 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
       final Status localStatus = statusLinesReturn.status;
       _lines.addAll(statusLinesReturn.lines);
 
+      // Sixth/final step: 
       setState(() {
         _awaitingResult = false;
         DietState().setStatus(localStatus);
         DietState().setIngredients(shortenedTextListFormat);
         _ingredientListObtained = true;
-        if(DietState.spellCheck) {
-          spellCheck(); // TODO: fix async
-        }
-        _startAnimation();
       });
+      if(DietState.spellCheck) {
+        await spellCheck();
+      }
+      _startAnimation();
+      setState(() {});
 
     } else {
       setState(() {
@@ -271,6 +278,8 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
         _capturedImage = null;
       });
       if (!mounted) return; // To ensure that context is not used across async gaps
+      _controller.pausePreview();
+      _controller.resumePreview();
       showAlert(context, 3, 'Ingredient List Not Found', secondaryText: 'Try scanning the list again');
     }
   }
@@ -362,29 +371,31 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                InkWell(
+                isAndroid() ? InkWell(
                   onTap: () {
                     setState(() {
                       _secondaryView = !_secondaryView;
                     });
                   },
-                  child: libraryCard(
-                    'Swap Viewing Mode',
-                    TextFeatures.small,
-                    alternate: false,
-                    icon: Icons.visibility
-                  )
+                  child: swapViewingModeCard()
+                ) : CupertinoButton(
+                  onPressed: () {
+                    setState(() {
+                      _secondaryView = !_secondaryView;
+                    });
+                  },
+                  child: swapViewingModeCard()
                 ),
-                InkWell(
+                isAndroid() ? InkWell(
                   onTap: () {
                     DietState().updateSelectedIndex(2);
                   },
-                  child: libraryCard(
-                    'Edit Ingredient Information',
-                    TextFeatures.small,
-                    alternate: false,
-                    icon: Icons.edit,
-                  )
+                  child: editIngredientInformationCard()
+                ) : CupertinoButton(
+                  onPressed: () {
+                    DietState().updateSelectedIndex(2);
+                  },
+                  child: editIngredientInformationCard()
                 ),
               ],
             ),
@@ -395,7 +406,6 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
   }
 
   Widget _buildCameraView() {
-    // _capturedImage!=null ? Image.memory(_capturedImage!) : //TODO: debug
     return Center(
       child: _initializationDone ? Transform(
         alignment: Alignment.center,

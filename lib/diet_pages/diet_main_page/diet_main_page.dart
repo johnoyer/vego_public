@@ -6,6 +6,7 @@ import 'package:vego_flutter_project/global_widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:vego_flutter_project/diet_pages/new_diet_page/new_diet_page.dart';
 import 'package:vego_flutter_project/diet_pages/diet_detail_page/diet_detail_page.dart';
+import 'package:vego_flutter_project/diet_pages/diet_main_page/helper_functions.dart';
 
 class DietPage extends StatefulWidget {
   @override
@@ -89,88 +90,28 @@ class _DietPageState extends State<DietPage> {
                   width: 70,
                 ),
                 const Spacer(),
-                InkWell( // Add new diet
-                  onTap: () async {
-                    final bool? tooManyDiets = await DietState().addDiet();
-                    if(tooManyDiets==null) {
-                      if(DietState.dietCreationAnimations) {
-                        if(!context.mounted) return;
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (final context) => NewDietPage(
-                              index: DietState.getDietList().length - 1,
-                            ),
-                          ),
-                        );
-                      }
-                    } else if (!tooManyDiets) {
-                      if(!context.mounted) return;
-                      showErrorMessage(context, 'There is already an unnamed diet, delete or name the unnamed diet before creating a new diet.');
-                    } else if(tooManyDiets) {
-                      if(!context.mounted) return;
-                      showErrorMessage(context, 'You have reached the limit of ${DietState.maxDiets} diets. Please delete a currently existing diet to create another one.');
-                    }
-                  },
-                  child: libraryCard(
-                    'Add New Diet',
-                    TextFeatures.normal,
-                    alternate: false,
-                    icon: Icons.add
-                  )
+                isAndroid() ? InkWell( // Add new diet
+                  onTap: () async => await addNewDiet(),
+                  child: addNewDietCard()
+                ) : CupertinoButton( // Add new diet
+                  padding: EdgeInsets.zero,
+                  onPressed: () async => await addNewDiet(),
+                  child: addNewDietCard()
                 ),
-                InkWell( // Hide Diets
+                isAndroid() ? InkWell( // Hide Diets
                   onTap: () {
                     _switchMode();
                   },
-                  child: Card(
-                    shape: globalBorder,
-                    color: ColorReturner().primaryFixed,
-                    elevation: interactableElevation,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          AnimatedCrossFade(
-                            duration: const Duration(milliseconds: 800),
-                            firstChild: const Icon(
-                              Icons.edit_off,
-                              color: Colors.black,
-                            ),
-                            secondChild: const Icon(
-                              Icons.edit,
-                              color: Colors.black,
-                            ),
-                            crossFadeState: _editMode
-                                ? CrossFadeState.showSecond
-                                : CrossFadeState.showFirst,
-                          ),
-                          Text(
-                            ' Hide Diets', 
-                            style: kStyle1(Colors.black)
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
+                  child: HideDietsCard(editMode: _editMode),
+                ) : CupertinoButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: () {
+                    _switchMode();
+                  },
+                  child: HideDietsCard(editMode: _editMode),
                 ),
                 const Spacer(),
-                informationButton(context,
-                  'Diet Manager Info',
-                  'Personal note TODO:  remove: prohibited dominates, then can be conforming dominates. if there is no allowed list, the ingredient passes. otherwise it fails iff it is not on the allowed list'
-                  'The diet manager allows you to select diets, add diets, edit and remove diets, and '
-                  'hide diets.'
-                  '\n\nTap on a diet to see information about it.'
-                  '\n\nTap the checkbox icon on the far right size of a diet to make that diet '
-                  '"checked". Foods that are allowed or prohibited by "checked" diets will be taken into '
-                  'account whenever ingredients are being evaluated in the app.'
-                  '\n\nTap the "add diet" button at the bottom of your screen to create a new diet.'
-                  '\n\nDiets that you create can be edited or permanently removed. To do either, tap '
-                  'on the diet and then tap the "Edit Diet" button.'
-                  '\n\nTo hide or unhide a diet from the list, tap the "Hide Diets" button. To hide/'
-                  'unhide a diet, tap on the "eye" icon for that diet. Note that "checked" diets may not '
-                  'be hidden.'
-                ),
+                mainPageInformationButton(context),
                 const SizedBox(
                   width: 20,
                 ),
@@ -180,6 +121,29 @@ class _DietPageState extends State<DietPage> {
         ],
       ),
     );
+  }
+
+  Future<void> addNewDiet() async {
+    final bool? tooManyDiets = await DietState().addDiet();
+    if(tooManyDiets==null) {
+      if(DietState.dietCreationAnimations) {
+        if(!mounted) return;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (final context) => NewDietPage(
+              index: DietState.getDietList().length - 1,
+            ),
+          ),
+        );
+      }
+    } else if (!tooManyDiets) {
+      if(!mounted) return;
+      showErrorMessage(context, 'There is already an unnamed diet, delete or name the unnamed diet before creating a new diet.');
+    } else if(tooManyDiets) {
+      if(!mounted) return;
+      showErrorMessage(context, 'You have reached the limit of ${DietState.maxDiets} diets. Please delete a currently existing diet to create another one.');
+    }
   }
 }
 
@@ -248,40 +212,8 @@ class LabeledCheckbox extends StatelessWidget {
               child: editMode ? InkWell(
                 onTap: onHide,
                 child: isChecked 
-                ? const Stack(
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    Icon(
-                      Icons.visibility_outlined,
-                      color: Colors.grey,
-                      // size: 50,
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: -3,
-                      child: Icon(
-                        Icons.lock,
-                        color: Colors.grey,
-                        size: 15,
-                      ),
-                    ),
-                  ],
-                )
-                : AnimatedCrossFade(
-                  duration:
-                      const Duration(milliseconds: 500),
-                  firstChild: const Icon(
-                    Icons.visibility_outlined,
-                    color: Colors.green,
-                  ),
-                  secondChild: const Icon(
-                    Icons.visibility_off,
-                    color: Colors.red,
-                  ),
-                  crossFadeState: hidden
-                  ? CrossFadeState.showSecond
-                  : CrossFadeState.showFirst,
-                ),
+                ? visibilityLocked()
+                : VisibilityUnlocked(hidden: hidden),
               ) : PlatformWidget(
                 ios: (final context) => CupertinoCheckbox(
                   value: isChecked,

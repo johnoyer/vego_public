@@ -52,13 +52,13 @@ class _SettingsPageState extends State<SettingsPage> {
                             isAndroid() ? Switch(
                               value: DietState.dietCreationAnimations,
                               onChanged: (final newValue) {
-                                DietState().toggleDietCreationAnimations();
+                                _isInfoShown ? null : DietState().toggleDietCreationAnimations(); // do nothing if the info page is shown
                               },
                               activeColor: ColorReturner().primary,
                             ) : CupertinoSwitch(
                               value: DietState.dietCreationAnimations,
                               onChanged: (final newValue) {
-                                DietState().toggleDietCreationAnimations();
+                                _isInfoShown ? null : DietState().toggleDietCreationAnimations(); // do nothing if the info page is shown
                               },
                               activeColor: ColorReturner().primary,
                             ),
@@ -80,13 +80,13 @@ class _SettingsPageState extends State<SettingsPage> {
                             isAndroid() ? Switch(
                               value: DietState.slowAnimations,
                               onChanged: (final newValue) {
-                                DietState().toggleSlowAnimations();
+                                _isInfoShown ? null : DietState().toggleSlowAnimations(); // do nothing if info page is shown
                               },
                               activeColor: ColorReturner().primary,
                             ) : CupertinoSwitch(
                               value: DietState.slowAnimations,
                               onChanged: (final newValue) {
-                                DietState().toggleSlowAnimations();
+                                _isInfoShown ? null : DietState().toggleSlowAnimations(); // do nothing if info page is shown
                               },
                               activeColor: ColorReturner().primary,
                             ),
@@ -108,13 +108,13 @@ class _SettingsPageState extends State<SettingsPage> {
                             isAndroid() ? Switch(
                               value: DietState.slowIngredientAnimations,
                               onChanged: (final newValue) {
-                                DietState().toggleSlowIngredientAnimations();
+                                _isInfoShown ? null : DietState().toggleSlowIngredientAnimations(); // do nothing if info page is shown
                               },
                               activeColor: ColorReturner().primary,
                             ) : CupertinoSwitch(
                               value: DietState.slowIngredientAnimations,
                               onChanged: (final newValue) {
-                                DietState().toggleSlowIngredientAnimations();
+                                _isInfoShown ? null : DietState().toggleSlowIngredientAnimations(); // do nothing if info page is shown
                               },
                               activeColor: ColorReturner().primary,
                             ),
@@ -136,13 +136,13 @@ class _SettingsPageState extends State<SettingsPage> {
                             isAndroid() ? Switch(
                               value: DietState.persistentIngredients,
                               onChanged: (final newValue) {
-                                DietState().togglePersistentIngredients();
+                                _isInfoShown ? null : DietState().togglePersistentIngredients(); // do nothing if info page is shown
                               },
                               activeColor: ColorReturner().primary,
                             ) : CupertinoSwitch(
                               value: DietState.persistentIngredients,
                               onChanged: (final newValue) {
-                                DietState().togglePersistentIngredients();
+                                _isInfoShown ? null : DietState().togglePersistentIngredients(); // do nothing if info page is shown
                               },
                               activeColor: ColorReturner().primary,
                             ),
@@ -164,13 +164,13 @@ class _SettingsPageState extends State<SettingsPage> {
                             isAndroid() ? Switch(
                               value: DietState.spellCheck,
                               onChanged: (final newValue) {
-                                DietState().toggleSpellCheck();
+                                _isInfoShown ? null : DietState().toggleSpellCheck(); // do nothing if info page is shown
                               },
                               activeColor: ColorReturner().primary,
                             ) : CupertinoSwitch(
                               value: DietState.spellCheck,
                               onChanged: (final newValue) {
-                                DietState().toggleSpellCheck();
+                                _isInfoShown ? null : DietState().toggleSpellCheck(); // do nothing if info page is shown
                               },
                               activeColor: ColorReturner().primary,
                             ),
@@ -180,7 +180,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       const Spacer(),
                       isAndroid() ? InkWell(
                         onTap: () {
-                          showDialog(
+                          _isInfoShown ? null : showDialog( // do nothing if the info page is shown
                             context: context,
                             builder: (final BuildContext context) {
                               return const DeletionWidget(
@@ -199,7 +199,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       ) : CupertinoButton(
                         padding: EdgeInsets.zero,
                         onPressed: () {
-                          showCupertinoDialog(
+                          _isInfoShown ? null : showCupertinoDialog( // do nothing if the info page is shown
                             context: context,
                             builder: (final BuildContext context) {
                               return const DeletionWidget(
@@ -224,7 +224,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           const Spacer(),
                           isAndroid() ? InkWell(
                             onTap: () {
-                              showDialog(
+                              _isInfoShown ? null : showDialog( // do nothing if the info page is shown
                                 context: context,
                                 builder: (final BuildContext context) {
                                   return const DeletionWidget(
@@ -243,7 +243,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           ) : CupertinoButton(
                             padding: EdgeInsets.zero,
                             onPressed: () {
-                              showCupertinoDialog(
+                              _isInfoShown ? null : showCupertinoDialog( // do nothing if the info page is shown
                                 context: context,
                                 builder: (final BuildContext context) {
                                   return const DeletionWidget(

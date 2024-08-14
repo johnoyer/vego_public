@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:vego_flutter_project/barcode_scanner_page/barcode_scanner.dart';
-import 'package:vego_flutter_project/manual_entry.dart';
+import 'package:vego_flutter_project/manual_entry/manual_entry_page.dart';
 import 'package:vego_flutter_project/ingredient_recognition/ingredient_recognition_page.dart';
 import 'package:vego_flutter_project/diet_classes/diet_state.dart';
 import 'package:vego_flutter_project/diet_pages/diet_main_page/diet_main_page.dart';
@@ -129,64 +129,59 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return ColorTestPage();
-  // }
-
   List<BottomNavigationBarItem> get bottomNavigationItems {
-    return const <BottomNavigationBarItem>[
+    return <BottomNavigationBarItem>[
       BottomNavigationBarItem(
-        label: 'Manage Diets',
-        icon: Tooltip(
+        label: isAndroid() ? 'Manage Diets' : null,
+        icon: const Tooltip(
           message: 'Manage Diets',
           child: Icon(Icons.local_dining_rounded),
         ),
-        activeIcon: Tooltip(
+        activeIcon: const Tooltip(
           message: 'Manage Diets',
           child: Icon(Icons.local_dining_sharp),
         ),
       ),
       BottomNavigationBarItem(
-        label: 'Scan Barcode',
-        icon: Tooltip(
+        label: isAndroid() ? 'Scan Barcode' : null,
+        icon: const Tooltip(
           message: 'Scan Barcode',
           child: Icon(Icons.qr_code),
         ),
-        activeIcon: Tooltip(
+        activeIcon: const Tooltip(
           message: 'Scan Barcode',
           child: Icon(Icons.qr_code_scanner),
         ),
       ),
       BottomNavigationBarItem(
-        label: 'Scan Barcode',
-        icon: Tooltip(
+        label: isAndroid() ? 'Manual Entry' : null,
+        icon: const Tooltip(
           message: 'Manual Entry',
           child: Icon(Icons.edit),
         ),
-        activeIcon: Tooltip(
+        activeIcon: const Tooltip(
           message: 'Manual Entry',
           child: Icon(Icons.edit_note),
         ),
       ),
       BottomNavigationBarItem(
-        label: 'Scan Ingredients',
-        icon: Tooltip(
+        label: isAndroid() ? 'Scan Ingredients' : null,
+        icon: const Tooltip(
           message: 'Scan Ingredients',
           child: Icon(Icons.document_scanner_outlined),
         ),
-        activeIcon: Tooltip(
+        activeIcon: const Tooltip(
           message: 'Scan Ingredients',
           child: Icon(Icons.document_scanner),
         ),
       ),
       BottomNavigationBarItem(
-        label: 'Settings',
-        icon: Tooltip(
+        label: isAndroid() ? 'Settings' : null,
+        icon: const Tooltip(
           message: 'Settings',
           child: Icon(Icons.settings_applications_outlined)
         ),
-        activeIcon: Tooltip(
+        activeIcon: const Tooltip(
           message: 'Settings',
           child: Icon(Icons.settings_applications),
         ),

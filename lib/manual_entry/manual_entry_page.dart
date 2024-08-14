@@ -4,6 +4,7 @@ import 'package:vego_flutter_project/library.dart';
 import 'package:vego_flutter_project/diet_classes/diet_state.dart';
 import 'package:flutter/services.dart';
 import 'package:vego_flutter_project/global_widgets.dart';
+import 'package:vego_flutter_project/manual_entry/helper_functions.dart';
 
 class ManualEntry extends StatefulWidget {
   const ManualEntry({super.key});
@@ -14,41 +15,69 @@ class ManualEntry extends StatefulWidget {
 }
 
 class _ManualEntry extends State<ManualEntry> {
+  bool _isInfoShown = false;
+
   @override
   Widget build(final BuildContext context) {
     const int percentage = 80;//TODO: adjust
     return SafeArea(
-      child: Column(
+      child: Stack(
         children: [
-          const Expanded(
-            flex: percentage,
-            child: BuildIngredientEntry(cardText: 'Enter Ingredient List Below'),
-          ),
-          Expanded(
-            flex: 100-percentage,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+          ColorFiltered(
+            colorFilter: ColorFilter.mode(
+              _isInfoShown ? Colors.black.withOpacity(0.5) : Colors.transparent, // Dark color with opacity
+              BlendMode.darken,
+            ),
+            child: Column(
               children: [
-                const SizedBox(
-                  width: 70,
-                  height: 70,
+                const Expanded(
+                  flex: percentage,
+                  child: BuildIngredientEntry(cardText: 'Enter Ingredient List Below'),
                 ),
-                const Spacer(),
-                buildDietInfo(context),
-                const Spacer(),
-                informationButton(context,
-                  'Manual Entry Info', 
-                  'This page allows you to manually enter ingredients to determine if they are compatible '
-                  'with your diet. All ingredients must be separated with a comma and space and spelled '
-                  'correctly. Also, always use the plural of ingredient ("almonds" instead of "almond", for '
-                  'example).\n\nIngredients that are not compatible will appear red, and ingredients that '
-                  'are possibly compatible will appear orange. At the bottom of the page, you\'ll be able '
-                  'to see if the list of ingredients is compatible with your diet or diets.'),
-                const SizedBox(
-                  width: 20,
+                Expanded(
+                  flex: 100-percentage,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(
+                        width: 70,
+                        height: 70,
+                      ),
+                      const Spacer(),
+                      buildDietInfo(context),
+                      const Spacer(),
+                      isAndroid() ? InkWell(
+                        onTap: () {
+                          setState(() {
+                            _isInfoShown = true;
+                          });
+                        },
+                        child: questionMarkIconCard(),
+                      ) : CupertinoButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: () {
+                          setState(() {
+                            _isInfoShown = true;
+                          });
+                        },
+                        child: questionMarkIconCard(),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                    ],
+                  )
                 ),
               ],
-            )
+            ),
+          ),
+          InfoButton(
+            isInfoShown: _isInfoShown,
+            title: 'Manual Entry Info',
+            info: info,
+            onClose: () => setState(() {
+              _isInfoShown = false;
+            }),
           ),
         ],
       ),

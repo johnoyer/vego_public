@@ -197,60 +197,6 @@ class PlatformWidget extends StatelessWidget {
   }
 }
 
-// informationButton
-
-PlatformWidget informationButton(final BuildContext context, final String titleText, final infoText) {
-  return PlatformWidget(
-    ios: (final context) => CupertinoButton(
-      padding: EdgeInsets.zero,
-      onPressed: () {
-        showCupertinoDialog(
-          context: context,
-          builder: (final BuildContext context) {
-            return CupertinoAlertDialog(
-              title: Text(titleText),
-              content: Text(infoText),
-              actions: <Widget>[
-                CupertinoDialogAction(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('OK'),
-                ),
-              ],
-            );
-          },
-        );
-      },
-      child: questionMarkIconCard(),
-    ),
-    android: (final context) => InkWell(
-      onTap: () {
-        showDialog(
-          context: context,
-          builder: (final BuildContext context) {
-            return AlertDialog(
-              title: Text(titleText),
-              content: Text(infoText),
-              actions: <Widget>[
-                Center(
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('OK'),
-                  ),
-                ),
-              ],
-            );
-          },
-        );
-      },
-      child: questionMarkIconCard()
-    ),
-  );
-}
-
 Widget questionMarkIconCard() {
   return libraryCard(
     null,
@@ -261,6 +207,79 @@ Widget questionMarkIconCard() {
     iconSize: 20,
   );
 }
+
+// shows information about the page
+
+class InfoButton extends StatelessWidget {
+  final bool isInfoShown;
+  final String title;
+  final String info;
+  final VoidCallback onClose;
+
+  const InfoButton({required this.isInfoShown, required this.title, required this.info, required this.onClose});
+
+  @override
+  Widget build(final BuildContext context) {
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeIn,
+      top: MediaQuery.of(context).size.height/20,
+      bottom: MediaQuery.of(context).size.height/20,
+      right: isInfoShown ? -100 : -(MediaQuery.of(context).size.width*4/5 + 100), // 100 is so that the corners of the container on the rightmost side do not appear circular
+      child: Container(
+        width: MediaQuery.of(context).size.width*4/5 + 100,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(30),
+          border: Border.all(
+            width: 3.0
+          )
+        ),
+        child: Padding(
+          padding: EdgeInsets.only(
+            right: 100+ MediaQuery.of(context).size.width*1/15,
+            left: MediaQuery.of(context).size.width*1/15,
+            top: 15,
+            bottom: 20,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              libraryCard(
+                title,
+                TextFeatures.normal,
+              ),
+              const Padding(padding: EdgeInsets.only(top: 5)),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Text(info)
+                )
+              ),
+              const Padding(padding: EdgeInsets.only(top: 10)),
+              isAndroid() ? InkWell(
+                onTap: onClose,
+                child: libraryCard(
+                  'Got it!',
+                  TextFeatures.normal,
+                  alternate: false
+                ) 
+              ) : CupertinoButton(
+                padding: EdgeInsets.zero,
+                onPressed: onClose,
+                child: libraryCard(
+                  'Got it!',
+                  TextFeatures.normal,
+                  alternate: false
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 
 // buildDietInfo (Used in ingredient recognition and in manual entry
 

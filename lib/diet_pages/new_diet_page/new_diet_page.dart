@@ -52,7 +52,7 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
     // If the animations are "slow" there should be an animation during the page transition
     if(DietState.slowAnimations) {
       if(stage==Stage.dietAttributes || stage==Stage.dietInfo) {
-        _showExpansionPanelList = false; // hides the expansionPanelList at the beginning of the transition to and from Stage.dietAttributes
+        _showExpansionPanelList = false; // hides the expansionPanelList at the beginning of the transition to and from Stage.dietAttributes. this is to reduce lag caused by the expansionpanellist
       }
       await _pageController.animateToPage(
         stages.indexOf(newStage), 
@@ -60,7 +60,7 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
         curve: Curves.easeInOutExpo
       );
       if(stage==Stage.dietAttributes) {
-        _showExpansionPanelList = true;
+        _showExpansionPanelList = true; // reveals the expansionPanelList after the transition
       }
     }
     // Otherwise there should not be an animation during the page transition

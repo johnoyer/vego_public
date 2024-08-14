@@ -32,6 +32,7 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
   bool _ingredientListObtained = false;
   bool _awaitingResult = false;
   bool _secondaryView = false;
+  bool _isInfoShown = false;
   Uint8List? _capturedImage;
   double? _aspectRatio;
   double? _originalHeight;
@@ -83,38 +84,68 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
   @override
   Widget build(final BuildContext context) {
     return SafeArea(
-      child: Column(
+      child: Stack(
         children: [
-          SizedBox(
-            height: upperHeight,
-            child: _ingredientListObtained 
-              ? _buildIngredientImage()
-              :  _buildCameraView()
-          ),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+          ColorFiltered(
+            colorFilter: ColorFilter.mode(
+              _isInfoShown ? Colors.black.withOpacity(0.5) : Colors.transparent, // Dark color with opacity
+              BlendMode.darken,
+            ),
+            child: Column(
               children: [
-                const SizedBox(
-                  width: 70,
+                SizedBox(
+                  height: upperHeight,
+                  child: _ingredientListObtained 
+                    ? _buildIngredientImage()
+                    :  _buildCameraView()
                 ),
-                const Spacer(),
-                _ingredientListObtained ? buildDietInfo(context) : _buildPictureTakeButton(),
-                const Spacer(),
-                Column(
-                  children: [
-                    const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: informationButton(context,
-                        'Ingredient List Scanner Info',
-                        info
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(
+                        width: 70,
                       ),
-                    ),
-                  ],
-                ),  
+                      const Spacer(),
+                      _ingredientListObtained ? buildDietInfo(context) : _buildPictureTakeButton(),
+                      const Spacer(),
+                      Column(
+                        children: [
+                          const Spacer(),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: isAndroid() ? InkWell(
+                              onTap: () {
+                                setState(() {
+                                  _isInfoShown = true;
+                                });
+                              },
+                              child: questionMarkIconCard(),
+                            ) : CupertinoButton(
+                              padding: EdgeInsets.zero,
+                              onPressed: () {
+                                setState(() {
+                                  _isInfoShown = true;
+                                });
+                              },
+                              child: questionMarkIconCard(),
+                            ),
+                          ),
+                        ],
+                      ),  
+                    ],
+                  ),
+                ),
               ],
             ),
+          ),
+          InfoButton(
+            isInfoShown: _isInfoShown,
+            title: 'Ingredient Recognition Info',
+            info: info,
+            onClose: () => setState(() {
+              _isInfoShown = false;
+            }),
           ),
         ],
       ),

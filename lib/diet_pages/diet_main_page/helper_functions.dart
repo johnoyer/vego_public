@@ -56,27 +56,20 @@ class HideDietsCard extends StatelessWidget {
   }
 }
 
-const String info = 'Personal note TODO:  remove: prohibited dominates, then can be conforming dominates. if there is no allowed list, the ingredient passes. otherwise it fails iff it is not on the allowed list'
-    'The diet manager allows you to select diets, add diets, edit and remove diets, and '
-    'hide diets.'
-    '\n\nTap on a diet to see information about it.'
-    '\n\nTap the checkbox icon on the far right size of a diet to make that diet ';
-    
-const String extra = '"checked". Foods that are allowed or prohibited by "checked" diets will be taken into '
-    'account whenever ingredients are being evaluated in the app.'
-    '\n\nTap the "add diet" button at the bottom of your screen to create a new diet.'
-    '\n\nDiets that you create can be edited or permanently removed. To do either, tap '
-    'on the diet and then tap the "Edit Diet" button.'
-    '\n\nTo hide or unhide a diet from the list, tap the "Hide Diets" button. To hide/'
-    'unhide a diet, tap on the "eye" icon for that diet. Note that "checked" diets may not '
-    'be hidden.';
-
-PlatformWidget mainPageInformationButton(final BuildContext context) {
-  return informationButton(context,
-    'Diet Manager Info',
-    info
-  );
-}
+const String info = 'Personal note TODO:  remove: prohibited dominates, then can be conforming '
+  'dominates. if there is no allowed list, the ingredient passes. otherwise it fails iff it is not on the allowed list'
+  ' - The diet manager allows you to select diets, add diets, edit and remove diets, and '
+  'hide diets.'
+  '\n\n - Tap on a diet to see information about it.'
+  '\n\n - Tap the checkbox icon on the far right size of a diet to make that diet '
+  '"checked". Foods that are allowed or prohibited by "checked" diets will be taken into '
+  'account whenever ingredients are being evaluated in the app.'
+  '\n\n - Tap the "add diet" button at the bottom of your screen to create a new diet.'
+  '\n\n - Diets that you create can be edited or permanently removed. To do either, tap '
+  'on the diet and then tap the "Edit Diet" button.'
+  '\n\n - To hide or unhide a diet from the list, tap the "Hide Diets" button. To hide/'
+  'unhide a diet, tap on the "eye" icon for that diet. Note that "checked" diets may not '
+  'be hidden.';
 
 Stack visibilityLocked() {
   return const Stack(

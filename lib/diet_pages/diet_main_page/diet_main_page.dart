@@ -14,7 +14,7 @@ class DietPage extends StatefulWidget {
 
 class _DietPageState extends State<DietPage> {
   bool _editMode = false;
-  bool _isInfoShown = true;
+  bool _isInfoShown = false;
 
   void _switchMode() {
     setState(() {
@@ -143,44 +143,13 @@ class _DietPageState extends State<DietPage> {
               ],
             ),
           ),
-          AnimatedPositioned(
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeIn,
-            top: MediaQuery.of(context).size.height/20,
-            bottom: MediaQuery.of(context).size.height/20,
-            right: _isInfoShown ? -100 : -(MediaQuery.of(context).size.width*4/5 + 100), // 100 is so that the corners of the container on the rightmost side do not appear circular
-            child: Container(
-              width: MediaQuery.of(context).size.width*4/5 + 100,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(30)
-              ),
-              child: Padding(
-                padding: EdgeInsets.only(
-                  right: 100+ MediaQuery.of(context).size.width*1/10,
-                  left: MediaQuery.of(context).size.width*1/10,
-                  top: 30,
-                  bottom: 30,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(info),
-                    CupertinoButton(
-                      onPressed: () {
-                        setState(() {
-                          _isInfoShown = false;
-                        });
-                      },
-                      child: libraryCard(
-                        'Got it!',
-                        TextFeatures.large
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
+          InfoButton(
+            isInfoShown: _isInfoShown,
+            title: 'Diet Manager Info',
+            info: info,
+            onClose: () => setState(() {
+              _isInfoShown = false;
+            }),
           ),
         ],
       ),

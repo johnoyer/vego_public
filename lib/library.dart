@@ -158,7 +158,7 @@ bool isOrangeWord(final String word) {
 }
 
 String removePrefixes(String ingredient) {
-  final RegExp removePatterns = RegExp(r'\b(?:atlantic|concentrated|dehydrated|dried|emulsifier|enriched|extract|expeller pressed|for freshness|for quality|freeze-dried|fresh|fried|ground|juice|isolate|lake|minced|malted|organic|pacific|pitted|powdered|preserved|pressed|processed with|reduced|roasted|salted|unbleached|)\b', caseSensitive: false);
+  final RegExp removePatterns = RegExp(r'\b(?:atlantic|concentrated|dehydrated|dried|emulsifier|enriched|extract|expeller pressed|for freshness|for quality|freeze-dried|fresh|fried|ground|juice|isolate|lake|minced|malted|melted|organic|pacific|pitted|powdered|preserved|pressed|processed|reduced|roasted|salted|unbleached|)\b', caseSensitive: false);
   ingredient = ingredient.replaceAll(',',''); // Remove commas
   ingredient = ingredient.replaceAll('(',''); // Remove parenthesis 
   ingredient = ingredient.replaceAll(')',''); // Remove parenthesis

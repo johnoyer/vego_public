@@ -60,7 +60,7 @@ class _DietPageState extends State<DietPage> {
                                   }
                                 },
                                 onTap: () {
-                                  Navigator.push(
+                                  _isInfoShown ? null : Navigator.push( // do nothing if the page info is shown
                                     context,
                                     MaterialPageRoute(
                                       builder: (final context) =>
@@ -98,29 +98,25 @@ class _DietPageState extends State<DietPage> {
                       ),
                       const Spacer(),
                       isAndroid() ? InkWell( // Add new diet
-                        onTap: () async => await addNewDiet(context),
+                        onTap: () async => _isInfoShown ? null : await addNewDiet(context), // do nothing if the page info is shown
                         child: addNewDietCard()
                       ) : CupertinoButton( // Add new diet
                         padding: EdgeInsets.zero,
-                        onPressed: () async => await addNewDiet(context),
+                        onPressed: () async => _isInfoShown ? null : await addNewDiet(context), // do nothing if the page info is shown
                         child: addNewDietCard()
                       ),
                       isAndroid() ? InkWell( // Hide Diets
-                        onTap: () {
-                          _switchMode();
-                        },
+                        onTap: () => _isInfoShown ? null : _switchMode(), // do nothing if the page info is shown
                         child: HideDietsCard(editMode: _editMode),
                       ) : CupertinoButton(
                         padding: EdgeInsets.zero,
-                        onPressed: () {
-                          _switchMode();
-                        },
+                        onPressed: () => _isInfoShown ? null : _switchMode(), // do nothing if the page info is shown
                         child: HideDietsCard(editMode: _editMode),
                       ),
                       const Spacer(),
                       isAndroid() ? InkWell(
                         onTap: () {
-                          setState(() {
+                          _isInfoShown ? null : setState(() { // do nothing if the page info is shown
                             _isInfoShown = true;
                           });
                         },
@@ -128,9 +124,9 @@ class _DietPageState extends State<DietPage> {
                       ) : CupertinoButton(
                         padding: EdgeInsets.zero,
                         onPressed: () {
-                          setState(() {
+                          _isInfoShown ? null : setState(() { // do nothing if the page info is shown
                             _isInfoShown = true;
-                          });
+                          }); 
                         },
                         child: questionMarkIconCard(),
                       ),
@@ -143,7 +139,7 @@ class _DietPageState extends State<DietPage> {
               ],
             ),
           ),
-          InfoButton(
+          InfoSlider(
             isInfoShown: _isInfoShown,
             title: 'Diet Manager Info',
             info: info,
@@ -153,107 +149,6 @@ class _DietPageState extends State<DietPage> {
           ),
         ],
       ),
-    );
-  }
-}
-
-class LabeledCheckbox extends StatelessWidget {
-  const LabeledCheckbox({
-    super.key,
-    required this.label,
-    required this.onChecked,
-    required this.isChecked,
-    required this.onTap,
-    required this.editMode,
-    required this.hidden,
-    required this.onHide,
-  });
-
-  final String label;
-  final bool isChecked;
-  final ValueChanged<bool?> onChecked;
-  final VoidCallback onHide;
-  final VoidCallback onTap;
-  final bool editMode;
-  final bool hidden;
-
-  @override
-  Widget build(final BuildContext context) {
-    return hidden && !editMode
-    ? Container()
-    : Card(
-      shape: globalBorder,
-      color: ColorReturner().primary,
-      elevation: 2,
-      child: isAndroid() ? InkWell(
-        focusColor: Colors.black,
-        onTap: () => onTap(),
-        child: _row()
-      ) : CupertinoButton(
-        onPressed: () => onTap(),
-        padding: EdgeInsets.zero,
-        child: _row(),
-      ),
-    );
-  }
-
-  Widget _row () {
-    return Row(
-      children: <Widget>[
-        const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: SizedBox(
-            height: 30,
-            width: 30,
-          )
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(child: Text(label, style: kStyle1(Colors.white))),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SizedBox(
-            height: 30,
-            width: 30,
-            child: Center(
-              child: editMode ? 
-              isAndroid() ? InkWell(
-                onTap: onHide,
-                child: isChecked 
-                ? visibilityLocked()
-                : VisibilityUnlocked(hidden: hidden),
-              ) : GestureDetector(
-                onTap: onHide,
-                child: isChecked 
-                ? visibilityLocked()
-                : VisibilityUnlocked(hidden: hidden),
-              ) : PlatformWidget(
-                ios: (final context) => CupertinoCheckbox(
-                  value: isChecked,
-                  onChanged: (final bool? newValue) {
-                    onChecked(newValue!);
-                  },
-                  activeColor: const Color.fromARGB(255, 161, 151, 177),
-                  checkColor: Colors.white,
-                  focusColor: Colors.blue,
-                ),
-                android: (final context) => Checkbox(
-                  value: isChecked,
-                  onChanged: (final bool? newValue) {
-                    onChecked(newValue!);
-                  },
-                  activeColor: const Color.fromARGB(255, 161, 151, 177),
-                  checkColor: Colors.white,
-                  focusColor: Colors.blue,
-                ),
-              ),
-            ),
-          )
-        ),
-      ],
     );
   }
 }

@@ -104,34 +104,29 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const SizedBox(
-                        width: 70,
+                        width: 100,
                       ),
                       const Spacer(),
                       _ingredientListObtained ? buildDietInfo(context) : _buildPictureTakeButton(),
                       const Spacer(),
-                      Column(
-                        children: [
-                          const Spacer(),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: isAndroid() ? InkWell(
-                              onTap: () {
-                                setState(() {
-                                  _isInfoShown = true;
-                                });
-                              },
-                              child: questionMarkIconCard(),
-                            ) : CupertinoButton(
-                              padding: EdgeInsets.zero,
-                              onPressed: () {
-                                setState(() {
-                                  _isInfoShown = true;
-                                });
-                              },
-                              child: questionMarkIconCard(),
-                            ),
-                          ),
-                        ],
+                      SizedBox(
+                        width: 100,
+                        child: isAndroid() ? InkWell(
+                          onTap: () {
+                            setState(() {
+                              _isInfoShown = true;
+                            });
+                          },
+                          child: questionMarkIconCard(),
+                        ) : CupertinoButton(
+                          padding: EdgeInsets.zero,
+                          onPressed: () {
+                            setState(() {
+                              _isInfoShown = true;
+                            });
+                          },
+                          child: questionMarkIconCard(),
+                        ),
                       ),  
                     ],
                   ),
@@ -139,7 +134,7 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
               ],
             ),
           ),
-          InfoButton(
+          InfoSlider(
             isInfoShown: _isInfoShown,
             title: 'Ingredient Recognition Info',
             info: info,
@@ -312,14 +307,14 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
     PlatformWidget(
       ios: (final context) => _awaitingResult ? const Center(child: CupertinoActivityIndicator()) :
         CupertinoButton(
-          onPressed: _captureImage,
+          onPressed: () => _isInfoShown ? null : _captureImage(), // do nothing if the page info is shown
           padding: EdgeInsets.zero,
           borderRadius: BorderRadius.circular(25.0),
           child: cameraIconCard()
         ),
       android: (final context) => _awaitingResult ? const Center(child: CircularProgressIndicator()) :
         InkWell(
-          onTap: _captureImage,
+          onTap: () => _isInfoShown ? null : _captureImage(), // do nothing if the page info is shown
           borderRadius: BorderRadius.circular(25.0),
           child: libraryCard(
             null,
@@ -396,14 +391,14 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
               children: [
                 isAndroid() ? InkWell(
                   onTap: () {
-                    setState(() {
+                    _isInfoShown ? null : setState(() { // do nothing if the page info is shown
                       _secondaryView = !_secondaryView;
                     });
                   },
                   child: swapViewingModeCard()
                 ) : CupertinoButton(
                   onPressed: () {
-                    setState(() {
+                    _isInfoShown ? null : setState(() { // do nothing if the page info is shown
                       _secondaryView = !_secondaryView;
                     });
                   },
@@ -411,12 +406,12 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
                 ),
                 isAndroid() ? InkWell(
                   onTap: () {
-                    DietState().updateSelectedIndex(2);
+                    _isInfoShown ? null : DietState().updateSelectedIndex(2); // do nothing if the page info is shown
                   },
                   child: editIngredientInformationCard()
                 ) : CupertinoButton(
                   onPressed: () {
-                    DietState().updateSelectedIndex(2);
+                    _isInfoShown ? null : DietState().updateSelectedIndex(2); // do nothing if the page info is shown
                   },
                   child: editIngredientInformationCard()
                 ),

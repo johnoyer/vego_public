@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:vego_flutter_project/diet_classes/diet_state.dart';
 import 'package:vego_flutter_project/library.dart';
 import 'package:vego_flutter_project/global_widgets.dart';
@@ -141,5 +142,106 @@ Future<void> addNewDiet(final BuildContext context) async {
   } else if(tooManyDiets) {
     if(!context.mounted) return;
     showErrorMessage(context, 'You have reached the limit of ${DietState.maxDiets} diets. Please delete a currently existing diet to create another one.');
+  }
+}
+
+class LabeledCheckbox extends StatelessWidget {
+  const LabeledCheckbox({
+    super.key,
+    required this.label,
+    required this.onChecked,
+    required this.isChecked,
+    required this.onTap,
+    required this.editMode,
+    required this.hidden,
+    required this.onHide,
+  });
+
+  final String label;
+  final bool isChecked;
+  final ValueChanged<bool?> onChecked;
+  final VoidCallback onHide;
+  final VoidCallback onTap;
+  final bool editMode;
+  final bool hidden;
+
+  @override
+  Widget build(final BuildContext context) {
+    return hidden && !editMode
+    ? Container()
+    : Card(
+      shape: globalBorder,
+      color: ColorReturner().primary,
+      elevation: 2,
+      child: isAndroid() ? InkWell(
+        focusColor: Colors.black,
+        onTap: onTap,
+        child: _row()
+      ) : CupertinoButton(
+        onPressed: onTap,
+        padding: EdgeInsets.zero,
+        child: _row(),
+      ),
+    );
+  }
+
+  Widget _row () {
+    return Row(
+      children: <Widget>[
+        const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: SizedBox(
+            height: 30,
+            width: 30,
+          )
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(child: Text(label, style: kStyle1(Colors.white))),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SizedBox(
+            height: 30,
+            width: 30,
+            child: Center(
+              child: editMode ? 
+              isAndroid() ? InkWell(
+                onTap: onHide,
+                child: isChecked 
+                ? visibilityLocked()
+                : VisibilityUnlocked(hidden: hidden),
+              ) : GestureDetector(
+                onTap: onHide,
+                child: isChecked 
+                ? visibilityLocked()
+                : VisibilityUnlocked(hidden: hidden),
+              ) : PlatformWidget(
+                ios: (final context) => CupertinoCheckbox(
+                  value: isChecked,
+                  onChanged: (final bool? newValue) {
+                    onChecked(newValue!);
+                  },
+                  activeColor: const Color.fromARGB(255, 161, 151, 177),
+                  checkColor: Colors.white,
+                  focusColor: Colors.blue,
+                ),
+                android: (final context) => Checkbox(
+                  value: isChecked,
+                  onChanged: (final bool? newValue) {
+                    onChecked(newValue!);
+                  },
+                  activeColor: const Color.fromARGB(255, 161, 151, 177),
+                  checkColor: Colors.white,
+                  focusColor: Colors.blue,
+                ),
+              ),
+            ),
+          )
+        ),
+      ],
+    );
   }
 }

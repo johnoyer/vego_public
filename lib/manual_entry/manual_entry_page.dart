@@ -30,9 +30,12 @@ class _ManualEntry extends State<ManualEntry> {
             ),
             child: Column(
               children: [
-                const Expanded(
+                Expanded(
                   flex: percentage,
-                  child: BuildIngredientEntry(cardText: 'Enter Ingredient List Below'),
+                  child: BuildIngredientEntry(
+                    cardText: 'Enter Ingredient List Below',
+                    isInfoShown: _isInfoShown
+                  ),
                 ),
                 Expanded(
                   flex: 100-percentage,
@@ -40,30 +43,30 @@ class _ManualEntry extends State<ManualEntry> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const SizedBox(
-                        width: 70,
+                        width: 100,
                         height: 70,
                       ),
                       const Spacer(),
                       buildDietInfo(context),
                       const Spacer(),
-                      isAndroid() ? InkWell(
-                        onTap: () {
-                          setState(() {
-                            _isInfoShown = true;
-                          });
-                        },
-                        child: questionMarkIconCard(),
-                      ) : CupertinoButton(
-                        padding: EdgeInsets.zero,
-                        onPressed: () {
-                          setState(() {
-                            _isInfoShown = true;
-                          });
-                        },
-                        child: questionMarkIconCard(),
-                      ),
-                      const SizedBox(
-                        width: 20,
+                      SizedBox(
+                        width: 100,
+                        child: isAndroid() ? InkWell(
+                          onTap: () {
+                            setState(() {
+                              _isInfoShown = true;
+                            });
+                          },
+                          child: questionMarkIconCard(),
+                        ) : CupertinoButton(
+                          padding: EdgeInsets.zero,
+                          onPressed: () {
+                            setState(() {
+                              _isInfoShown = true;
+                            });
+                          },
+                          child: questionMarkIconCard(),
+                        ),
                       ),
                     ],
                   )
@@ -71,7 +74,7 @@ class _ManualEntry extends State<ManualEntry> {
               ],
             ),
           ),
-          InfoButton(
+          InfoSlider(
             isInfoShown: _isInfoShown,
             title: 'Manual Entry Info',
             info: info,
@@ -87,10 +90,12 @@ class _ManualEntry extends State<ManualEntry> {
 
 class BuildIngredientEntry extends StatefulWidget {
   final String cardText;
+  final bool isInfoShown;
 
   const BuildIngredientEntry({
     super.key,
     required this.cardText,
+    required this.isInfoShown,
   });
 
   @override
@@ -184,6 +189,7 @@ class _BuildIngredientEntryState extends State<BuildIngredientEntry> {
                 const Padding(padding: EdgeInsets.only(top: 125),),
                 isAndroid() ? 
                 TextField(
+                  enabled: !widget.isInfoShown, // disable the text field if the page info is shown
                   scrollPhysics: const NeverScrollableScrollPhysics(),
                   buildCounter: counter,
                   textAlignVertical: const TextAlignVertical(y: -1.0),
@@ -216,6 +222,7 @@ class _BuildIngredientEntryState extends State<BuildIngredientEntry> {
                 : Column(
                   children: [
                     CupertinoTextField(
+                      enabled: !widget.isInfoShown, // disable the text field if the page info is shown
                       scrollPhysics: const NeverScrollableScrollPhysics(),
                       // buildCounter: counter,
                       textAlignVertical: const TextAlignVertical(y: -1.0),

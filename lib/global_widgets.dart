@@ -210,13 +210,13 @@ Widget questionMarkIconCard() {
 
 // shows information about the page
 
-class InfoButton extends StatelessWidget {
+class InfoSlider extends StatelessWidget {
   final bool isInfoShown;
   final String title;
   final String info;
   final VoidCallback onClose;
 
-  const InfoButton({required this.isInfoShown, required this.title, required this.info, required this.onClose});
+  const InfoSlider({required this.isInfoShown, required this.title, required this.info, required this.onClose});
 
   @override
   Widget build(final BuildContext context) {
@@ -252,7 +252,21 @@ class InfoButton extends StatelessWidget {
               const Padding(padding: EdgeInsets.only(top: 5)),
               Expanded(
                 child: SingleChildScrollView(
-                  child: Text(info)
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: 
+                    Card(
+                      shape: globalBorder,
+                      elevation: notInteractableElevation,
+                      color: ColorReturner().secondaryFixed,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Text(
+                          info
+                        )
+                      ),
+                    )
+                  )
                 )
               ),
               const Padding(padding: EdgeInsets.only(top: 10)),

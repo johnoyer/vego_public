@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
+import 'package:async/async.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:image/image.dart' as img;
@@ -27,7 +28,7 @@ class IngredientRecognition extends StatefulWidget {
 }
 
 class _IngredientRecognition extends State<IngredientRecognition> with SingleTickerProviderStateMixin {
-  late CameraController _controller;
+  late CameraController _cameraController;
   late AnimationController _animationController;
   bool _ingredientListObtained = false;
   bool _awaitingResult = false;
@@ -38,17 +39,28 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
   double? _originalHeight;
   double? _originalWidth;
   final List<LineData> _lines = [];
+  final List<TextSpan> _spans = [];
   late CameraDescription camera;
   bool _initializationDone = false;
+  final List<CancelableOperation> _operations = [];
 
   @override
   void initState() {
     super.initState();
-    _initializeCamera();
-    initialize();
+    // _operations used so that delayed statements can be cancelled without causing error
+    _operations.add(
+      CancelableOperation.fromFuture(
+        _initializeCamera()
+      )
+    );
+    _operations.add(
+      CancelableOperation.fromFuture(
+        _initialize()
+      )
+    );
   }
 
-  Future<void> initialize() async {
+  Future<void> _initialize() async {
     await DietState.loadDietData();
     _animationController = AnimationController(
       vsync: this,
@@ -58,7 +70,14 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
 
   @override
   void dispose() {
-    _controller.dispose();
+    // Cancel all timing operations
+    for (var operation in _operations) {
+      operation.cancel();
+    }
+    _operations.clear();
+    if(_initializationDone) {
+      _cameraController.dispose(); // only dispose if _cameraController has been initialized
+    }
     _animationController.dispose();
     super.dispose();
   }
@@ -70,12 +89,12 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
   Future<void> _initializeCamera() async {
     final List<CameraDescription> cameras = await availableCameras();
     camera = cameras.first;
-    _controller = CameraController(
+    _cameraController = CameraController(
       enableAudio: false,
       camera,
       ResolutionPreset.max, // Set the camera to max resolution
     );
-    await _controller.initialize();
+    await _cameraController.initialize();
     setState(() {
       _initializationDone = true;
     });
@@ -113,17 +132,17 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
                         width: 100,
                         child: isAndroid() ? InkWell(
                           onTap: () {
-                            setState(() {
+                            _initializationDone ? setState(() {
                               _isInfoShown = true;
-                            });
+                            }) : null;
                           },
                           child: questionMarkIconCard(),
                         ) : CupertinoButton(
                           padding: EdgeInsets.zero,
                           onPressed: () {
-                            setState(() {
+                            _initializationDone ? setState(() {
                               _isInfoShown = true;
-                            });
+                            }) : null;
                           },
                           child: questionMarkIconCard(),
                         ),
@@ -150,34 +169,34 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
   Future<void> _captureImage() async {
     setState(() {
       _awaitingResult = true;
-      _controller.pausePreview();
+      _cameraController.pausePreview();
     });
-    try {
-      final XFile image = await _controller.takePicture();
-      print('arrived1');
-      final bytes = await image.readAsBytes();
-      print('arrived2');
+    // try {
+    final XFile image = await _cameraController.takePicture();
 
-      img.Image imageToReverse = img.decodeImage(Uint8List.fromList(bytes))!;
-      print('arrived3');
-      imageToReverse = img.flipHorizontal(imageToReverse); //flip image
-      print('arrived4');
-      final reversedBytes = img.encodeJpg(imageToReverse); 
-      print('arrived5');
-      setState(() {
-        _capturedImage = Uint8List.fromList(reversedBytes);
-        print('arrived');
-      });
+    final bytes = await image.readAsBytes();
 
-      final base64Image = base64Encode(reversedBytes);
-      await _sendToGoogleCloudVision(base64Image);
 
-      _originalWidth = imageToReverse.width.toDouble();
-      _originalHeight = imageToReverse.height.toDouble();
-      _aspectRatio = _originalWidth!/_originalHeight!;
-    } catch (e) {
-      print('Error capturing image: $e');
-    }
+    img.Image imageToReverse = img.decodeImage(Uint8List.fromList(bytes))!;
+
+    imageToReverse = img.flipHorizontal(imageToReverse); //flip image
+
+    final reversedBytes = img.encodeJpg(imageToReverse); 
+
+    if(!mounted) return;
+    setState(() {
+      _capturedImage = Uint8List.fromList(reversedBytes);
+    });
+
+    final base64Image = base64Encode(reversedBytes);
+    await _sendToGoogleCloudVision(base64Image);
+
+    _originalWidth = imageToReverse.width.toDouble();
+    _originalHeight = imageToReverse.height.toDouble();
+    _aspectRatio = _originalWidth!/_originalHeight!;
+    // } catch (e) {
+    //   print('Error capturing image: $e');
+    // }
   }
 
   Future<void> _sendToGoogleCloudVision(final String base64Image) async {
@@ -266,7 +285,7 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
 
       // Fifth step: add lines and determine status
       DietState().setStatus(Status.none);
-      final StatusLinesReturn statusLinesReturn = addLinesAndDetermineStatus(
+      final StatusStyledTextReturn statusStyledTextReturn = addLinesAndDetermineStatus(
         shortenedTextListFormat, 
         wordList, 
         xInitialList, 
@@ -274,8 +293,9 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
         xFinalList, 
         yFinalList
       );
-      final Status localStatus = statusLinesReturn.status;
-      _lines.addAll(statusLinesReturn.lines);
+      final Status localStatus = statusStyledTextReturn.status;
+      _lines.addAll(statusStyledTextReturn.lines!);
+      _spans.add(statusStyledTextReturn.styledText);
 
       // Sixth/final step: 
       setState(() {
@@ -287,8 +307,11 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
       if(DietState.spellCheck) {
         await spellCheck();
       }
-      _startAnimation();
-      setState(() {});
+      _operations.add(
+        CancelableOperation.fromFuture(
+          _startAnimation()
+        )
+      );
 
     } else {
       setState(() {
@@ -296,8 +319,8 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
         _capturedImage = null;
       });
       if (!mounted) return; // To ensure that context is not used across async gaps
-      _controller.pausePreview();
-      _controller.resumePreview();
+      _cameraController.pausePreview();
+      _cameraController.resumePreview();
       showAlert(context, 3, 'Ingredient List Not Found', secondaryText: 'Try scanning the list again');
     }
   }
@@ -307,14 +330,26 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
     PlatformWidget(
       ios: (final context) => _awaitingResult ? const Center(child: CupertinoActivityIndicator()) :
         CupertinoButton(
-          onPressed: () => _isInfoShown ? null : _captureImage(), // do nothing if the page info is shown
+          onPressed: () {
+            _isInfoShown||!_initializationDone ? null : _operations.add(
+              CancelableOperation.fromFuture(
+                _captureImage() // do nothing if the page info is shown
+              )
+            );
+          },
           padding: EdgeInsets.zero,
           borderRadius: BorderRadius.circular(25.0),
           child: cameraIconCard()
         ),
       android: (final context) => _awaitingResult ? const Center(child: CircularProgressIndicator()) :
         InkWell(
-          onTap: () => _isInfoShown ? null : _captureImage(), // do nothing if the page info is shown
+          onTap: () {
+            _isInfoShown||!_initializationDone ? null : _operations.add(
+              CancelableOperation.fromFuture(
+                _captureImage() // do nothing if the page info is shown
+              )
+            );
+          },
           borderRadius: BorderRadius.circular(25.0),
           child: libraryCard(
             null,
@@ -328,23 +363,7 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
   }
 
   Widget _buildIngredientImage() {
-    final List<TextSpan> spans = [];
-    final List<String> list = DietState().getIngredientInfo()!.persistentIngredientsList!;
-    for (int i=0; i<list.length; i++) {
-      final String word = list[i];
-      final String modifiedWord = removePrefixes(word);
-      if (isRedWord(modifiedWord)) {
-        spans.add(TextSpan(text: word, style: kStyle4(Colors.red)));
-      } else if (isOrangeWord(modifiedWord)) {
-        spans.add(TextSpan(text: word, style: kStyle4(Colors.orange)));
-      } else {
-        spans.add(TextSpan(text: word, style: kStyle4(Colors.black)));
-      }
-      if(i!=list.length-1) { // Do not add comma and space at the end
-        spans.add(TextSpan(text: ', ', style: kStyle4(Colors.black)));
-      }
-    }
-    final TextSpan styledText = TextSpan(children: spans);
+    final TextSpan styledText = TextSpan(children: _spans);
 
     return LayoutBuilder(
       builder: (final context, final constraints) {
@@ -391,14 +410,14 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
               children: [
                 isAndroid() ? InkWell(
                   onTap: () {
-                    _isInfoShown ? null : setState(() { // do nothing if the page info is shown
+                    _isInfoShown||!_initializationDone ? null : setState(() { // do nothing if the page info is shown
                       _secondaryView = !_secondaryView;
                     });
                   },
                   child: swapViewingModeCard()
                 ) : CupertinoButton(
                   onPressed: () {
-                    _isInfoShown ? null : setState(() { // do nothing if the page info is shown
+                    _isInfoShown||!_initializationDone ? null : setState(() { // do nothing if the page info is shown
                       _secondaryView = !_secondaryView;
                     });
                   },
@@ -406,12 +425,12 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
                 ),
                 isAndroid() ? InkWell(
                   onTap: () {
-                    _isInfoShown ? null : DietState().updateSelectedIndex(2); // do nothing if the page info is shown
+                    _isInfoShown||!_initializationDone ? null : DietState().updateSelectedIndex(2); // do nothing if the page info is shown
                   },
                   child: editIngredientInformationCard()
                 ) : CupertinoButton(
                   onPressed: () {
-                    _isInfoShown ? null : DietState().updateSelectedIndex(2); // do nothing if the page info is shown
+                    _isInfoShown||!_initializationDone ? null : DietState().updateSelectedIndex(2); // do nothing if the page info is shown
                   },
                   child: editIngredientInformationCard()
                 ),
@@ -430,7 +449,7 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
         transform: Matrix4.rotationY(3.1415926535897932384626433), // flip image
         child: Stack(
           children: [
-            CameraPreview(_controller),
+            CameraPreview(_cameraController),
             // Top-left corner indicator
             cornerIndicator(Position.topLeft),
             // Top-right corner indicator

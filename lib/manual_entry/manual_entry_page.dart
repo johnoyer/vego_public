@@ -124,54 +124,35 @@ class _BuildIngredientEntryState extends State<BuildIngredientEntry> {
     super.dispose();
   } 
 
-  TextSpan _getStyledText(final List<String> list, final String endText) {
-    final List<TextSpan> spans = [];
-    _localStatus = Status.none;
-    for (int i=0; i<list.length; i++) {
-      final String word = list[i];
-      final String modifiedWord = removePrefixes(word);
-      if (isRedWord(modifiedWord)) {
-        _localStatus = Status.doesntFit;
-        spans.add(TextSpan(text: word, style: kStyle4(Colors.red)));
-      } else if (isOrangeWord(modifiedWord)) {
-        if(_localStatus!=Status.doesntFit) {
-          _localStatus = Status.possiblyFits;
-        }
-        spans.add(TextSpan(text: word, style: kStyle4(Colors.orange)));
-      } else {
-        if(_localStatus==Status.none) {
-          _localStatus = Status.doesFit;
-        }
-        spans.add(TextSpan(text: word, style: kStyle4(Colors.black)));
-      }
-      if(i!=list.length-1) {// Do not add comma and space at the end
-        spans.add(TextSpan(text: ', ', style: kStyle4(Colors.black)));
-      }
-    }
-    spans.add(TextSpan(text: endText, style: kStyle4(Colors.black)));
-    return TextSpan(children: spans);
-  }
-
   @override
   Widget build(final BuildContext context) {
-    TextSpan styledText = const TextSpan(text: '');
-    DietState().setIngredients(null); // initializing ingredientinfo without setting ingredients
+    late TextSpan styledText;
+    WidgetsBinding.instance.addPostFrameCallback((final _) {
+      DietState().setIngredients(null); // initializing ingredientinfo without setting ingredients
+    });
     List<String> newIngredientsList = [];
+    late StatusStyledTextReturn statusStyledTextReturn;
     if(_controller.text.endsWith(',')) {
-      styledText = _getStyledText(_controller.text.substring(0, _controller.text.length - 1).split(', '), ',');
+      statusStyledTextReturn = getStyledText(_controller.text.substring(0, _controller.text.length - 1).split(', '), ',');
       newIngredientsList = _controller.text.substring(0, _controller.text.length - 1).split(', ');
     } else if(_controller.text.endsWith(', ')) {
-      styledText = _getStyledText(_controller.text.substring(0, _controller.text.length - 2).split(', '), ', '); 
+      statusStyledTextReturn = getStyledText(_controller.text.substring(0, _controller.text.length - 2).split(', '), ', '); 
       newIngredientsList = _controller.text.substring(0, _controller.text.length - 2).split(', ');
     } else {
-      styledText = _getStyledText(_controller.text.split(', '), '');
+      statusStyledTextReturn = getStyledText(_controller.text.split(', '), '');
       newIngredientsList = _controller.text.split(', ');
     }
+    styledText = statusStyledTextReturn.styledText;
+    _localStatus = statusStyledTextReturn.status;
 
     // Delay the state setting until after run
     WidgetsBinding.instance.addPostFrameCallback((final _) {
       DietState().setIngredients(newIngredientsList);
-      DietState().setStatus(_localStatus);
+      if(_controller.text.trim()=='') { // if the field is blank set status to none
+        DietState().setStatus(Status.none);
+      } else {
+        DietState().setStatus(_localStatus);
+      }
     });
 
     return Padding(
@@ -213,7 +194,9 @@ class _BuildIngredientEntryState extends State<BuildIngredientEntry> {
                   maxLength: 800,
                   onChanged: (final text) {
                     _controller.text = text;
-                    setState(() {});
+                    WidgetsBinding.instance.addPostFrameCallback((final _) {
+                      setState(() {});
+                    });
                   },
                   style: kStyle4(Colors.transparent),// Hide default text
                   cursorColor: Colors.black, // Keep the cursor visible
@@ -238,7 +221,9 @@ class _BuildIngredientEntryState extends State<BuildIngredientEntry> {
                       maxLength: 800,
                       onChanged: (final text) {
                         _controller.text = text;
-                        setState(() {});
+                        WidgetsBinding.instance.addPostFrameCallback((final _) {
+                          setState(() {});
+                        });
                       },
                       style: kStyle4(Colors.transparent),// Hide default text
                       cursorColor: Colors.black, // Keep the cursor visible

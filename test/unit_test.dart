@@ -768,7 +768,7 @@ void main() {
             'k', 'l', 'm', 'n', 'o'
           ];
 
-          StatusLinesReturn functionReturn = addLinesAndDetermineStatus(shortenedTextListFormat, wordList, xInitialList, yInitialList, xFinalList, yFinalList);
+          StatusStyledTextReturn functionReturn = addLinesAndDetermineStatus(shortenedTextListFormat, wordList, xInitialList, yInitialList, xFinalList, yFinalList);
           expect(functionReturn.status, Status.doesFit);
 
           wordList[1] = 'biotin';
@@ -814,11 +814,11 @@ void main() {
           List<double> xFinalList = List.filled(wordList.length,0);
           List<double> yFinalList = List.filled(wordList.length,0);
 
-          StatusLinesReturn functionReturn = addLinesAndDetermineStatus(shortenedTextListFormat, wordList, xInitialList, yInitialList, xFinalList, yFinalList);
+          StatusStyledTextReturn functionReturn = addLinesAndDetermineStatus(shortenedTextListFormat, wordList, xInitialList, yInitialList, xFinalList, yFinalList);
           expect(functionReturn.status, Status.doesntFit);
-          expect(functionReturn.lines.length, wordList.length);
+          expect(functionReturn.lines!.length, wordList.length);
           expect(
-            functionReturn.lines.asMap().entries.every((final entry) {
+            functionReturn.lines!.asMap().entries.every((final entry) {
               final index = entry.key;
               final color = entry.value.color;
               if (index == 2 || index == 3 || index == 4) {
@@ -851,9 +851,9 @@ void main() {
 
           functionReturn = addLinesAndDetermineStatus(shortenedTextListFormat, wordList, xInitialList, yInitialList, xFinalList, yFinalList);
           expect(functionReturn.status, Status.doesntFit);
-          expect(functionReturn.lines.length, wordList.length);
+          expect(functionReturn.lines!.length, wordList.length);
           expect(
-            functionReturn.lines.asMap().entries.every((final entry) {
+            functionReturn.lines!.asMap().entries.every((final entry) {
               final index = entry.key;
               final color = entry.value.color;
               if (index == 1 || index == 2 || index == 3) {

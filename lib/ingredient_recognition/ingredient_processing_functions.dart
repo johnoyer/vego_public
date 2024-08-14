@@ -95,24 +95,6 @@ SeparationStyle determineSeparationStyle(final String shortenedText) {
     return SeparationStyle.commaSeparated;
   } else {
     return SeparationStyle.indentationSeparated;
-    // Replace text outside parentheses with an empty string
-    // String sublistAlteredText = shortenedText.replaceAll(RegExp(r'\)[^)]*\('), '');
-    // sublistAlteredText = sublistAlteredText.replaceAll(RegExp(r'^.*?\('), '');
-    // sublistAlteredText = sublistAlteredText.replaceAll(RegExp(r'\).*$'), '');
-
-    // // Remove all parentheses
-    // sublistAlteredText = sublistAlteredText.replaceAll('(', '');
-    // sublistAlteredText = sublistAlteredText.replaceAll(')', '');
-
-    // final List<String> sublistWords = sublistAlteredText.split(' '); // split text into words
-    // final int j = min(6, sublistWords.length);
-    // final List<String> sublistFirstFewWords = sublistWords.take(j).toList(); // check if first few words in the list contain a comma
-    // final bool sublistContainsComma = sublistFirstFewWords.any((final word) => word.contains(','));
-    // if(sublistContainsComma) {
-    //   return SeparationStyle.indentationSeparatedWithCommasForSublist;
-    // } else {
-    //   return SeparationStyle.indentationSeparated;
-    // }
   }
 }
 
@@ -164,15 +146,10 @@ List<String> handleSeparation(final String shortenedText, final SeparationStyle 
   return shortenedTextlistFormat;
 }
 
-class StatusLinesReturn {
-  final Status status;
-  final List<LineData> lines;
-
-  StatusLinesReturn(this.status, this.lines);
-}
-
-StatusLinesReturn addLinesAndDetermineStatus(final List<String> shortenedTextListFormat, final List<String> wordList, final List<double> xInitialList, final List<double> yInitialList, final List<double> xFinalList, final List<double> yFinalList) {
+StatusStyledTextReturn addLinesAndDetermineStatus(final List<String> shortenedTextListFormat, final List<String> wordList, final List<double> xInitialList, final List<double> yInitialList, final List<double> xFinalList, final List<double> yFinalList) {
   final List<LineData> lines = [];
+  final List<TextSpan> spans = [];
+  Status localStatus = Status.none;
 
   // Correcting the wordList and shortenedTextListFormat by removing extra characters
 
@@ -199,25 +176,13 @@ StatusLinesReturn addLinesAndDetermineStatus(final List<String> shortenedTextLis
   }
 
   int currentIndexWordList = 0;
-  Status localStatus = Status.none;
   for (int i=0; i<shortenedTextListFormat.length; i++) { // Iterate through every ingredient in the list of ingredients
     final String currentIngredient = shortenedTextListFormat[i];
-    final String modifiedIngredientWord = removePrefixes(currentIngredient);
-    Color color;
-    if (isRedWord(modifiedIngredientWord)) { // Identify whether the ingredient is compatible
-      localStatus = Status.doesntFit;
-      color = Colors.red;
-    } else if (isOrangeWord(modifiedIngredientWord)) {
-      if(localStatus!=Status.doesntFit) {
-        localStatus = Status.possiblyFits;
-      }
-      color = Colors.orange;
-    } else {
-      if(localStatus==Status.none) {
-        localStatus = Status.doesFit;
-      }
-      color = Colors.green;
-    }
+    final StatusStyledWordReturn returnVal = getStyledWord(currentIngredient, localStatus, i==shortenedTextListFormat.length-1);
+    localStatus = returnVal.status ?? localStatus;
+    spans.add(returnVal.word);
+    final Color color = returnVal.color;
+
     bool lastWordFound = false;
     int currentIngredientIndex = 0; // Used to track where in the ingredient list the loop is considering
     while(lastWordFound==false && currentIndexWordList<wordList.length) { // Both conditions should never occur
@@ -239,5 +204,9 @@ StatusLinesReturn addLinesAndDetermineStatus(final List<String> shortenedTextLis
       currentIndexWordList++;
     }
   }
-  return StatusLinesReturn(localStatus, lines);
+  return StatusStyledTextReturn(
+    localStatus,
+    TextSpan(children: spans),
+    lines
+  );
 }

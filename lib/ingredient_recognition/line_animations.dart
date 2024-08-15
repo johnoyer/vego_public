@@ -51,7 +51,7 @@ class LinePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant final CustomPainter oldDelegate) {
-    return true;// return false prior; // Always repaint to reflect updated lines
+    return false; // never repaint (no need to)
   }
 }
 

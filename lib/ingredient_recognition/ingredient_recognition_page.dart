@@ -183,7 +183,6 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
 
     final reversedBytes = img.encodeJpg(imageToReverse); 
 
-    if(!mounted) return;
     setState(() {
       _capturedImage = Uint8List.fromList(reversedBytes);
     });

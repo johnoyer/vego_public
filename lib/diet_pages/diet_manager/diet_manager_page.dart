@@ -102,36 +102,20 @@ class _DietPageState extends State<DietPage> {
                         width: 70,
                       ),
                       const Spacer(),
-                      isAndroid() ? LibraryButton( // Add new diet
+                      LibraryButton( // Add new diet
                         onTap: () async => _isInfoShown ? null : await addNewDiet(context), // do nothing if the page info is shown
                         child: addNewDietCard()
-                      ) : CupertinoButton( // Add new diet
-                        padding: EdgeInsets.zero,
-                        onPressed: () async => _isInfoShown ? null : await addNewDiet(context), // do nothing if the page info is shown
-                        child: addNewDietCard()
                       ),
-                      isAndroid() ? LibraryButton( // Hide Diets
+                      LibraryButton( // Hide Diets
                         onTap: () => _isInfoShown ? null : _switchMode(), // do nothing if the page info is shown
-                        child: HideDietsCard(editMode: _editMode),
-                      ) : CupertinoButton(
-                        padding: EdgeInsets.zero,
-                        onPressed: () => _isInfoShown ? null : _switchMode(), // do nothing if the page info is shown
                         child: HideDietsCard(editMode: _editMode),
                       ),
                       const Spacer(),
-                      isAndroid() ? LibraryButton(
+                      LibraryButton(
                         onTap: () {
                           _isInfoShown ? null : setState(() { // do nothing if the page info is shown
                             _isInfoShown = true;
                           });
-                        },
-                        child: questionMarkIconCard(),
-                      ) : CupertinoButton(
-                        padding: EdgeInsets.zero,
-                        onPressed: () {
-                          _isInfoShown ? null : setState(() { // do nothing if the page info is shown
-                            _isInfoShown = true;
-                          }); 
                         },
                         child: questionMarkIconCard(),
                       ),

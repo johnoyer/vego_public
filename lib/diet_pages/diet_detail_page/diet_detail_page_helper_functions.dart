@@ -24,9 +24,9 @@ Widget itemsDisplayWidget(final List<String> inputList) {
   );
 }
 
-Widget editDietIOSbutton (final BuildContext context, final int dietIndex) {
-  return CupertinoButton(
-    onPressed: () {
+Widget editDietButton (final BuildContext context, final int dietIndex) {
+  return LibraryButton(
+    onTap: () {
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -43,20 +43,6 @@ Widget editDietCard() {
     'Edit Diet',
     TextFeatures.normal,
     alternate: false
-  );
-}
-
-Widget editDietAndroidbutton (final BuildContext context, final int dietIndex) {
-  return InkWell(
-    onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (final context) => DietEditPage(dietIndex: dietIndex),
-        ),
-      );
-    },
-    child: editDietCard()
   );
 }
 

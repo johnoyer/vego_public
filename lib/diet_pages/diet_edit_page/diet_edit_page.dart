@@ -251,333 +251,93 @@ class _DietEditPageState extends State<DietEditPage> {
     }
   }
 
+  // Switch(
+  //   activeColor: Colors.green,
+  //   activeTrackColor: const Color.fromARGB(78, 78, 158, 80),
+  //   inactiveThumbColor: Colors.red,
+  //   inactiveTrackColor: const Color.fromARGB(255, 248, 176, 171),
+  //   value: !dietIsProhibitive,
+  //   onChanged: (final newValue) {
+  //     setState(() {
+  //       dietIsProhibitive = !newValue;
+  //     });
+  //   },
+  // )
+
+  // SingleChildScrollView(
+  //   child: Wrap(
+  //     spacing: 5.0, // Horizontal spacing between items
+  //     runSpacing: 5.0, // Vertical spacing between lines
+  //     children: [
+  //       ...List.generate(
+  //         newPrimaryItems.length,
+  //         (final index) {
+  //           return Container(
+  //             height: 60,
+  //             decoration: BoxDecoration(
+  //               borderRadius: BorderRadius.circular(10.0), 
+  //               border: Border.all(color: const Color.fromARGB(255, 4, 3, 49)),
+  //               color: ColorReturner().primaryFixed,
+  //             ),
+  //             child: LibraryButton(
+  //               onTap: () => _showItemEditDialog(index, false, true),
+  //               child: Row(
+  //                 mainAxisSize: MainAxisSize.min,
+  //                 children: [
+  //                   const Padding(padding: EdgeInsets.only(left: 8)),
+  //                   Text(
+  //                     newPrimaryItems[index],
+  //                     style: const TextStyle(color: Colors.black)
+  //                   ),
+  //                   LibraryButton(
+  //                     onTap: () => onPressedRemoveFunction(index, true),
+  //                     child: const Icon(
+  //                       Icons.close,
+  //                       size: 20.0,
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //           );
+  //         },
+  //       ),
+  //       Container(
+  //         height: 60,
+  //         width: 60,
+  //         decoration: BoxDecoration(
+  //           borderRadius: BorderRadius.circular(10.0), 
+  //           border: Border.all(color: const Color.fromARGB(255, 4, 3, 49)),
+  //           color: ColorReturner().primaryFixed,
+  //         ),
+  //         child: LibraryButton(
+  //           onTap: () {
+  //             final int newIndex = addDietItem(true);
+  //             _showItemEditDialog(newIndex, true, true);
+  //           },
+  //           child: const Icon(
+  //             Icons.add,
+  //             size: 20.0,
+  //           ),
+  //         ),
+  //       ),                      
+  //     ],
+  //   ),
+  // ),
+
 
   @override
   Widget build(final BuildContext context) {
     return SafeArea(
-      child: isAndroid() ? Scaffold(
-        appBar: AppBar(
-          title: Text('${getDietNameUpperCase()} Diet Editing'),
-        ),
+      child: Scaffold(
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              globalDivider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  libraryCard('Diet Name:', TextFeatures.normal),
-                  SizedBox(
-                    width: 200,
-                    child: globalTextField(
-                      _nameController, 
-                      (final text) {
-                        setState(() {
-                          dietName = text;
-                        });
-                      },
-                      30, 
-                      1,
-                      hintText: 'Enter name here', 
-                    ),
-                  ),
-                ],
+              libraryNavigationBar(
+                backButtonOnPressed, 
+                '${getDietNameUpperCase()} Diet Editing'
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  libraryCard('Diet Info:', TextFeatures.normal, icon: Icons.question_mark),
-                  SizedBox(
-                    width: 400,
-                    child: globalTextField(
-                      _dietInfoController, 
-                      (final text) {
-                        setState(() {
-                          dietInfo = text;
-                        });
-                      }, 
-                      300, 
-                      2,
-                      hintText: 'Enter some information about the diet here (optional)', 
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  libraryCard(
-                    'Toggle between allowing and prohibiting the listed foods:', 
-                    TextFeatures.small,
-                    alternate: true
-                  ),
-                  Switch(
-                    activeColor: Colors.green,
-                    activeTrackColor: const Color.fromARGB(78, 78, 158, 80),
-                    inactiveThumbColor: Colors.red,
-                    inactiveTrackColor: const Color.fromARGB(255, 248, 176, 171),
-                    value: !dietIsProhibitive,
-                    onChanged: (final newValue) {
-                      setState(() {
-                        dietIsProhibitive = !newValue;
-                      });
-                    },
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: RichText( // In the ____ the following items are ____
-                  text: TextSpan(
-                    children: [
-                      const TextSpan(
-                        text: 'In the ',
-                        style: TextStyle(
-                          // fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.black,
-                        ),
-                      ),
-                      TextSpan(
-                        text: getDietNameLowerCase(),
-                        style: TextStyle(
-                          // fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: ColorReturner().primary
-                        ),
-                      ),
-                      const TextSpan(
-                        text: ' diet, the following items are ',
-                        style: TextStyle(
-                          // fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.black,
-                        ),
-                      ),
-                      TextSpan(
-                        text: dietIsProhibitive
-                            ? 'prohibited'
-                            : 'allowed',
-                        style: TextStyle(
-                          // fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: dietIsProhibitive
-                              ? Colors.red
-                              : Colors.green,
-                        ),
-                      ),
-                      const TextSpan(
-                        text: ': ',
-                        style: TextStyle(
-                          // fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Expanded( // List of items
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SingleChildScrollView(
-                    child: Wrap(
-                      spacing: 1.0, // Horizontal spacing between items
-                      runSpacing: 1.0, // Vertical spacing between lines
-                      children: [
-                        ...List.generate(
-                          newPrimaryItems.length,
-                          (final index) {
-                            return InkWell(
-                              onTap: () => _showItemEditDialog(index, false, true),
-                              child: Card(
-                                color: ColorReturner().primaryFixed,
-                                shape: globalBorder,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(6.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(newPrimaryItems[index]),
-                                      InkWell(
-                                        onTap: () => onPressedRemoveFunction(index, true),
-                                        child: const Icon(
-                                          Icons.close,
-                                          size: 20.0,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                        Card(
-                          shape: globalBorder,
-                          color: ColorReturner().primaryFixed,
-                          child: InkWell(
-                            onTap: () {
-                              final int newIndex = addDietItem(true);
-                              _showItemEditDialog(newIndex, true, true);
-                            },
-                            child: const Padding(
-                              padding: EdgeInsets.all(7.0),
-                              child: Icon(
-                                Icons.add,
-                                size: 20.0,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10),
-                child: globalDivider(),
-              ),
-              Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: RichText(
-                    text: TextSpan(
-                      children: [
-                        const TextSpan(
-                          text: 'The following items ',
-                          style: TextStyle(
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: Colors.black, 
-                          ),
-                        ),
-                        const TextSpan(
-                          text: 'may be ',
-                          style: TextStyle(
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: Colors.orange,
-                          ),
-                        ),
-                        TextSpan(
-                          text: dietIsProhibitive
-                              ? 'prohibited'
-                              : 'allowed',
-                          style: TextStyle(
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: dietIsProhibitive
-                                ? Colors.red
-                                : Colors.green,
-                          ),
-                        ),
-                        const TextSpan(
-                          text: ': ',
-                          style: TextStyle(
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color:
-                                Colors.black, // Default color for the main text
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              Expanded( // List of secondary items
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SingleChildScrollView(
-                    child: Wrap(
-                      spacing: 1.0, // Horizontal spacing between items
-                      runSpacing: 1.0, // Vertical spacing between lines
-                      children: [
-                        ...List.generate(
-                          newSecondaryItems.length,
-                          (final index) {
-                            return InkWell(
-                              onTap: () => _showItemEditDialog(index, false, false),
-                              child: Card(
-                                shape: globalBorder,
-                                color: ColorReturner().primaryFixed,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(6.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(newSecondaryItems[index]),
-                                      InkWell(
-                                        onTap: () => onPressedRemoveFunction(index, false),
-                                        child: const Icon(
-                                          Icons.close,
-                                          size: 20.0,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                        Card(
-                          shape: globalBorder,
-                          color: ColorReturner().primaryFixed,
-                          child: InkWell(
-                            onTap: () {
-                              final int newIndex = addDietItem(false);
-                              _showItemEditDialog(newIndex, true, false);
-                            },
-                            child: const Padding(
-                              padding: EdgeInsets.all(7.0),
-                              child: Icon(
-                                Icons.add,
-                                size: 20.0,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  InkWell(
-                    onTap: () async => onPressedSaveFunction(),
-                    child: saveDietCard()
-                  ),
-                  InkWell(
-                    onTap: () =>  _showDietRemovalDialog(context),
-                    child: removeDietCard()
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ) : CupertinoPageScaffold(
-        navigationBar: CupertinoNavigationBar(
-          leading: CupertinoButton(
-            padding: EdgeInsets.zero,
-            onPressed: backButtonOnPressed,
-            child: const Icon(
-              CupertinoIcons.back,
-              size: 30
-            ),
-          ),
-          middle: Text('${getDietNameUpperCase()} Diet Editing'),
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Padding(padding: EdgeInsets.only(top: 50)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -696,63 +456,54 @@ class _DietEditPageState extends State<DietEditPage> {
                   padding: const EdgeInsets.all(8.0),
                   child: SingleChildScrollView(
                     child: Wrap(
-                      spacing: 5.0, // Horizontal spacing between items
-                      runSpacing: 5.0, // Vertical spacing between lines
+                      spacing: 1.0, // Horizontal spacing between items
+                      runSpacing: 1.0, // Vertical spacing between lines
                       children: [
                         ...List.generate(
                           newPrimaryItems.length,
                           (final index) {
-                            return Container(
-                              height: 60,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0), 
-                                border: Border.all(color: const Color.fromARGB(255, 4, 3, 49)),
+                            return LibraryButton(
+                              onTap: () => _showItemEditDialog(index, false, true),
+                              child: Card(
                                 color: ColorReturner().primaryFixed,
-                              ),
-                              child: CupertinoButton(
-                                padding: const EdgeInsets.all(0),
-                                onPressed: () => _showItemEditDialog(index, false, true),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const Padding(padding: EdgeInsets.only(left: 8)),
-                                    Text(
-                                      newPrimaryItems[index],
-                                      style: const TextStyle(color: Colors.black)
-                                    ),
-                                    CupertinoButton(
-                                      onPressed: () => onPressedRemoveFunction(index, true),
-                                      child: const Icon(
-                                        Icons.close,
-                                        size: 20.0,
+                                shape: globalBorder,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(6.0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(newPrimaryItems[index]),
+                                      LibraryButton(
+                                        onTap: () => onPressedRemoveFunction(index, true),
+                                        child: const Icon(
+                                          Icons.close,
+                                          size: 20.0,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             );
                           },
                         ),
-                        Container(
-                          height: 60,
-                          width: 60,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0), 
-                            border: Border.all(color: const Color.fromARGB(255, 4, 3, 49)),
-                            color: ColorReturner().primaryFixed,
-                          ),
-                          child: CupertinoButton(
-                            padding: const EdgeInsets.all(0),
-                            onPressed: () {
+                        Card(
+                          shape: globalBorder,
+                          color: ColorReturner().primaryFixed,
+                          child: LibraryButton(
+                            onTap: () {
                               final int newIndex = addDietItem(true);
                               _showItemEditDialog(newIndex, true, true);
                             },
-                            child: const Icon(
-                              Icons.add,
-                              size: 20.0,
+                            child: const Padding(
+                              padding: EdgeInsets.all(7.0),
+                              child: Icon(
+                                Icons.add,
+                                size: 20.0,
+                              ),
                             ),
                           ),
-                        ),                      
+                        ),
                       ],
                     ),
                   ),
@@ -813,60 +564,51 @@ class _DietEditPageState extends State<DietEditPage> {
                   padding: const EdgeInsets.all(8.0),
                   child: SingleChildScrollView(
                     child: Wrap(
-                      spacing: 5.0, // Horizontal spacing between items
-                      runSpacing: 5.0, // Vertical spacing between lines
+                      spacing: 1.0, // Horizontal spacing between items
+                      runSpacing: 1.0, // Vertical spacing between lines
                       children: [
                         ...List.generate(
                           newSecondaryItems.length,
                           (final index) {
-                            return Container(
-                              height: 60,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0), 
-                                border: Border.all(color: const Color.fromARGB(255, 4, 3, 49)),
+                            return LibraryButton(
+                              onTap: () => _showItemEditDialog(index, false, false),
+                              child: Card(
+                                shape: globalBorder,
                                 color: ColorReturner().primaryFixed,
-                              ),
-                              child: CupertinoButton(
-                                padding: const EdgeInsets.all(0),
-                                onPressed: () => _showItemEditDialog(index, false, false),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const Padding(padding: EdgeInsets.only(left: 8)),
-                                    Text(
-                                      newSecondaryItems[index],
-                                      style: const TextStyle(color: Colors.black)
-                                    ),
-                                    CupertinoButton(
-                                      onPressed: () => onPressedRemoveFunction(index, false),
-                                      child: const Icon(
-                                        Icons.close,
-                                        size: 20.0,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(6.0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(newSecondaryItems[index]),
+                                      LibraryButton(
+                                        onTap: () => onPressedRemoveFunction(index, false),
+                                        child: const Icon(
+                                          Icons.close,
+                                          size: 20.0,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             );
                           },
                         ),
-                        Container(
-                          height: 60,
-                          width: 60,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0), 
-                            border: Border.all(color: const Color.fromARGB(255, 4, 3, 49)),
-                            color: ColorReturner().primaryFixed,
-                          ),
-                          child: CupertinoButton(
-                            padding: const EdgeInsets.all(0),
-                            onPressed: () {
+                        Card(
+                          shape: globalBorder,
+                          color: ColorReturner().primaryFixed,
+                          child: LibraryButton(
+                            onTap: () {
                               final int newIndex = addDietItem(false);
                               _showItemEditDialog(newIndex, true, false);
                             },
-                            child: const Icon(
-                              Icons.add,
-                              size: 20.0,
+                            child: const Padding(
+                              padding: EdgeInsets.all(7.0),
+                              child: Icon(
+                                Icons.add,
+                                size: 20.0,
+                              ),
                             ),
                           ),
                         ),
@@ -878,12 +620,12 @@ class _DietEditPageState extends State<DietEditPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CupertinoButton(
-                    onPressed: () async => onPressedSaveFunction(),
+                  LibraryButton(
+                    onTap: () async => onPressedSaveFunction(),
                     child: saveDietCard(),
                   ),
-                  CupertinoButton(
-                    onPressed: () => _showDietRemovalDialog(context),
+                  LibraryButton(
+                    onTap: () => _showDietRemovalDialog(context),
                     child: removeDietCard()
                   ),
                 ],

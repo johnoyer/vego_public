@@ -171,16 +171,12 @@ class LabeledCheckbox extends StatelessWidget {
   Widget build(final BuildContext context) {
     return hidden && !editMode
     ? Container()
-    : Card(
-      shape: globalBorder,
-      color: ColorReturner().primary,
-      elevation: 2,
-      child: isAndroid() ? LibraryButton(
-        onTap: onTap,
-        child: _row()
-      ) : CupertinoButton(
-        onPressed: onTap,
-        padding: EdgeInsets.zero,
+    : LibraryButton(
+      onTap: onTap,
+      child: Card(
+        shape: globalBorder,
+        color: ColorReturner().primary,
+        elevation: 2,
         child: _row(),
       ),
     );
@@ -205,23 +201,7 @@ class LabeledCheckbox extends StatelessWidget {
                 children: [
                   icon == null ? Container() : Padding(
                     padding: const EdgeInsets.only(right: 8.0),
-                    child: Container(
-                      width: 30.0,
-                      height: 30.0,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle, // Make the container circular
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color.fromARGB(142, 0, 0, 0),
-                            // offset: Offset(0, 4), // Shadow offset
-                            blurRadius: 6, // Blur radius of the shadow
-                            // spreadRadius: 0, // Spread radius of the shadow
-                          ),
-                        ],
-                      ),
-                      child: icon!
-                    ),
+                    child: dietIconWrapper(icon!),
                   ),
                   Text(
                     label, 

@@ -283,5 +283,5 @@ bool isAndroid() {
     //   return android(context);
     // }
     // Default to Android if the platform is neither iOS nor Android
-  return true;
+  return false;
 }

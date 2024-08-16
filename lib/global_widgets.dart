@@ -272,21 +272,13 @@ class InfoSlider extends StatelessWidget {
                 )
               ),
               const Padding(padding: EdgeInsets.only(top: 10)),
-              isAndroid() ? InkWell(
+              InkWell(
                 onTap: onClose,
                 child: libraryCard(
                   'Got it!',
                   TextFeatures.normal,
                   alternate: false
                 ) 
-              ) : CupertinoButton(
-                padding: EdgeInsets.zero,
-                onPressed: onClose,
-                child: libraryCard(
-                  'Got it!',
-                  TextFeatures.normal,
-                  alternate: false
-                ),
               )
             ],
           ),
@@ -413,13 +405,13 @@ class LibraryButton extends StatefulWidget {
   });
 
   @override
-  ShrinkingButtonState createState() => ShrinkingButtonState();
+  LibraryButtonState createState() => LibraryButtonState();
 }
 
-class ShrinkingButtonState extends State<LibraryButton> with SingleTickerProviderStateMixin {
+class LibraryButtonState extends State<LibraryButton> with SingleTickerProviderStateMixin {
   late final AnimationController _animationController;
   late final Animation<double> _scaleAnimation;
-  bool _isHovering = false;
+  // bool _isHovering = false;
 
   @override
   void initState() {
@@ -437,19 +429,15 @@ class ShrinkingButtonState extends State<LibraryButton> with SingleTickerProvide
   Widget build(final BuildContext context) {
     return MouseRegion(
       cursor: SystemMouseCursors.click, // Change cursor to indicate clickable
-      onEnter: (final _) => setState(() => _isHovering = true),
-      onExit: (final _) => setState(() => _isHovering = false),
+      // onEnter: (final _) => setState(() => _isHovering = true),
+      // onExit: (final _) => setState(() => _isHovering = false),
       child: GestureDetector(
-        onTapDown: (final _) async {
-          print('arrived2');
-          await _animationController.forward(); // Shrink on tap down
+        onTapDown: (final _) {
+          _animationController.forward(); // Shrink on tap down
         },
-        onTapUp: (final _) async {
-          print('arrived3');
-          await _animationController.reverse(); // Return to original size
-          print('arrived4');
+        onTapUp: (final _) {
+          _animationController.reverse(); // Return to original size
           widget.onTap(); // Call the provided onTap callback
-          print('arrived5');
         },
         onTapCancel: () {
           _animationController.reverse(); // Return to original size if the tap is canceled
@@ -458,6 +446,7 @@ class ShrinkingButtonState extends State<LibraryButton> with SingleTickerProvide
           scale: _scaleAnimation,
           child: Container(
             // color: _isHovering ? Colors.blue.shade700 : Colors.blue, // Change color on hover
+            color: const Color.fromARGB(85, 244, 67, 54),
             child: widget.child,
           ),
         ),
@@ -470,4 +459,68 @@ class ShrinkingButtonState extends State<LibraryButton> with SingleTickerProvide
     _animationController.dispose();
     super.dispose();
   }
+}
+
+Widget libraryNavigationBar(final VoidCallback onExit, final text) {
+  return Container(
+    height: 50,
+    decoration: BoxDecoration(
+      color: ColorReturner().primary,
+      border: const Border(
+        bottom: BorderSide(
+          // color: Colors.black, // Border color
+          width: 2.0, // Border width
+        ),
+      )
+    ),
+    child: Row(
+      children: [
+        SizedBox(
+          width: 50,
+          child: LibraryButton(
+            onTap: onExit,
+            child: const Icon(
+              Icons.arrow_back,
+              size: 30,
+              color: Colors.white,
+            ),
+          ),
+        ),
+        const Spacer(),
+        Card( // Provides text
+          color: Colors.transparent,
+          shadowColor: Colors.transparent,
+          child: Text(
+            text,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+            )
+          ),
+        ),
+        const Spacer(),
+        const SizedBox(width: 50)
+      ],
+    ),
+  );
+}
+
+Widget dietIconWrapper(final Widget child) {
+  return Container(
+    width: 30.0,
+    height: 30.0,
+    decoration: const BoxDecoration(
+      color: Colors.white,
+      shape: BoxShape.circle, // Make the container circular
+      boxShadow: [
+        BoxShadow(
+          color: Color.fromARGB(142, 0, 0, 0),
+          // offset: Offset(0, 4), // Shadow offset
+          blurRadius: 6, // Blur radius of the shadow
+          // spreadRadius: 0, // Spread radius of the shadow
+        ),
+      ],
+    ),
+    child: child
+  );
 }

@@ -167,6 +167,7 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
           children: [
             Expanded(
               child: PageView.builder(
+                physics: const NeverScrollableScrollPhysics(),
                 controller: _pageController,
                 itemCount: stages.length,
                 itemBuilder: (final context, final index) {
@@ -229,20 +230,13 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
           ],
         ),
         const Padding(padding: EdgeInsets.all(5)),
-        isAndroid() ? InkWell(
-          onTap: () => stageSevenOnTap(),
+        LibraryButton(
+          onTap: stageSevenOnTap,
           child: const SizedBox(
             height: 60,
             width: 280,
           ),
-        ) : CupertinoButton(
-          padding: EdgeInsets.zero,
-          onPressed: () => stageSevenOnTap(),
-          child: const SizedBox(
-            height: 60,
-            width: 280,
-          ),
-        ),
+        )
       ],
     );
   }
@@ -291,20 +285,13 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
           ],
         ),
         const Padding(padding: EdgeInsets.all(5)),
-        isAndroid() ? InkWell(
-          onTap: () => stageSixOnTap(),
+        LibraryButton(
+          onTap: stageSixOnTap,
           child: const SizedBox(
             height: 60,
             width: 75,
           ),
-        ) : CupertinoButton(
-          padding: EdgeInsets.zero,
-          onPressed: () => stageSixOnTap(),
-          child: const SizedBox(
-            height: 60,
-            width: 75,
-          ),
-        ),
+        )
       ],
     );
   }
@@ -378,20 +365,13 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
           ],
         ),
         const Padding(padding: EdgeInsets.all(5)),
-        isAndroid() ? InkWell(
-          onTap: () => stageFiveOnTap(),
+        LibraryButton(
+          onTap: stageFiveOnTap,
           child: const SizedBox(
             height: 60,
             width: 75,
           ),
-        ) : CupertinoButton(
-          padding: EdgeInsets.zero,
-          onPressed: () => stageFiveOnTap(),
-          child: const SizedBox(
-            height: 60,
-            width: 75,
-          ),
-        ),
+        )
       ],
     );
   }
@@ -493,20 +473,13 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
           ],
         ),
         const Padding(padding: EdgeInsets.all(5)),
-        isAndroid() ? InkWell(
-          onTap: () => stageFourOnTap(),
+        LibraryButton(
+          onTap: stageFourOnTap,
           child: const SizedBox(
             height: 60,
             width: 75,
           ),
-        ) : CupertinoButton(
-          padding: EdgeInsets.zero,
-          onPressed: () => stageFourOnTap(),
-          child: const SizedBox(
-            height: 60,
-            width: 75,
-          ),
-        ),
+        )
       ],
     );
   }
@@ -552,20 +525,13 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
           ],
         ),
         const Padding(padding: EdgeInsets.all(5)),
-        isAndroid() ? InkWell(
-          onTap: () => stageThreeOnTap(),
+        LibraryButton(
+          onTap: stageThreeOnTap,
           child: const SizedBox(
             height: 60,
             width: 75,
           ),
-        ) : CupertinoButton(
-          padding: EdgeInsets.zero,
-          onPressed: () => stageThreeOnTap(),
-          child: const SizedBox(
-            height: 60,
-            width: 75,
-          ),
-        ),
+        )
       ],
     );
   }
@@ -617,34 +583,21 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
                               : ColorReturner().secondaryFixed,
                           // canTapOnHeader: false,
                           headerBuilder: (final BuildContext context, final bool isExpanded) {
-                            return !isAndroid() ? CupertinoListTile( 
-                              title: Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 65.0),
-                                  child: Text(
-                                    dietAttributeContainer.diet.name,
-                                    style: kStyle1(Colors.black)
-                                  ),
-                                ),
-                              ),
-                              onTap: () {
-                                setState((){
-                                  if (dietAttributeContainer.selectionStatus==SelectionStatus.selected) {
-                                    dietAttributeContainer.selectionStatus=SelectionStatus.notSelected;
-                                  } else {
-                                    dietAttributeContainer.selectionStatus=SelectionStatus.selected;
-                                  }
-                                  _fieldEntered = true;
-                                });
-                              }
-                            ) : ListTile( 
-                              title: Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 65.0),
-                                  child: Text(
-                                    dietAttributeContainer.diet.name,
-                                    style: kStyle1(Colors.black)
-                                  ),
+                            return ListTile( 
+                              title: Padding(
+                                padding: const EdgeInsets.only(left: 65.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 8.0),
+                                      child: dietIconWrapper(dietAttributeContainer.diet.iconWidget),
+                                    ),
+                                    Text(
+                                      dietAttributeContainer.diet.name,
+                                      style: kStyle1(Colors.black)
+                                    ),
+                                  ],
                                 ),
                               ),
                               onTap: () {
@@ -686,20 +639,13 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
           ),
         ),
         const Padding(padding: EdgeInsets.all(5)),
-        isAndroid() ? InkWell(
-          onTap: () async => stageTwoOnTap,
+        LibraryButton(
+          onTap: () async => await stageTwoOnTap(),
           child: const SizedBox(
             height: 60,
             width: 75,
           ),
-        ) : CupertinoButton(
-          padding: EdgeInsets.zero,
-          onPressed: () async => stageTwoOnTap,
-          child: const SizedBox(
-            height: 60,
-            width: 75,
-          ),
-        ),
+        )
       ],
     );
   }
@@ -778,25 +724,18 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
           ],
         ),
         const Padding(padding: EdgeInsets.all(5)),
-        isAndroid() ? InkWell(
+        LibraryButton(
           onTap: () async => await stageOneOnTap(),
           child: const SizedBox(
             height: 60,
             width: 75,
           ),
-        ) : CupertinoButton(
-          padding: EdgeInsets.zero,
-          onPressed: () async => await stageOneOnTap(),
-          child: const SizedBox(
-            height: 60,
-            width: 75,
-          ),
-        ),
+        )
       ],
     );
   }
 
-  stageOneOnTap() async {
+  Future<void> stageOneOnTap() async {
     if(_animationDone) {
       final bool? duplicateName = await DietState().updateDietName(widget.index, textFieldValue);
       if(duplicateName==null) {

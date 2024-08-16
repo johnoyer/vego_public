@@ -93,7 +93,7 @@ class _DietEditPageState extends State<DietEditPage> {
     }
   }
 
-  void _showEditDialog(final int index, final bool adding, final bool primary) {
+  void _showItemEditDialog(final int index, final bool adding, final bool primary) {
     String editedText = primary ? newPrimaryItems[index] : newSecondaryItems[index];
     
     void onPressedEditingFunction() {
@@ -104,7 +104,7 @@ class _DietEditPageState extends State<DietEditPage> {
         }
       });    
       Navigator.of(context).pop();
-      if(itemInPrimaryItems!=null) {
+      if(itemInPrimaryItems!=null&&editedText!= '') {
         showErrorMessage(context, 'This item is already in the \'${!itemInPrimaryItems ? 'may be ' : ''}${dietIsProhibitive ? 'prohibited' : 'allowed'}\' items section of the diet');
       }
     }
@@ -163,6 +163,92 @@ class _DietEditPageState extends State<DietEditPage> {
       },
     );
     
+  }
+
+  void backButtonOnPressed() {
+    // Check whether anything has changed
+    final bool nameChanged = dietName != DietState.getDietList()[widget.dietIndex].name;
+    final bool infoChanged = dietInfo != DietState.getDietList()[widget.dietIndex].dietInfo;
+    final bool prohibitiveChanged = dietIsProhibitive != DietState.getDietList()[widget.dietIndex].isProhibitive;
+
+    // Item by item check is necessary because list comparison compares if the objects are equal not the contents
+    bool primaryItemsChanged = false;
+    final List<String> oldPrimaryItems = capitalizeFirstLetterOfEveryWord(DietState.getDietList()[widget.dietIndex].primaryItems);
+    if(oldPrimaryItems.length!=newPrimaryItems.length) {
+      primaryItemsChanged = true;
+    } else {
+      for(int i=0; i<oldPrimaryItems.length; i++) {
+        if(oldPrimaryItems[i]!=newPrimaryItems[i]) {
+          primaryItemsChanged = false;
+        }
+      }
+    }
+
+    bool secondaryItemsChanged = false;
+    final List<String> oldSecondaryItems = capitalizeFirstLetterOfEveryWord(DietState.getDietList()[widget.dietIndex].secondaryItems);
+    if(oldSecondaryItems.length!=newSecondaryItems.length) {
+      secondaryItemsChanged = true;
+    } else {
+      for(int i=0; i<oldSecondaryItems.length; i++) {
+        if(oldSecondaryItems[i]!=newSecondaryItems[i]) {
+          secondaryItemsChanged = false;
+        }
+      }
+    }
+
+    final bool somethingHasChanged = nameChanged || infoChanged || prohibitiveChanged || primaryItemsChanged || secondaryItemsChanged;
+
+    if(!somethingHasChanged) {
+      Navigator.of(context).pop();
+    } else {
+      isAndroid () ? showDialog(
+        context: context,
+        builder: (final BuildContext context) {
+          return AlertDialog(
+            title: const Text('Notice'),
+            content: const Text(
+              'You have unsaved changes, are you sure you want to proceed?'
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Yes'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('No'),
+              ),
+            ],
+          );
+        }
+      ): showCupertinoDialog(
+        context: context,
+        builder: (final BuildContext context) {
+          return CupertinoAlertDialog(
+            title: const Text('Notice'),
+            content: const Text(
+              'You have unsaved changes, are you sure you want to proceed?'
+            ),
+            actions: <Widget>[
+              CupertinoDialogAction(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Yes'),
+              ),
+              CupertinoDialogAction(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('No'),
+              ),
+            ],
+          );
+        }
+      );
+    }
   }
 
 
@@ -305,7 +391,7 @@ class _DietEditPageState extends State<DietEditPage> {
                           newPrimaryItems.length,
                           (final index) {
                             return InkWell(
-                              onTap: () => _showEditDialog(index, false, true),
+                              onTap: () => _showItemEditDialog(index, false, true),
                               child: Card(
                                 color: ColorReturner().primaryFixed,
                                 shape: globalBorder,
@@ -335,7 +421,7 @@ class _DietEditPageState extends State<DietEditPage> {
                           child: InkWell(
                             onTap: () {
                               final int newIndex = addDietItem(true);
-                              _showEditDialog(newIndex, true, true);
+                              _showItemEditDialog(newIndex, true, true);
                             },
                             child: const Padding(
                               padding: EdgeInsets.all(7.0),
@@ -413,7 +499,7 @@ class _DietEditPageState extends State<DietEditPage> {
                           newSecondaryItems.length,
                           (final index) {
                             return InkWell(
-                              onTap: () => _showEditDialog(index, false, false),
+                              onTap: () => _showItemEditDialog(index, false, false),
                               child: Card(
                                 shape: globalBorder,
                                 color: ColorReturner().primaryFixed,
@@ -443,7 +529,7 @@ class _DietEditPageState extends State<DietEditPage> {
                           child: InkWell(
                             onTap: () {
                               final int newIndex = addDietItem(false);
-                              _showEditDialog(newIndex, true, false);
+                              _showItemEditDialog(newIndex, true, false);
                             },
                             child: const Padding(
                               padding: EdgeInsets.all(7.0),
@@ -477,6 +563,14 @@ class _DietEditPageState extends State<DietEditPage> {
         ),
       ) : CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
+          leading: CupertinoButton(
+            padding: EdgeInsets.zero,
+            onPressed: backButtonOnPressed,
+            child: const Icon(
+              CupertinoIcons.back,
+              size: 30
+            ),
+          ),
           middle: Text('${getDietNameUpperCase()} Diet Editing'),
         ),
         child: Center(
@@ -617,7 +711,7 @@ class _DietEditPageState extends State<DietEditPage> {
                               ),
                               child: CupertinoButton(
                                 padding: const EdgeInsets.all(0),
-                                onPressed: () => _showEditDialog(index, false, true),
+                                onPressed: () => _showItemEditDialog(index, false, true),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
@@ -651,7 +745,7 @@ class _DietEditPageState extends State<DietEditPage> {
                             padding: const EdgeInsets.all(0),
                             onPressed: () {
                               final int newIndex = addDietItem(true);
-                              _showEditDialog(newIndex, true, true);
+                              _showItemEditDialog(newIndex, true, true);
                             },
                             child: const Icon(
                               Icons.add,
@@ -734,7 +828,7 @@ class _DietEditPageState extends State<DietEditPage> {
                               ),
                               child: CupertinoButton(
                                 padding: const EdgeInsets.all(0),
-                                onPressed: () => _showEditDialog(index, false, false),
+                                onPressed: () => _showItemEditDialog(index, false, false),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
@@ -768,7 +862,7 @@ class _DietEditPageState extends State<DietEditPage> {
                             padding: const EdgeInsets.all(0),
                             onPressed: () {
                               final int newIndex = addDietItem(false);
-                              _showEditDialog(newIndex, true, false);
+                              _showItemEditDialog(newIndex, true, false);
                             },
                             child: const Icon(
                               Icons.add,
@@ -814,20 +908,20 @@ class _DietEditPageState extends State<DietEditPage> {
       context: context,
       builder: (final BuildContext context) {
         return AlertDialog(
-            title: Text('Delete $dietName Diet'),
-            content: Text(
-              'Are you sure you want to delete the $dietName diet? This action is permanent and cannot be undone.'
+          title: Text('Delete $dietName Diet'),
+          content: Text(
+            'Are you sure you want to delete the $dietName diet? This action is permanent and cannot be undone.'
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => onPressedDietRemovalFunction(),
+              child: const Text('Yes'),
             ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => onPressedDietRemovalFunction(),
-                child: const Text('Yes'),
-              ),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text('No'),
-              ),
-            ],
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('No'),
+            ),
+          ],
         );
       },
     ) : showCupertinoDialog(

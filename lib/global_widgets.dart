@@ -36,7 +36,7 @@ Widget libraryCard(
     final IconData? icon,
     final Color? iconColor,
     final double? iconSize,
-    final bool elevated = false
+    final bool elevated = false,
   }
 ) {
   if(text!=null) {
@@ -75,7 +75,8 @@ Widget libraryCard(
               ),
               text != null ? Text(
                 text, 
-                // overflow: TextOverflow.ellipsis,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 3,
                 softWrap: true,
                 style: features == TextFeatures.normal
                     ? kStyle1(colorToUse)
@@ -295,7 +296,7 @@ class InfoSlider extends StatelessWidget {
 }
 
 
-// buildDietInfo (Used in ingredient recognition and in manual entry
+// buildDietInfo (Used in ingredient recognition and in manual entry)
 
 Widget buildDietInfo(final BuildContext context) {
   return Consumer<DietState>(
@@ -303,7 +304,7 @@ Widget buildDietInfo(final BuildContext context) {
       if (DietState().getStatus()==Status.none) {//status.none
         // Handle the case where status is none
         return Center(
-          child: libraryCard('Enter an Ingredient to Get Started!', TextFeatures.large),
+          child: libraryCard('Enter an Ingredient to Get Started!', TextFeatures.normal),
         );
       }
 
@@ -321,9 +322,6 @@ Widget buildDietInfo(final BuildContext context) {
       final int count = dietNames.length;
       // String dietText = 'These ingredients are ';
       String dietText = '';
-      if(count<1) {
-        print('error'); // TODO
-      }
 
       if(DietState().getStatus()==Status.doesntFit) { // There are non conforming ingredients
         color = Colors.red;
@@ -349,6 +347,12 @@ Widget buildDietInfo(final BuildContext context) {
         prefix += 'and ${dietNames[count - 1]}';
         dietText += prefix;
       }
+      late String shortenedDietText;
+      if(dietText.length > 22) {
+        shortenedDietText = '${dietText.substring(0, 20)}...'; // if the text is too long, shorten the displayed text
+      } else {
+        shortenedDietText = dietText;
+      }
 
       const double iconSize = 80;
       return Row(
@@ -369,12 +373,28 @@ Widget buildDietInfo(final BuildContext context) {
               ),
             ),
           ),
-          libraryCard(
-            dietText,
-            TextFeatures.normal,
-          )
+          isAndroid() ? InkWell(
+            onTap: () {
+              print('arrived');
+            },
+            child: dietTextCard(shortenedDietText)
+          ) : CupertinoButton(
+            padding: EdgeInsets.zero,
+            onPressed: () {
+              print('arrived');
+            },
+            child: dietTextCard(shortenedDietText)
+          ),
         ],
       );
     }
+  );
+}
+
+Widget dietTextCard(final String shortenedDietText) {
+  return libraryCard(
+    shortenedDietText,
+    TextFeatures.normal,
+    alternate: false,
   );
 }

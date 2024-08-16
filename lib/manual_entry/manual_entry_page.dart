@@ -5,6 +5,7 @@ import 'package:vego_flutter_project/diet_classes/diet_state.dart';
 import 'package:flutter/services.dart';
 import 'package:vego_flutter_project/global_widgets.dart';
 import 'package:vego_flutter_project/manual_entry/helper_functions.dart';
+import 'dart:math';
 
 class ManualEntry extends StatefulWidget {
   const ManualEntry({super.key});
@@ -42,16 +43,21 @@ class _ManualEntry extends State<ManualEntry> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      const Padding(padding: EdgeInsets.only(right: 10)),
                       const SizedBox(
-                        width: 100,
+                        width: 60,
                         height: 70,
                       ),
                       const Spacer(),
-                      buildDietInfo(context),
+                      SizedBox(
+                        width: min(MediaQuery.of(context).size.width, 334), // 334 is enough for the "enter ingredient to get started" text
+                        child: buildDietInfo(context)
+                      ),
                       const Spacer(),
                       SizedBox(
-                        width: 100,
-                        child: isAndroid() ? InkWell(
+                        width: 60,
+                        child: 
+                        isAndroid() ? InkWell(
                           onTap: () {
                             setState(() {
                               _isInfoShown = true;
@@ -68,6 +74,7 @@ class _ManualEntry extends State<ManualEntry> {
                           child: questionMarkIconCard(),
                         ),
                       ),
+                      const Padding(padding: EdgeInsets.only(right: 10)),
                     ],
                   )
                 ),
@@ -257,7 +264,6 @@ class _BuildIngredientEntryState extends State<BuildIngredientEntry> {
               ],
             ),
           ),
-          
         ],
       ),
     );

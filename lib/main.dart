@@ -11,7 +11,7 @@ import 'package:vego_flutter_project/diet_pages/diet_main_page/diet_main_page.da
 import 'package:vego_flutter_project/settings/settings_page.dart';
 import 'package:vego_flutter_project/library.dart';
 import 'package:vego_flutter_project/global_widgets.dart';
-//test
+
 void main() async {
   // BindingBase.debugZoneErrorsAreFatal = true;
   WidgetsFlutterBinding.ensureInitialized();

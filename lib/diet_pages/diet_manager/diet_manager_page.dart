@@ -63,7 +63,8 @@ class _DietPageState extends State<DietPage> {
                                   }
                                 },
                                 onTap: () {
-                                  _isInfoShown ? null : Navigator.push( // do nothing if the page info is shown
+                                  if(_isInfoShown) return;
+                                  Navigator.push( // do nothing if the page info is shown
                                     context,
                                     MaterialPageRoute(
                                       builder: (final context) =>
@@ -101,7 +102,7 @@ class _DietPageState extends State<DietPage> {
                         width: 70,
                       ),
                       const Spacer(),
-                      isAndroid() ? InkWell( // Add new diet
+                      isAndroid() ? LibraryButton( // Add new diet
                         onTap: () async => _isInfoShown ? null : await addNewDiet(context), // do nothing if the page info is shown
                         child: addNewDietCard()
                       ) : CupertinoButton( // Add new diet
@@ -109,7 +110,7 @@ class _DietPageState extends State<DietPage> {
                         onPressed: () async => _isInfoShown ? null : await addNewDiet(context), // do nothing if the page info is shown
                         child: addNewDietCard()
                       ),
-                      isAndroid() ? InkWell( // Hide Diets
+                      isAndroid() ? LibraryButton( // Hide Diets
                         onTap: () => _isInfoShown ? null : _switchMode(), // do nothing if the page info is shown
                         child: HideDietsCard(editMode: _editMode),
                       ) : CupertinoButton(
@@ -118,7 +119,7 @@ class _DietPageState extends State<DietPage> {
                         child: HideDietsCard(editMode: _editMode),
                       ),
                       const Spacer(),
-                      isAndroid() ? InkWell(
+                      isAndroid() ? LibraryButton(
                         onTap: () {
                           _isInfoShown ? null : setState(() { // do nothing if the page info is shown
                             _isInfoShown = true;

@@ -24,7 +24,7 @@ class GlutenFree extends PresetDiet {
   static Widget glutenFreeIcon() {
     return const Icon(
       Icons.grass,
-      color: Colors.yellow,
+      color: Color.fromARGB(255, 191, 177, 51),
     );
   }
 

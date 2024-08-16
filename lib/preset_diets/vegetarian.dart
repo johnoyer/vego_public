@@ -18,7 +18,7 @@ class Vegetarian extends PresetDiet {
   static Widget vegetarianIcon() {
     return const Icon(
       Icons.emoji_nature,
-      color: Colors.pink,
+      color: Colors.purple,
     ); // icons.spa
   }
 

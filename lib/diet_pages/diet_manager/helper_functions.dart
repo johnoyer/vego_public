@@ -175,8 +175,7 @@ class LabeledCheckbox extends StatelessWidget {
       shape: globalBorder,
       color: ColorReturner().primary,
       elevation: 2,
-      child: isAndroid() ? InkWell(
-        focusColor: Colors.black,
+      child: isAndroid() ? LibraryButton(
         onTap: onTap,
         child: _row()
       ) : CupertinoButton(
@@ -212,6 +211,14 @@ class LabeledCheckbox extends StatelessWidget {
                       decoration: const BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle, // Make the container circular
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color.fromARGB(142, 0, 0, 0),
+                            // offset: Offset(0, 4), // Shadow offset
+                            blurRadius: 6, // Blur radius of the shadow
+                            // spreadRadius: 0, // Spread radius of the shadow
+                          ),
+                        ],
                       ),
                       child: icon!
                     ),
@@ -232,12 +239,12 @@ class LabeledCheckbox extends StatelessWidget {
             width: 30,
             child: Center(
               child: editMode ? 
-              isAndroid() ? InkWell(
+              isAndroid() ? LibraryButton(
                 onTap: onHide,
                 child: isChecked 
                 ? visibilityLocked()
                 : VisibilityUnlocked(hidden: hidden),
-              ) : GestureDetector(
+              ) : LibraryButton(
                 onTap: onHide,
                 child: isChecked 
                 ? visibilityLocked()

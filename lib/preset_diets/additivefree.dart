@@ -1,4 +1,5 @@
 import 'package:vego_flutter_project/diet_classes/diet_class.dart';
+import 'package:flutter/material.dart';
 
 class AdditiveFree extends PresetDiet {
 
@@ -9,9 +10,17 @@ class AdditiveFree extends PresetDiet {
           isProhibitive: true,
           isChecked: false,
           hidden: false,
+          iconWidget: additiveFreeIcon(),
           primaryItems: prohibitedItemsList,
           secondaryItems: possiblyProhibitedItemsList,
         );
+
+  static Widget additiveFreeIcon() {
+    return const Icon(
+      Icons.science,
+      color: Colors.white,
+    );//icons.bubble_chart
+  }
 
   static List<String> prohibitedItemsList = [
     'Acacia Gum',

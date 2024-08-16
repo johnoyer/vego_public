@@ -149,21 +149,23 @@ class LabeledCheckbox extends StatelessWidget {
   const LabeledCheckbox({
     super.key,
     required this.label,
-    required this.onChecked,
+    this.icon,
     required this.isChecked,
-    required this.onTap,
     required this.editMode,
     required this.hidden,
+    required this.onChecked,
     required this.onHide,
+    required this.onTap,
   });
 
   final String label;
+  final Widget? icon;
   final bool isChecked;
-  final ValueChanged<bool?> onChecked;
-  final VoidCallback onHide;
-  final VoidCallback onTap;
   final bool editMode;
   final bool hidden;
+  final VoidCallback onHide;
+  final ValueChanged<bool?> onChecked;
+  final VoidCallback onTap;
 
   @override
   Widget build(final BuildContext context) {
@@ -198,7 +200,18 @@ class LabeledCheckbox extends StatelessWidget {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Center(child: Text(label, style: kStyle1(Colors.white))),
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  icon == null ? Container() : icon!,
+                  Text(
+                    label, 
+                    style: kStyle1(Colors.white)
+                  ),
+                ],
+              )
+            ),
           ),
         ),
         Padding(

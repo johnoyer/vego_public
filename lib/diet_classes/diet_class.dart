@@ -1,4 +1,5 @@
 import 'package:vego_flutter_project/diet_classes/diet_state.dart';
+import 'package:flutter/material.dart';
 
 abstract class Diet {
   String name;
@@ -62,6 +63,8 @@ abstract class Diet {
 }
 
 class PresetDiet extends Diet {
+  Widget iconWidget;
+
   PresetDiet({
     super.name,
     super.dietInfo,
@@ -70,6 +73,7 @@ class PresetDiet extends Diet {
     super.isChecked,
     super.primaryItems,
     super.secondaryItems,
+    required this.iconWidget,
   });
 }
 
@@ -102,6 +106,7 @@ class PresetDietWithSubdiets extends PresetDiet {
     super.isChecked,
     super.primaryItems,
     super.secondaryItems,
+    required super.iconWidget,
     required this.primarySubDietNameToListMap,
     required this.secondarySubDietNameToListMap
   });

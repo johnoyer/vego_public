@@ -1,4 +1,5 @@
 import 'package:vego_flutter_project/diet_classes/diet_class.dart';
+import 'package:flutter/material.dart';
 
 class Vegan extends PresetDiet {
 
@@ -9,9 +10,17 @@ class Vegan extends PresetDiet {
           isProhibitive: true,
           isChecked: false,
           hidden: false,
+          iconWidget: veganIcon(),
           primaryItems: prohibitedItemsList,
           secondaryItems: possiblyProhibitedItemsList,
         );
+
+  static Widget veganIcon() {
+    return const Icon(
+      Icons.eco,
+      color: Colors.white,
+    );
+  }
 
   static List<String> prohibitedItemsList = [
     'abalone',

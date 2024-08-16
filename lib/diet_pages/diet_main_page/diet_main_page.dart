@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:vego_flutter_project/diet_classes/diet_state.dart';
+import 'package:vego_flutter_project/diet_classes/diet_class.dart';
 import 'package:vego_flutter_project/library.dart';
 import 'package:vego_flutter_project/global_widgets.dart';
 import 'package:provider/provider.dart';
@@ -48,6 +49,8 @@ class _DietPageState extends State<DietPage> {
                                 hidden: DietState.getDietList()[index].hidden,
                                 label: (DietState.getDietList()[index].name=='')
                                   ? '[unnamed diet]' : DietState.getDietList()[index].name,
+                                icon: (DietState.getDietList()[index] is PresetDiet) ? 
+                                      (DietState.getDietList()[index] as PresetDiet).iconWidget : null,
                                 onChecked: (final bool? newValue) {
                                   if (newValue!) {
                                     DietState().toggleIsChecked(index);

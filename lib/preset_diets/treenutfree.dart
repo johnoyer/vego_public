@@ -1,4 +1,5 @@
 import 'package:vego_flutter_project/diet_classes/diet_class.dart';
+import 'package:flutter/material.dart';
 
 class TreeNutFree extends PresetDiet {
 
@@ -9,9 +10,17 @@ class TreeNutFree extends PresetDiet {
           isProhibitive: true,
           isChecked: false,
           hidden: false,
+          iconWidget: treeNutFreeIcon(),
           primaryItems: prohibitedItemsList,
           secondaryItems: possiblyProhibitedItemsList,
         );
+
+  static Widget treeNutFreeIcon() {
+    return const Icon(
+      Icons.park,
+      color: Colors.white,
+    );
+  }
 
   static List<String> prohibitedItemsList = [
     'Almonds',

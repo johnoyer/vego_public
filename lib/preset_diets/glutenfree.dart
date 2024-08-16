@@ -1,4 +1,5 @@
 import 'package:vego_flutter_project/diet_classes/diet_class.dart';
+import 'package:flutter/material.dart';
 
 class GlutenFree extends PresetDiet {
 
@@ -15,9 +16,17 @@ class GlutenFree extends PresetDiet {
           isProhibitive: true,
           isChecked: false,
           hidden: false,
+          iconWidget: glutenFreeIcon(),
           primaryItems: prohibitedItemsList,
           secondaryItems: possiblyProhibitedItemsList,
         );
+
+  static Widget glutenFreeIcon() {
+    return const Icon(
+      Icons.grass,
+      color: Colors.white,
+    );
+  }
 
   static List<String> prohibitedItemsList = [
     'atta flour',

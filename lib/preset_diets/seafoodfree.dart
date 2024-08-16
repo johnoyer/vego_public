@@ -1,4 +1,5 @@
 import 'package:vego_flutter_project/diet_classes/diet_class.dart';
+import 'package:flutter/material.dart';
 
 class SeaFoodFree extends PresetDietWithSubdiets {
 
@@ -15,10 +16,18 @@ class SeaFoodFree extends PresetDietWithSubdiets {
           isChecked: false,
           hidden: false,
           primaryItems: prohibitedItemsList,
+          iconWidget: seaFoodFreeIcon(),
           secondaryItems: possiblyProhibitedItemsList,
           primarySubDietNameToListMap: primarySubDietNameToListMapLocal,
           secondarySubDietNameToListMap: secondarySubDietNameToListMapLocal
         );
+
+  static Widget seaFoodFreeIcon() {
+    return const Icon(
+      Icons.water,
+      color: Colors.white,
+    );
+  }
 
   static Map<String,List<String>> primarySubDietNameToListMapLocal = {//need to change all below todo
     'Crustacean Shellfish-Free': [

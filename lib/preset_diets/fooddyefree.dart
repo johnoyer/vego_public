@@ -1,4 +1,5 @@
 import 'package:vego_flutter_project/diet_classes/diet_class.dart';
+import 'package:flutter/material.dart';
 
 class FoodDyeFree extends PresetDiet {
 
@@ -12,9 +13,17 @@ class FoodDyeFree extends PresetDiet {
           isProhibitive: true,
           isChecked: false,
           hidden: false,
+          iconWidget: foodDyeFreeIcon(),
           primaryItems: prohibitedItemsList,
           secondaryItems: possiblyProhibitedItemsList,
         );
+
+  static Widget foodDyeFreeIcon() {
+    return const Icon(
+      Icons.water_drop,
+      color: Colors.white,
+    );
+  }
 
   static List<String> prohibitedItemsList = [
     'Allura Red AC', 

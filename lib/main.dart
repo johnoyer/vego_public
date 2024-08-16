@@ -107,9 +107,12 @@ class _HomePageState extends State<HomePage> {
           ios: (final context) => Scaffold(
             body: _getPage(DietState().getSelectedIndex()),
             bottomNavigationBar: CupertinoTabBar(
-              backgroundColor: const Color.fromARGB(255, 161, 151, 177),
-              activeColor: const Color.fromARGB(255, 70, 20, 16),
-              inactiveColor: Colors.white,
+              // backgroundColor: const Color.fromARGB(255, 161, 151, 177),
+              backgroundColor: const Color.fromARGB(255, 205, 231, 237),
+              // activeColor: const Color.fromARGB(255, 70, 20, 16),
+              activeColor: Color.fromARGB(255, 102, 40, 36),
+              // inactiveColor: Colors.white,
+              inactiveColor: Colors.black,
               iconSize: 27.0,
               items: bottomNavigationItems,
               currentIndex: DietState().getSelectedIndex(),

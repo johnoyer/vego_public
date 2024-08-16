@@ -42,7 +42,8 @@ Widget libraryCard(
   if(text!=null) {
     text = (icon==null) ? text : ' $text';
   }
-  final Color colorToUse = alternate != null ? Colors.black : Colors.white;
+  final Color colorToUse = Colors.white;
+  // final Color colorToUse = alternate != null ? Colors.black : Colors.white;
   return Card(
     color: color ??
       (

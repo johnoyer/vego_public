@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:vego_flutter_project/library.dart';
 import 'package:vego_flutter_project/diet_classes/diet_state.dart';
-import 'package:flutter/services.dart';
-import 'package:vego_flutter_project/global_widgets.dart';
+import 'package:vego_flutter_project/global_widgets/global_widgets.dart';
 import 'package:vego_flutter_project/manual_entry/helper_functions.dart';
 import 'dart:math';
 
@@ -57,22 +55,14 @@ class _ManualEntry extends State<ManualEntry> {
                       SizedBox(
                         width: 60,
                         child: 
-                        isAndroid() ? InkWell(
+                        LibraryButton(
                           onTap: () {
                             setState(() {
                               _isInfoShown = true;
                             });
                           },
                           child: questionMarkIconCard(),
-                        ) : CupertinoButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: () {
-                            setState(() {
-                              _isInfoShown = true;
-                            });
-                          },
-                          child: questionMarkIconCard(),
-                        ),
+                        )
                       ),
                       const Padding(padding: EdgeInsets.only(right: 10)),
                     ],
@@ -139,15 +129,27 @@ class _BuildIngredientEntryState extends State<BuildIngredientEntry> {
     });
     List<String> newIngredientsList = [];
     late StatusStyledTextReturn statusStyledTextReturn;
-    if(_controller.text.endsWith(',')) {
-      statusStyledTextReturn = getStyledText(_controller.text.substring(0, _controller.text.length - 1).split(', '), ',');
-      newIngredientsList = _controller.text.substring(0, _controller.text.length - 1).split(', ');
-    } else if(_controller.text.endsWith(', ')) {
-      statusStyledTextReturn = getStyledText(_controller.text.substring(0, _controller.text.length - 2).split(', '), ', '); 
-      newIngredientsList = _controller.text.substring(0, _controller.text.length - 2).split(', ');
+    final controllerText = _controller.text.trim();
+    if(controllerText.endsWith(',')) {
+      statusStyledTextReturn = getStyledText(
+        controllerText.substring( 0, controllerText.length - 1) // Get the styled text from everything except the last comma
+          .split(','), // split the text by comma
+        ','
+      );
+      newIngredientsList = controllerText.substring(0, controllerText.length - 1)
+        .split(',') // split the text by comma
+        .map((final item) => item.trim()) // trim each ingredient
+        .toList(); // convert to list;
     } else {
-      statusStyledTextReturn = getStyledText(_controller.text.split(', '), '');
-      newIngredientsList = _controller.text.split(', ');
+      statusStyledTextReturn = getStyledText(
+        controllerText // Get the styled text from everything
+          .split(','), // split the text by comma
+        ''
+      );
+      newIngredientsList = controllerText
+        .split(',') // split the text by comma
+        .map((final item) => item.trim()) // trim each ingredient
+        .toList(); // convert to list;
     }
     styledText = statusStyledTextReturn.styledText;
     _localStatus = statusStyledTextReturn.status;
@@ -155,7 +157,7 @@ class _BuildIngredientEntryState extends State<BuildIngredientEntry> {
     // Delay the state setting until after run
     WidgetsBinding.instance.addPostFrameCallback((final _) {
       DietState().setIngredients(newIngredientsList);
-      if(_controller.text.trim()=='') { // if the field is blank set status to none
+      if(controllerText.trim()=='') { // if the field is blank set status to none
         DietState().setStatus(Status.none);
       } else {
         DietState().setStatus(_localStatus);
@@ -175,7 +177,6 @@ class _BuildIngredientEntryState extends State<BuildIngredientEntry> {
             child: Stack(
               children: [
                 const Padding(padding: EdgeInsets.only(top: 125),),
-                isAndroid() ? 
                 TextField(
                   enabled: !widget.isInfoShown, // disable the text field if the page info is shown
                   scrollPhysics: const NeverScrollableScrollPhysics(),
@@ -200,54 +201,24 @@ class _BuildIngredientEntryState extends State<BuildIngredientEntry> {
                   ),
                   maxLength: 800,
                   onChanged: (final text) {
-                    _controller.text = text;
-                    WidgetsBinding.instance.addPostFrameCallback((final _) {
-                      setState(() {});
+                    // _controller.text = text;
+                    // WidgetsBinding.instance.addPostFrameCallback((final _) {
+                    //   setState(() {});
+                    // }); TODO: check this
+                    final oldSelection = _controller.selection;
+
+                    // Update the text and cursor position
+                    setState(() {
+                      _controller.value = TextEditingValue(
+                        text: text,
+                        selection: TextSelection.collapsed(offset: oldSelection.baseOffset),
+                      );
                     });
                   },
                   style: kStyle4(Colors.transparent),// Hide default text
                   cursorColor: Colors.black, // Keep the cursor visible
                   // cursorWidth: 2.0,
-                ) 
-                : Column(
-                  children: [
-                    CupertinoTextField(
-                      enabled: !widget.isInfoShown, // disable the text field if the page info is shown
-                      scrollPhysics: const NeverScrollableScrollPhysics(),
-                      // buildCounter: counter,
-                      textAlignVertical: const TextAlignVertical(y: -1.0),
-                      controller: _controller,
-                      minLines: 2,
-                      maxLines: null,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.deny(
-                          RegExp(r'[\n\r]')
-                        ),
-                      ],
-                      placeholder: 'Enter here; separate each ingredient with a comma and a space (not case sensitive), i.e. "Spinach, Oats, Ginger"',
-                      maxLength: 800,
-                      onChanged: (final text) {
-                        _controller.text = text;
-                        WidgetsBinding.instance.addPostFrameCallback((final _) {
-                          setState(() {});
-                        });
-                      },
-                      style: kStyle4(Colors.transparent),// Hide default text
-                      cursorColor: Colors.black, // Keep the cursor visible
-                      // cursorWidth: 2.0,
-                    ),
-                    Row(
-                      children: [
-                        const Spacer(),
-                        Text(
-                          '${_controller.text.length}/800 characters',
-                          style: const TextStyle(fontSize: 10),
-                          semanticsLabel: 'character count',
-                        ),
-                      ],
-                    ),
-                  ],
-                ), 
+                ),
                 Padding(
                   padding: isAndroid() ? const EdgeInsets.symmetric(horizontal: 16, vertical: 8) : const EdgeInsets.symmetric(horizontal: 7, vertical: 7),
                   child: Column(

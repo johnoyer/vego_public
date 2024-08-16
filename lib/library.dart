@@ -263,7 +263,7 @@ StatusStyledWordReturn getStyledWord(final String word, final Status currentStat
     returnWord = TextSpan(
       children: <TextSpan>[
         returnWord,
-        TextSpan(text: ', ', style: kStyle4(Colors.black))
+        TextSpan(text: ',', style: kStyle4(Colors.black))
       ]
     );
   }
@@ -283,5 +283,5 @@ bool isAndroid() {
     //   return android(context);
     // }
     // Default to Android if the platform is neither iOS nor Android
-  return false;
+  return true;
 }

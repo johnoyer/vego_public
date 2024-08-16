@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:vego_flutter_project/diet_classes/diet_state.dart';
 import 'package:vego_flutter_project/library.dart';
-import 'package:vego_flutter_project/global_widgets.dart';
+import 'package:vego_flutter_project/global_widgets/global_widgets.dart';
 import 'package:vego_flutter_project/diet_pages/new_diet_page/new_diet_page.dart';
 
 Widget addNewDietCard() {

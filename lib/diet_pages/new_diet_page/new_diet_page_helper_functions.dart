@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:vego_flutter_project/global_widgets.dart';
+import 'package:vego_flutter_project/global_widgets/global_widgets.dart';
 
 enum Stage {
   dietName,

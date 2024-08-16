@@ -745,7 +745,7 @@ void main() {
       });
     
       group('Testing addLinesAndDetermineStatus function', () {
-        test('basic tests, checking whether invalid ingredients are correctly recognized', () async {
+        test('addLinesAndDetermineStatus basic tests, checking whether invalid ingredients are correctly recognized', () async {
           WidgetsFlutterBinding.ensureInitialized();
           SharedPreferences.setMockInitialValues({}); //todo: check this
           await DietState.initialize();
@@ -790,7 +790,7 @@ void main() {
           expect(functionReturn.status, Status.doesntFit);
         });
 
-        test('complex tests', () async {
+        test('addLinesAndDetermineStatus complex tests', () async {
           WidgetsFlutterBinding.ensureInitialized();
           SharedPreferences.setMockInitialValues({}); //todo: check this
           await DietState.initialize();

@@ -1,0 +1,91 @@
+
+in globaltextfield:   
+  
+  // return PlatformWidget(
+  //   ios: (final context) => StatefulBuilder(
+  //     builder: (final context, final setState) {
+  //       return Column(
+  //         mainAxisSize: MainAxisSize.min,
+  //         children: [
+  //           CupertinoTextField(
+  //             scrollPhysics: const AlwaysScrollableScrollPhysics(),
+  //             placeholder: hintText,
+  //             controller: controller,
+  //             maxLines: maxLines,
+  //             autocorrect: false, 
+  //             inputFormatters: [
+  //               FilteringTextInputFormatter.deny(
+  //                 RegExp(r'[\n\r]')
+  //               ),
+  //             ],
+  //             //   labelText: labelText,
+  //             onChanged: (final text) {
+  //               onChanged(text);
+  //               setState(() {}); // Trigger rebuild to update counter
+  //             },
+  //             maxLength: maxLength,
+  //             style: kStyle4(Colors.black),
+  //             cursorColor: Colors.black, // Keep the cursor visible
+  //           ),
+  //           Row(
+  //             children: [
+  //               const Spacer(),
+  //               maxLength!= null ? Card(
+  //                 color: Colors.transparent,
+  //                 shadowColor: Colors.transparent,
+  //                 margin: EdgeInsets.zero,
+  //                 child: Text(
+  //                   '${controller.text.length}/$maxLength characters',
+  //                   style: const TextStyle(fontSize: 10),
+  //                   semanticsLabel: 'character count',
+  //                 ),
+  //               ) : Container(),
+  //             ],
+  //           ),
+  //         ],
+  //       );
+  //     }
+  //   ),
+  //   android: (final context) => 
+
+in manual entry: 
+
+: Column(
+                  children: [
+                    CupertinoTextField(
+                      enabled: !widget.isInfoShown, // disable the text field if the page info is shown
+                      scrollPhysics: const NeverScrollableScrollPhysics(),
+                      // buildCounter: counter,
+                      textAlignVertical: const TextAlignVertical(y: -1.0),
+                      controller: _controller,
+                      minLines: 2,
+                      maxLines: null,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.deny(
+                          RegExp(r'[\n\r]')
+                        ),
+                      ],
+                      placeholder: 'Enter here; separate each ingredient with a comma and a space (not case sensitive), i.e. "Spinach, Oats, Ginger"',
+                      maxLength: 800,
+                      onChanged: (final text) {
+                        _controller.text = text;
+                        WidgetsBinding.instance.addPostFrameCallback((final _) {
+                          setState(() {});
+                        });
+                      },
+                      style: kStyle4(Colors.transparent),// Hide default text
+                      cursorColor: Colors.black, // Keep the cursor visible
+                      // cursorWidth: 2.0,
+                    ),
+                    Row(
+                      children: [
+                        const Spacer(),
+                        Text(
+                          '${_controller.text.length}/800 characters',
+                          style: const TextStyle(fontSize: 10),
+                          semanticsLabel: 'character count',
+                        ),
+                      ],
+                    ),
+                  ],
+                ), 

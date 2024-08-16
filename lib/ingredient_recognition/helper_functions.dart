@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vego_flutter_project/global_widgets.dart';
+import 'package:vego_flutter_project/global_widgets/global_widgets.dart';
 
 const String info = 'This ingredient list scanner lets you take a picture of an ingredient list to determine '
   'whether it is compatible with your diet. Take a picture by tapping the camera icon, '

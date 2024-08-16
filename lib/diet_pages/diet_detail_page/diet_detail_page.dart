@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:vego_flutter_project/library.dart';
-import 'package:vego_flutter_project/global_widgets.dart';
+import 'package:vego_flutter_project/global_widgets/global_widgets.dart';
 import 'package:vego_flutter_project/diet_classes/diet_class.dart';
 import 'package:vego_flutter_project/diet_classes/diet_state.dart';
 import 'package:vego_flutter_project/diet_pages/diet_detail_page/diet_detail_page_helper_functions.dart';

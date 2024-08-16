@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:vego_flutter_project/diet_classes/diet_state.dart';
 import 'package:vego_flutter_project/library.dart';
-import 'package:vego_flutter_project/global_widgets.dart';
+import 'package:vego_flutter_project/global_widgets/global_widgets.dart';
 import 'package:vego_flutter_project/settings/helper_functions.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -178,27 +178,8 @@ class _SettingsPageState extends State<SettingsPage> {
                         ),
                       ),
                       const Spacer(),
-                      isAndroid() ? InkWell(
+                      LibraryButton(
                         onTap: () {
-                          _isInfoShown ? null : showDialog( // do nothing if the info page is shown
-                            context: context,
-                            builder: (final BuildContext context) {
-                              return const DeletionWidget(
-                                titleText: 'Delete Custom Diets', 
-                                noticeText: 'Are you sure you want to permanently delete all custom diets and reset diet data? Note that this action cannot be undone.'
-                              );
-                            },
-                          );
-                        },
-                        child: libraryCard(
-                          'Delete custom diets and restore default app state',
-                          TextFeatures.small,
-                          icon: Icons.delete,
-                          alternate: false,
-                        )
-                      ) : CupertinoButton(
-                        padding: EdgeInsets.zero,
-                        onPressed: () {
                           _isInfoShown ? null : showCupertinoDialog( // do nothing if the info page is shown
                             context: context,
                             builder: (final BuildContext context) {
@@ -222,27 +203,8 @@ class _SettingsPageState extends State<SettingsPage> {
                         children: [
                           const SizedBox(width: 100),
                           const Spacer(),
-                          isAndroid() ? InkWell(
+                          LibraryButton(
                             onTap: () {
-                              _isInfoShown ? null : showDialog( // do nothing if the info page is shown
-                                context: context,
-                                builder: (final BuildContext context) {
-                                  return const DeletionWidget(
-                                    titleText: 'Reset Settings', 
-                                    noticeText: 'Are you sure you want to reset settings?'
-                                  );
-                                },
-                              );
-                            },
-                            child: libraryCard(
-                              'Restore Settings to defaults',
-                              TextFeatures.small,
-                              icon: Icons.refresh,
-                              alternate: false,
-                            )
-                          ) : CupertinoButton(
-                            padding: EdgeInsets.zero,
-                            onPressed: () {
                               _isInfoShown ? null : showCupertinoDialog( // do nothing if the info page is shown
                                 context: context,
                                 builder: (final BuildContext context) {
@@ -263,16 +225,8 @@ class _SettingsPageState extends State<SettingsPage> {
                           const Spacer(),
                           SizedBox(
                             width: 100,
-                            child: isAndroid() ? InkWell(
+                            child: LibraryButton(
                               onTap: () {
-                                _isInfoShown ? null : setState(() { // do nothing if the page info is shown
-                                  _isInfoShown = true;
-                                }); 
-                              },
-                              child: questionMarkIconCard(),
-                            ) : CupertinoButton(
-                              padding: EdgeInsets.zero,
-                              onPressed: () {
                                 _isInfoShown ? null : setState(() { // do nothing if the page info is shown
                                   _isInfoShown = true;
                                 }); 

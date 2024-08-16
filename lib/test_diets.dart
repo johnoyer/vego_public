@@ -1,4 +1,5 @@
 import 'package:vego_flutter_project/diet_classes/diet_class.dart';
+import 'package:flutter/material.dart';
 
 class TestDiet1 extends PresetDiet {
 
@@ -9,6 +10,7 @@ class TestDiet1 extends PresetDiet {
           isProhibitive: true,
           isChecked: false,
           hidden: false,
+          iconWidget: Container(),
           primaryItems: prohibitedItemsList,
           secondaryItems: possiblyProhibitedItemsList,
         );
@@ -37,6 +39,7 @@ class TestDiet2 extends PresetDiet {
           isProhibitive: true,
           isChecked: false,
           hidden: false,
+          iconWidget: Container(),
           primaryItems: prohibitedItemsList,
           secondaryItems: possiblyProhibitedItemsList,
         );
@@ -69,6 +72,7 @@ class TestDiet3 extends PresetDiet {
           isProhibitive: true,
           isChecked: false,
           hidden: false,
+          iconWidget: Container(),
           primaryItems: prohibitedItemsList,
           secondaryItems: possiblyProhibitedItemsList,
         );
@@ -104,6 +108,7 @@ class TestDiet4 extends PresetDietWithSubdiets {
           isProhibitive: true,
           isChecked: false,
           hidden: false,
+          iconWidget: Container(),
           primaryItems: prohibitedItemsList,
           secondaryItems: possiblyProhibitedItemsList,
           primarySubDietNameToListMap: primarySubDietNameToListMapLocal,

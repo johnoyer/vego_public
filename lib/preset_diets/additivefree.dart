@@ -17,8 +17,8 @@ class AdditiveFree extends PresetDiet {
 
   static Widget additiveFreeIcon() {
     return const Icon(
-      Icons.science,
-      color: Colors.white,
+      Icons.science_outlined,
+      color: Color.fromARGB(255, 190, 190, 190),
     );//icons.bubble_chart
   }
 

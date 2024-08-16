@@ -25,7 +25,7 @@ class SeaFoodFree extends PresetDietWithSubdiets {
   static Widget seaFoodFreeIcon() {
     return const Icon(
       Icons.water,
-      color: Colors.white,
+      color: Color.fromARGB(255, 27, 117, 191),
     );
   }
 

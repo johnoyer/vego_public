@@ -48,7 +48,7 @@ class HideDietsCard extends StatelessWidget {
             ),
             Text(
               ' Hide Diets', 
-              style: kStyle1(Colors.black)
+              style: kStyle1(Colors.white)
             )
           ],
         ),
@@ -204,7 +204,18 @@ class LabeledCheckbox extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  icon == null ? Container() : icon!,
+                  icon == null ? Container() : Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Container(
+                      width: 30.0,
+                      height: 30.0,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle, // Make the container circular
+                      ),
+                      child: icon!
+                    ),
+                  ),
                   Text(
                     label, 
                     style: kStyle1(Colors.white)

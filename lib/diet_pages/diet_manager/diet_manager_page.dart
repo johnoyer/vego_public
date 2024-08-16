@@ -6,7 +6,7 @@ import 'package:vego_flutter_project/library.dart';
 import 'package:vego_flutter_project/global_widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:vego_flutter_project/diet_pages/diet_detail_page/diet_detail_page.dart';
-import 'package:vego_flutter_project/diet_pages/diet_main_page/helper_functions.dart';
+import 'package:vego_flutter_project/diet_pages/diet_manager/helper_functions.dart';
 
 class DietPage extends StatefulWidget {
   @override
@@ -92,7 +92,8 @@ class _DietPageState extends State<DietPage> {
                 ),
                 globalDivider(),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  // padding: const EdgeInsets.symmetric(vertical: 8.0), 
+                  padding: EdgeInsets.zero,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

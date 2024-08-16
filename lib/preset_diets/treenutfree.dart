@@ -18,7 +18,7 @@ class TreeNutFree extends PresetDiet {
   static Widget treeNutFreeIcon() {
     return const Icon(
       Icons.park,
-      color: Colors.white,
+      color: Color.fromARGB(255, 79, 176, 144),
     );
   }
 

@@ -21,7 +21,7 @@ class FoodDyeFree extends PresetDiet {
   static Widget foodDyeFreeIcon() {
     return const Icon(
       Icons.water_drop,
-      color: Colors.white,
+      color: Color.fromARGB(255, 238, 64, 51),
     );
   }
 

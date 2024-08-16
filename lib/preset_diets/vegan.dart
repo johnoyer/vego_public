@@ -18,7 +18,7 @@ class Vegan extends PresetDiet {
   static Widget veganIcon() {
     return const Icon(
       Icons.eco,
-      color: Colors.white,
+      color: Colors.green,
     );
   }
 

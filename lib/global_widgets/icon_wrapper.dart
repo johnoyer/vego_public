@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
+// import 'dart:math';
 
 // Used to enclose diet icons
 
@@ -47,8 +47,10 @@ class DiagonalLinePainter extends CustomPainter {
 
     // Draw a line from top left to bottom right
     canvas.drawLine(
-      Offset((1-sqrt(.5))/2*size.width, (1-sqrt(.5))/2*size.height),
-      Offset((1+sqrt(.5))/2*size.width, (1+sqrt(.5))/2*size.height),
+      // Offset((1-sqrt(.5))/2*size.width, (1-sqrt(.5))/2*size.height),
+      // Offset((1+sqrt(.5))/2*size.width, (1+sqrt(.5))/2*size.height),
+      Offset((1-2/3)/2*size.width, (1-1/2)/2*size.height),
+      Offset((1+2/3)/2*size.width, (1+1/2)/2*size.height),
       paint,
     );
   }

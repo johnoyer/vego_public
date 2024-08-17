@@ -111,23 +111,87 @@ class TestDiet4 extends PresetDietWithSubdiets {
           iconWidget: Container(),
           primaryItems: prohibitedItemsList,
           secondaryItems: possiblyProhibitedItemsList,
-          primarySubDietNameToListMap: primarySubDietNameToListMapLocal,
-          secondarySubDietNameToListMap: secondarySubDietNameToListMapLocal,
-          subDietIconsMap: {}
+          subDiets: [
+            TestDietA(),
+            TestDietB(),
+            TestDietC(),
+            TestDietD()
+          ]
         );
 
   static const List<String> prohibitedItemsList = [];
 
   static const List<String> possiblyProhibitedItemsList = [];
 
-    static const Map<String,List<String>> primarySubDietNameToListMapLocal = {//need to change all below todo
-    'a': ['axxx'],
-    'b': [
+}
+
+class TestDietA extends PresetDiet {
+
+  TestDietA()
+      : super(
+          name: 'TestDietA',
+          dietInfo: '',
+          isProhibitive: true,
+          isChecked: false,
+          hidden: false,
+          iconWidget: Container(),
+          primaryItems: prohibitedItemsList,
+          secondaryItems: possiblyProhibitedItemsList,
+        );
+
+  static const List<String> prohibitedItemsList = ['axxx'];
+
+  static const List<String> possiblyProhibitedItemsList = ['ayyy'];
+
+}
+
+
+class TestDietB extends PresetDiet {
+
+  TestDietB()
+      : super(
+          name: 'TestDietB',
+          dietInfo: '',
+          isProhibitive: true,
+          isChecked: false,
+          hidden: false,
+          iconWidget: Container(),
+          primaryItems: prohibitedItemsList,
+          secondaryItems: possiblyProhibitedItemsList,
+        );
+
+  static const List<String> prohibitedItemsList = [
       '1primarya', // only in primaryList, from primary
       '1primaryb', // in both lists, from primary
       '1secondaryd', // only in primaryList, from secondary
-    ],
-    'c': ['cxxx'],
+    ];
+
+  static const List<String> possiblyProhibitedItemsList = [
+    '1primaryb', // in both lists, from primary
+    '1primaryc', // only in secondaryList, from primary
+    '2secondarya', // in both lists, from secondary
+  ];
+}
+
+class TestDietC extends PresetDiet {
+
+  TestDietC()
+      : super(
+          name: 'TestDietC',
+          dietInfo: '',
+          isProhibitive: true,
+          isChecked: false,
+          hidden: false,
+          iconWidget: Container(),
+          primaryItems: prohibitedItemsList,
+          secondaryItems: possiblyProhibitedItemsList,
+        );
+
+  static const List<String> prohibitedItemsList = ['cxxx'];
+
+  static const List<String> possiblyProhibitedItemsList = ['cyyy'];
+
+  static const Map<String,List<String>> primarySubDietNameToListMapLocal = {//need to change all below todo
     'd': [
       '2secondarya', // in both lists, from secondary
       '4primarya', // only in primaryList, new
@@ -137,13 +201,6 @@ class TestDiet4 extends PresetDietWithSubdiets {
   };
 
   static const Map<String,List<String>> secondarySubDietNameToListMapLocal = {
-    'a': ['ayyy'],
-    'b': [
-      '1primaryb', // in both lists, from primary
-      '1primaryc', // only in secondaryList, from primary
-      '2secondarya', // in both lists, from secondary
-    ],
-    'c': ['cyyy'],
     'd': [
       '2secondaryb', // only in secondaryList, from secondary
       '4primaryb', // in both lists, new
@@ -151,4 +208,58 @@ class TestDiet4 extends PresetDietWithSubdiets {
     ],
     'e': ['eyyy'],
   };
+}
+
+class TestDietD extends PresetDiet {
+
+  TestDietD()
+      : super(
+          name: 'TestDietD',
+          dietInfo: '',
+          isProhibitive: true,
+          isChecked: false,
+          hidden: false,
+          iconWidget: Container(),
+          primaryItems: prohibitedItemsList,
+          secondaryItems: possiblyProhibitedItemsList,
+        );
+
+  static const List<String> prohibitedItemsList = [
+    '2secondarya', // in both lists, from secondary
+    '4primarya', // only in primaryList, new
+    '4primaryb', // in both lists, new
+  ];
+
+  static const List<String> possiblyProhibitedItemsList = [
+    '2secondaryb', // only in secondaryList, from secondary
+    '4primaryb', // in both lists, new
+    '4secondarya' // only in secondaryList, new
+  ];
+
+  static const Map<String,List<String>> primarySubDietNameToListMapLocal = {//need to change all below todo
+    'e': ['exxx'],
+  };
+
+  static const Map<String,List<String>> secondarySubDietNameToListMapLocal = {
+    'e': ['eyyy'],
+  };
+}
+
+class TestDietE extends PresetDiet {
+
+  TestDietE()
+      : super(
+          name: 'TestDietE',
+          dietInfo: '',
+          isProhibitive: true,
+          isChecked: false,
+          hidden: false,
+          iconWidget: Container(),
+          primaryItems: prohibitedItemsList,
+          secondaryItems: possiblyProhibitedItemsList,
+        );
+
+  static const List<String> prohibitedItemsList = ['exxx'];
+
+  static const List<String> possiblyProhibitedItemsList = ['eyyy'];
 }

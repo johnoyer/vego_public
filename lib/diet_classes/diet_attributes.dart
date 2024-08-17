@@ -173,7 +173,7 @@ class _OnlySubdietsExpandedViewState extends State<OnlySubdietsExpandedView> {
 
   void initializeItemSelectedList() {
     if(widget.selectionStatus!=SelectionStatus.partiallySelected) {
-      itemSelectedList = List.filled(widget.diet.primarySubDietNameToListMap.length, widget.selectionStatus==SelectionStatus.selected);
+      itemSelectedList = List.filled(widget.diet.subDiets.length, widget.selectionStatus==SelectionStatus.selected);
     }
   }
 
@@ -205,7 +205,7 @@ class _OnlySubdietsExpandedViewState extends State<OnlySubdietsExpandedView> {
         ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: widget.diet.primarySubDietNameToListMap.length,
+          itemCount: widget.diet.subDiets.length,
           itemBuilder: (final context, final index) {
             return InkWell(
               onTap: () {
@@ -217,7 +217,7 @@ class _OnlySubdietsExpandedViewState extends State<OnlySubdietsExpandedView> {
               child: Ink(
                 color: itemSelectedList[index] ? Colors.green : ColorReturner().secondaryFixed,
                 child: Center(
-                  child: Text(widget.diet.primarySubDietNameToListMap.keys.toList()[index]),
+                  child: Text(widget.diet.subDiets[index].name),
                 ),
               ),
             );

@@ -61,15 +61,14 @@ class _DietDetailPageState extends State<DietDetailPage> {
                           height: 54, // TODO: need to fix this
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: (DietState.getDietList()[widget.dietIndex] as PresetDietWithSubdiets).primarySubDietNameToListMap.length,
+                            itemCount: (DietState.getDietList()[widget.dietIndex] as PresetDietWithSubdiets).subDiets.length,
                             itemBuilder: (final context, final index) {
-                              final String name = (DietState.getDietList()[widget.dietIndex] as PresetDietWithSubdiets).primarySubDietNameToListMap.keys.toList()[index];
+                              final String name = (DietState.getDietList()[widget.dietIndex] as PresetDietWithSubdiets).subDiets[index].name;
                               return libraryCard(
                                 name,
                                 TextFeatures.smallnormal,
-                                fancyIcon: dietIconWrapper(
-                                  (DietState.getDietList()[widget.dietIndex] as PresetDietWithSubdiets).subDietIconsMap[name]!, true
-                                )
+                                fancyIcon: 
+                                  (DietState.getDietList()[widget.dietIndex] as PresetDietWithSubdiets).subDiets[index].iconWidget
                               );
                             },
                           ),

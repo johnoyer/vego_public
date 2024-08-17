@@ -228,11 +228,11 @@ class DietState extends ChangeNotifier {
       }
     } else if (indices!=null) { // PresetDietWithSubDiets some selected
       for(int i=0; i<indices.length; i++) {
-        if(indices[i]) {
-          final Map<String,List<String>> primaryMap = (diet as PresetDietWithSubdiets).primarySubDietNameToListMap;
-          primaryItemsToAddSet.addAll(primaryMap[primaryMap.keys.toList()[i]]!);
-          final Map<String,List<String>> secondaryMap = diet.secondarySubDietNameToListMap;
-          secondaryItemsToAddSet.addAll(secondaryMap[secondaryMap.keys.toList()[i]]!);
+        if(indices[i]) { // TODO: test
+          final List<String> primaryItems = (diet as PresetDietWithSubdiets).subDiets[i].primaryItems;
+          primaryItemsToAddSet.addAll(primaryItems);
+          final List<String> secondaryItems = diet.subDiets[i].secondaryItems;
+          secondaryItemsToAddSet.addAll(secondaryItems);
         }
       }
     } else { // Normal PresetDiet

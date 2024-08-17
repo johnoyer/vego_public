@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vego_flutter_project/library.dart';
+import 'package:vego_flutter_project/library/library.dart';
 import 'package:vego_flutter_project/global_widgets/cards.dart';
 import 'package:vego_flutter_project/global_widgets/constants.dart';
 import 'package:vego_flutter_project/global_widgets/button.dart';

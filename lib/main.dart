@@ -9,7 +9,7 @@ import 'package:vego_flutter_project/ingredient_recognition/ingredient_recogniti
 import 'package:vego_flutter_project/diet_classes/diet_state.dart';
 import 'package:vego_flutter_project/diet_pages/diet_manager/diet_manager_page.dart';
 import 'package:vego_flutter_project/settings/settings_page.dart';
-import 'package:vego_flutter_project/library.dart';
+import 'package:vego_flutter_project/library/library.dart';
 import 'package:vego_flutter_project/global_widgets/global_widgets.dart';
 
 void main() async {

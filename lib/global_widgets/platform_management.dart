@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vego_flutter_project/library.dart';
+import 'package:vego_flutter_project/library/library.dart';
 
 class PlatformWidget extends StatelessWidget {
   final WidgetBuilder ios;

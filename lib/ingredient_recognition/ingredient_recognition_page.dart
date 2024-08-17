@@ -9,7 +9,7 @@ import 'package:image/image.dart' as img;
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:vego_flutter_project/library.dart';
+import 'package:vego_flutter_project/library/library.dart';
 import 'package:vego_flutter_project/global_widgets/global_widgets.dart';
 import 'package:vego_flutter_project/diet_classes/diet_state.dart';
 

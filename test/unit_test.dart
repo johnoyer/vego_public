@@ -13,7 +13,7 @@ import 'package:vego_flutter_project/diet_classes/diet_attributes.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:vego_flutter_project/library.dart';
+import 'package:vego_flutter_project/library/library.dart';
 import 'package:vego_flutter_project/test_diets.dart';
 import 'package:vego_flutter_project/ingredient_recognition/ingredient_processing_functions.dart';
 

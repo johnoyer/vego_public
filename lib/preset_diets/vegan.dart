@@ -1,5 +1,6 @@
 import 'package:vego_flutter_project/diet_classes/diet_class.dart';
 import 'package:flutter/material.dart';
+import 'package:vego_flutter_project/global_widgets/barrel.dart';
 
 class Vegan extends PresetDiet {
 
@@ -16,9 +17,12 @@ class Vegan extends PresetDiet {
         );
 
   static Widget veganIcon() {
-    return const Icon(
-      Icons.eco,
-      color: Colors.green,
+    return dietIconWrapper(
+      const Icon(
+        Icons.eco,
+        color: Colors.green,
+      ),
+      false
     );
   }
 

@@ -68,7 +68,7 @@ class _DietDetailPageState extends State<DietDetailPage> {
                                 name,
                                 TextFeatures.smallnormal,
                                 fancyIcon: dietIconWrapper(
-                                  (DietState.getDietList()[widget.dietIndex] as PresetDietWithSubdiets).subDietIconsMap[name]!
+                                  (DietState.getDietList()[widget.dietIndex] as PresetDietWithSubdiets).subDietIconsMap[name]!, true
                                 )
                               );
                             },
@@ -76,8 +76,12 @@ class _DietDetailPageState extends State<DietDetailPage> {
                         // ),
                     //   ],
                     ) : Container(),
-                    const Padding(padding: EdgeInsets.only(top: 2)),
-                    globalDivider(),
+                    DietState.getDietList()[widget.dietIndex].isPresetDietWithSubDiets() ? 
+                      const Padding(padding: EdgeInsets.only(top: 2)) : 
+                      Container(),
+                    DietState.getDietList()[widget.dietIndex].isPresetDietWithSubDiets() ? 
+                      globalDivider() :
+                      Container(),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: RichText(

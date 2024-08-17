@@ -30,5 +30,14 @@
 
 ## Icon Attribution
 
-<a href="https://www.flaticon.com/free-icons/shellfish" title="shellfish icons">Shellfish icons created by iconnut - Flaticon</a>
+
+- **"Crustacean Shellfish-Free" Icon**: 
+  -<a href="https://www.flaticon.com/free-icons/prawn" title="Prawn icons">Prawn icons created by Vitaly Gorbachev - Flaticon</a>
+- **"Mollusk-Free" Icon**: 
+  - <a href="https://www.flaticon.com/free-icons/shell" title="shell icons">Shell icons created by Freepik - Flaticon</a>
+- **"Roe-Free" Icon**: 
+  - <a href="https://www.flaticon.com/free-icons/roe" title="roe icons">Roe icons created by Nadiinko - Flaticon</a>
+- **"Fish-Free" Icon**: 
+  - <a href="https://www.flaticon.com/free-icons/fish" title="fish icons">Fish icons created by DinosoftLabs - Flaticon</a>
+
 

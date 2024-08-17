@@ -591,7 +591,7 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.only(right: 8.0),
-                                      child: dietIconWrapper(dietAttributeContainer.diet.iconWidget),
+                                      child: dietAttributeContainer.diet.iconWidget,
                                     ),
                                     Text(
                                       dietAttributeContainer.diet.name,

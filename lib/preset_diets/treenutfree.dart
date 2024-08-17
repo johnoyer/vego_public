@@ -1,5 +1,6 @@
 import 'package:vego_flutter_project/diet_classes/diet_class.dart';
 import 'package:flutter/material.dart';
+import 'package:vego_flutter_project/global_widgets/barrel.dart';
 
 class TreeNutFree extends PresetDiet {
 
@@ -16,9 +17,12 @@ class TreeNutFree extends PresetDiet {
         );
 
   static Widget treeNutFreeIcon() {
-    return const Icon(
-      Icons.park,
-      color: Color.fromARGB(255, 58, 134, 61),
+    return dietIconWrapper(
+      const Icon(
+        Icons.park,
+        color: Color.fromARGB(255, 58, 134, 61),
+      ),
+      true
     );
   }
 

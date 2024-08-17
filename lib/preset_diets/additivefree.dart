@@ -1,5 +1,6 @@
 import 'package:vego_flutter_project/diet_classes/diet_class.dart';
 import 'package:flutter/material.dart';
+import 'package:vego_flutter_project/global_widgets/barrel.dart';
 
 class AdditiveFree extends PresetDiet {
 
@@ -16,9 +17,12 @@ class AdditiveFree extends PresetDiet {
         );
 
   static Widget additiveFreeIcon() {
-    return const Icon(
-      Icons.science_outlined,
-      color: Color.fromARGB(255, 140, 140, 140),
+    return dietIconWrapper(
+      const Icon(
+        Icons.science_outlined,
+        color: Color.fromARGB(255, 140, 140, 140),
+      ),
+      true
     );//icons.bubble_chart
   }
 

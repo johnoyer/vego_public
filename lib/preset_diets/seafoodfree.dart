@@ -1,5 +1,7 @@
 import 'package:vego_flutter_project/diet_classes/diet_class.dart';
+import 'package:vego_flutter_project/global_widgets/barrel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SeaFoodFree extends PresetDietWithSubdiets {
 
@@ -24,9 +26,12 @@ class SeaFoodFree extends PresetDietWithSubdiets {
         );
 
   static Widget seaFoodFreeIcon() {
-    return const Icon(
-      Icons.water,
-      color: Colors.blue,
+    return dietIconWrapper(
+      const Icon(
+        Icons.water,
+        color: Colors.blue,
+      ),
+      true
     );
   }
 
@@ -221,11 +226,47 @@ class SeaFoodFree extends PresetDietWithSubdiets {
     'Fish-Free': []
   };
 
-  static Map<String,Icon> subDietIconsMapLocal = {
-    'Crustacean Shellfish-Free': const Icon(Icons.share_rounded),
-    'Mollusk-Free': const Icon(Icons.share_location),
-    'Roe-Free': const Icon(Icons.seventeen_mp_rounded),
-    'Fish-Free': const Icon(Icons.settings_suggest_sharp)
+  static Map<String,Padding> subDietIconsMapLocal = {
+    'Crustacean Shellfish-Free': Padding(
+      padding: const EdgeInsets.only(top: 3, left: 4, right: 3, bottom: 3),
+      child: SvgPicture.asset(
+        'assets/crustacean_shellfish_icon.svg',
+        colorFilter: const ColorFilter.mode(
+          Color.fromARGB(255, 232, 64, 120),
+          BlendMode.srcIn,
+        ),
+      ),
+    ),
+    'Mollusk-Free': Padding(
+      padding: const EdgeInsets.all(3),
+      child: SvgPicture.asset(
+        'assets/mollusk_icon.svg',
+        colorFilter: const ColorFilter.mode(
+          Colors.brown,
+          BlendMode.srcIn,
+        ),
+      ),
+    ),
+    'Roe-Free': Padding(
+      padding: const EdgeInsets.only(bottom: 3),
+      child: SvgPicture.asset(
+        'assets/roe_icon.svg',
+        colorFilter: const ColorFilter.mode(
+          Color.fromARGB(255, 255, 72, 0),
+          BlendMode.srcIn,
+        ),
+      ),
+    ),
+    'Fish-Free': Padding(
+      padding: const EdgeInsets.only(left: 2, right: 1),
+      child: SvgPicture.asset(
+        'assets/fish_icon.svg',
+        colorFilter: const ColorFilter.mode(
+          Color.fromARGB(255, 123, 129, 141),
+          BlendMode.srcIn,
+        ),
+      ),
+    ),
   };
 
   static List<String> prohibitedItemsList = [

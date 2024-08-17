@@ -1,5 +1,6 @@
 import 'package:vego_flutter_project/diet_classes/diet_class.dart';
 import 'package:flutter/material.dart';
+import 'package:vego_flutter_project/global_widgets/barrel.dart';
 
 class GlutenFree extends PresetDiet {
 
@@ -22,9 +23,12 @@ class GlutenFree extends PresetDiet {
         );
 
   static Widget glutenFreeIcon() {
-    return const Icon(
-      Icons.grass,
-      color: Color.fromARGB(255, 191, 177, 51),
+    return dietIconWrapper(
+      const Icon(
+        Icons.grass,
+        color: Color.fromARGB(255, 191, 177, 51),
+      ),
+      true
     );
   }
 

@@ -1,5 +1,6 @@
 import 'package:vego_flutter_project/diet_classes/diet_class.dart';
 import 'package:flutter/material.dart';
+import 'package:vego_flutter_project/global_widgets/barrel.dart';
 
 class FoodDyeFree extends PresetDiet {
 
@@ -19,9 +20,12 @@ class FoodDyeFree extends PresetDiet {
         );
 
   static Widget foodDyeFreeIcon() {
-    return const Icon(
-      Icons.water_drop,
-      color: Color.fromARGB(255, 238, 64, 51),
+    return dietIconWrapper(
+      const Icon(
+        Icons.water_drop,
+        color: Color.fromARGB(255, 238, 64, 51),
+      ),
+      true
     );
   }
 

@@ -114,7 +114,7 @@ class PresetDietWithSubdiets extends PresetDiet {
 
   Map<String, List<String>> primarySubDietNameToListMap;
   Map<String, List<String>> secondarySubDietNameToListMap;
-  Map<String, Icon> subDietIconsMap;
+  Map<String, Padding> subDietIconsMap;
 
   @override
   Map<String, dynamic> toJson() {

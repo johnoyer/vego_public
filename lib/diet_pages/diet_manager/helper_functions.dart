@@ -201,7 +201,7 @@ class LabeledCheckbox extends StatelessWidget {
                 children: [
                   icon == null ? Container() : Padding(
                     padding: const EdgeInsets.only(right: 8.0),
-                    child: dietIconWrapper(icon!),
+                    child: icon!,
                   ),
                   Text(
                     label, 

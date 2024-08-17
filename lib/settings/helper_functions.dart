@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:vego_flutter_project/diet_classes/diet_state.dart';
-import 'package:vego_flutter_project/global_widgets/global_widgets.dart';
+import 'package:vego_flutter_project/global_widgets/barrel.dart';
 
 const String info = 'Note: all options are recommended to be turned on';
 

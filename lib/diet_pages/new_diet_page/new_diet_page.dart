@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:async/async.dart';
 import 'package:vego_flutter_project/diet_pages/diet_detail_page/diet_detail_page_helper_functions.dart';
 import 'package:vego_flutter_project/diet_pages/new_diet_page/new_diet_page_helper_functions.dart';
-import 'package:vego_flutter_project/library/library.dart';
-import 'package:vego_flutter_project/global_widgets/global_widgets.dart';
+import 'package:vego_flutter_project/library/barrel.dart';
+import 'package:vego_flutter_project/global_widgets/barrel.dart';
 import 'package:vego_flutter_project/diet_classes/diet_state.dart';
 import 'package:vego_flutter_project/diet_classes/diet_attributes.dart';
 

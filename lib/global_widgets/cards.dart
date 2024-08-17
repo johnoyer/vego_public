@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vego_flutter_project/library/library.dart';
-import 'package:vego_flutter_project/global_widgets/constants.dart';
+import 'package:vego_flutter_project/library/barrel.dart';
+import 'package:vego_flutter_project/library/constants.dart';
 
 enum TextFeatures {
   large,

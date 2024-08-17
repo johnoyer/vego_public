@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:vego_flutter_project/diet_classes/diet_class.dart';
-import 'package:vego_flutter_project/library/library.dart';
-import 'package:vego_flutter_project/global_widgets/global_widgets.dart';
+import 'package:vego_flutter_project/library/barrel.dart';
+import 'package:vego_flutter_project/global_widgets/barrel.dart';
 import 'package:vego_flutter_project/preset_diets/preset_diets_container.dart';
 
 

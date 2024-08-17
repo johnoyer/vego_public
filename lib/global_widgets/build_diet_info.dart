@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vego_flutter_project/library/library.dart';
+import 'package:vego_flutter_project/library/barrel.dart';
 import 'package:vego_flutter_project/diet_classes/diet_class.dart';
 import 'package:vego_flutter_project/diet_classes/diet_state.dart';
 import 'package:vego_flutter_project/global_widgets/cards.dart';

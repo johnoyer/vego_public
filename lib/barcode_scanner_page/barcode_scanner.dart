@@ -6,8 +6,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:vego_flutter_project/barcode_scanner_page/scanner_button_widgets.dart';
 import 'package:vego_flutter_project/barcode_scanner_page/scanner_error_widget.dart';
-import 'package:vego_flutter_project/library/library.dart';
-import 'package:vego_flutter_project/global_widgets/global_widgets.dart';
+import 'package:vego_flutter_project/library/barrel.dart';
+import 'package:vego_flutter_project/global_widgets/barrel.dart';
 import 'package:vego_flutter_project/diet_classes/diet_state.dart';
 
 Future<Map<String, dynamic>?>  fetchBarcodeData(final String barcodeValue) async {

@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vego_flutter_project/diet_classes/diet_state.dart';
-import 'package:vego_flutter_project/library/library.dart';
+import 'package:vego_flutter_project/library/barrel.dart';
 import 'package:vego_flutter_project/ingredient_recognition/line_animations.dart';
 
 Future<void> spellCheck() async {

@@ -112,7 +112,8 @@ class TestDiet4 extends PresetDietWithSubdiets {
           primaryItems: prohibitedItemsList,
           secondaryItems: possiblyProhibitedItemsList,
           primarySubDietNameToListMap: primarySubDietNameToListMapLocal,
-          secondarySubDietNameToListMap: secondarySubDietNameToListMapLocal
+          secondarySubDietNameToListMap: secondarySubDietNameToListMapLocal,
+          subDietIconsMap: {}
         );
 
   static const List<String> prohibitedItemsList = [];

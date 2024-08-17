@@ -88,9 +88,6 @@ class _DietPageState extends State<DietPage> {
                     ),
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.all(3),
-                ),
                 globalDivider(),
                 Padding(
                   // padding: const EdgeInsets.symmetric(vertical: 8.0), 

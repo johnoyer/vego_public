@@ -76,6 +76,8 @@ class _DietDetailPageState extends State<DietDetailPage> {
                         // ),
                     //   ],
                     ) : Container(),
+                    const Padding(padding: EdgeInsets.only(top: 2)),
+                    globalDivider(),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: RichText(
@@ -109,20 +111,14 @@ class _DietDetailPageState extends State<DietDetailPage> {
                         ),
                       ),
                     ),
-                    const SizedBox(
+                    SizedBox(
                       width: 380,
-                      child: Divider(
-                        height: 5,
-                        color: Colors.black,
-                      ),
+                      child: globalDivider(),
                     ),
                     itemsDisplayWidget(DietState.getDietList()[widget.dietIndex].primaryItems),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 10, right: 10),
-                      child: Divider(
-                        height: 5,
-                        color: Colors.black,
-                      ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      child: globalDivider(),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -170,12 +166,9 @@ class _DietDetailPageState extends State<DietDetailPage> {
                         ),
                       ),
                     ),
-                    const SizedBox(
+                    SizedBox(
                       width: 300,
-                      child: Divider(
-                        height: 5,
-                        color: Colors.black,
-                      ),
+                      child: globalDivider(),
                     ),
                     itemsDisplayWidget(DietState.getDietList()[widget.dietIndex].secondaryItems),
                     !(DietState.getDietList()[widget.dietIndex].isCustom())

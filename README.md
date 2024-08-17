@@ -28,3 +28,7 @@
   - [Food Allergy - Shellfish Allergens](https://www.foodallergy.org/living-food-allergies/food-allergy-essentials/common-allergens/shellfish#:~:text=There%20are%20two%20groups%20of,squid%2C%20abalone%2C%20snail)
   - [Wikipedia - List of Seafood](https://en.wikipedia.org/wiki/List_of_types_of_seafood)
 
+## Icon Attribution
+
+<a href="https://www.flaticon.com/free-icons/shellfish" title="shellfish icons">Shellfish icons created by iconnut - Flaticon</a>
+

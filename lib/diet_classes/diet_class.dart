@@ -108,11 +108,13 @@ class PresetDietWithSubdiets extends PresetDiet {
     super.secondaryItems,
     required super.iconWidget,
     required this.primarySubDietNameToListMap,
-    required this.secondarySubDietNameToListMap
+    required this.secondarySubDietNameToListMap,
+    required this.subDietIconsMap,
   });
 
   Map<String, List<String>> primarySubDietNameToListMap;
   Map<String, List<String>> secondarySubDietNameToListMap;
+  Map<String, Icon> subDietIconsMap;
 
   @override
   Map<String, dynamic> toJson() {

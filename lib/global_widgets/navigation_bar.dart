@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vego_flutter_project/library/barrel.dart';
 import 'package:vego_flutter_project/global_widgets/button.dart';
 
-Widget libraryNavigationBar(final VoidCallback onExit, final text) {
+Widget libraryNavigationBar(final VoidCallback onExit, final text, final VoidCallback? onQuestion) {
   return Container(
     height: 50,
     decoration: BoxDecoration(
@@ -40,7 +40,19 @@ Widget libraryNavigationBar(final VoidCallback onExit, final text) {
           ),
         ),
         const Spacer(),
-        const SizedBox(width: 50)
+        SizedBox(
+          width: 50,
+          child: onQuestion != null ? 
+          LibraryButton(
+            onTap: onQuestion,
+            child: const Icon(
+              Icons.question_mark,
+              size: 30,
+              color: Colors.white,
+            ),
+          ) : 
+          Container(),
+        )
       ],
     ),
   );

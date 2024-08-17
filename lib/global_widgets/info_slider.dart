@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vego_flutter_project/library/barrel.dart';
 import 'package:vego_flutter_project/global_widgets/cards.dart';
-import 'package:vego_flutter_project/library/constants.dart';
 import 'package:vego_flutter_project/global_widgets/button.dart';
 
 // Shows informatoin about the page

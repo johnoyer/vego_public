@@ -36,3 +36,10 @@ const TextStyle kStyle5black = TextStyle(
   fontWeight: FontWeight.w500,
   fontSize: 18.0,
 );
+TextStyle kStyle6(final Color color) {
+  return TextStyle(
+    color: color,
+    fontWeight: FontWeight.w100,
+    fontSize: 17.0,
+  );
+}

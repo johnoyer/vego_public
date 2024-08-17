@@ -130,16 +130,8 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
                       const Spacer(),
                       SizedBox(
                         width: 100,
-                        child: isAndroid() ? InkWell(
+                        child: LibraryButton(
                           onTap: () {
-                            _initializationDone ? setState(() {
-                              _isInfoShown = true;
-                            }) : null;
-                          },
-                          child: questionMarkIconCard(),
-                        ) : CupertinoButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: () {
                             _initializationDone ? setState(() {
                               _isInfoShown = true;
                             }) : null;
@@ -407,28 +399,16 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                isAndroid() ? InkWell(
+                LibraryButton(
                   onTap: () {
-                    _isInfoShown||!_initializationDone ? null : setState(() { // do nothing if the page info is shown
-                      _secondaryView = !_secondaryView;
-                    });
-                  },
-                  child: swapViewingModeCard()
-                ) : CupertinoButton(
-                  onPressed: () {
                     _isInfoShown||!_initializationDone ? null : setState(() { // do nothing if the page info is shown
                       _secondaryView = !_secondaryView;
                     });
                   },
                   child: swapViewingModeCard()
                 ),
-                isAndroid() ? InkWell(
+                LibraryButton(
                   onTap: () {
-                    _isInfoShown||!_initializationDone ? null : DietState().updateSelectedIndex(2); // do nothing if the page info is shown
-                  },
-                  child: editIngredientInformationCard()
-                ) : CupertinoButton(
-                  onPressed: () {
                     _isInfoShown||!_initializationDone ? null : DietState().updateSelectedIndex(2); // do nothing if the page info is shown
                   },
                   child: editIngredientInformationCard()

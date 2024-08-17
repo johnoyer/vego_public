@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:vego_flutter_project/library/barrel.dart';
 import 'package:vego_flutter_project/global_widgets/barrel.dart';
 import 'package:vego_flutter_project/diet_pages/diet_edit_page/diet_edit_page.dart';
@@ -24,9 +23,10 @@ Widget itemsDisplayWidget(final List<String> inputList) {
   );
 }
 
-Widget editDietButton (final BuildContext context, final int dietIndex) {
+Widget editDietButton (final BuildContext context, final int dietIndex, final bool isInfoShown) {
   return LibraryButton(
     onTap: () {
+      if(isInfoShown) return;
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -42,6 +42,7 @@ Widget editDietCard() {
   return libraryCard(
     'Edit Diet',
     TextFeatures.normal,
+    icon: Icons.edit,
     alternate: false
   );
 }
@@ -55,7 +56,12 @@ Widget dietInfoWidget(final Diet diet) { // also used for new diet page
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          libraryCard('Diet Info:', TextFeatures.normal, icon: Icons.question_mark),
+          libraryCard(
+            'Diet Info:', 
+            TextFeatures.normal, 
+            icon: Icons.question_mark,
+            alternate: false,
+          ),
           Expanded(
             child: Text(
               (diet.dietInfo == '') ? 

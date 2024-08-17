@@ -19,7 +19,8 @@ class SeaFoodFree extends PresetDietWithSubdiets {
           iconWidget: seaFoodFreeIcon(),
           secondaryItems: possiblyProhibitedItemsList,
           primarySubDietNameToListMap: primarySubDietNameToListMapLocal,
-          secondarySubDietNameToListMap: secondarySubDietNameToListMapLocal
+          secondarySubDietNameToListMap: secondarySubDietNameToListMapLocal,
+          subDietIconsMap: subDietIconsMapLocal,
         );
 
   static Widget seaFoodFreeIcon() {
@@ -218,6 +219,13 @@ class SeaFoodFree extends PresetDietWithSubdiets {
     ],
     'Roe-Free': [],
     'Fish-Free': []
+  };
+
+  static Map<String,Icon> subDietIconsMapLocal = {
+    'Crustacean Shellfish-Free': const Icon(Icons.share_rounded),
+    'Mollusk-Free': const Icon(Icons.share_location),
+    'Roe-Free': const Icon(Icons.seventeen_mp_rounded),
+    'Fish-Free': const Icon(Icons.settings_suggest_sharp)
   };
 
   static List<String> prohibitedItemsList = [

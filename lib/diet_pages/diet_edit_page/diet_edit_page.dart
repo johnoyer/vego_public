@@ -251,81 +251,6 @@ class _DietEditPageState extends State<DietEditPage> {
     }
   }
 
-  // Switch(
-  //   activeColor: Colors.green,
-  //   activeTrackColor: const Color.fromARGB(78, 78, 158, 80),
-  //   inactiveThumbColor: Colors.red,
-  //   inactiveTrackColor: const Color.fromARGB(255, 248, 176, 171),
-  //   value: !dietIsProhibitive,
-  //   onChanged: (final newValue) {
-  //     setState(() {
-  //       dietIsProhibitive = !newValue;
-  //     });
-  //   },
-  // )
-
-  // SingleChildScrollView(
-  //   child: Wrap(
-  //     spacing: 5.0, // Horizontal spacing between items
-  //     runSpacing: 5.0, // Vertical spacing between lines
-  //     children: [
-  //       ...List.generate(
-  //         newPrimaryItems.length,
-  //         (final index) {
-  //           return Container(
-  //             height: 60,
-  //             decoration: BoxDecoration(
-  //               borderRadius: BorderRadius.circular(10.0), 
-  //               border: Border.all(color: const Color.fromARGB(255, 4, 3, 49)),
-  //               color: ColorReturner().primaryFixed,
-  //             ),
-  //             child: LibraryButton(
-  //               onTap: () => _showItemEditDialog(index, false, true),
-  //               child: Row(
-  //                 mainAxisSize: MainAxisSize.min,
-  //                 children: [
-  //                   const Padding(padding: EdgeInsets.only(left: 8)),
-  //                   Text(
-  //                     newPrimaryItems[index],
-  //                     style: const TextStyle(color: Colors.black)
-  //                   ),
-  //                   LibraryButton(
-  //                     onTap: () => onPressedRemoveFunction(index, true),
-  //                     child: const Icon(
-  //                       Icons.close,
-  //                       size: 20.0,
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //           );
-  //         },
-  //       ),
-  //       Container(
-  //         height: 60,
-  //         width: 60,
-  //         decoration: BoxDecoration(
-  //           borderRadius: BorderRadius.circular(10.0), 
-  //           border: Border.all(color: const Color.fromARGB(255, 4, 3, 49)),
-  //           color: ColorReturner().primaryFixed,
-  //         ),
-  //         child: LibraryButton(
-  //           onTap: () {
-  //             final int newIndex = addDietItem(true);
-  //             _showItemEditDialog(newIndex, true, true);
-  //           },
-  //           child: const Icon(
-  //             Icons.add,
-  //             size: 20.0,
-  //           ),
-  //         ),
-  //       ),                      
-  //     ],
-  //   ),
-  // ),
-
-
   @override
   Widget build(final BuildContext context) {
     return SafeArea(
@@ -336,12 +261,13 @@ class _DietEditPageState extends State<DietEditPage> {
             children: [
               libraryNavigationBar(
                 backButtonOnPressed, 
-                '${getDietNameUpperCase()} Diet Editing'
+                '${getDietNameUpperCase()} Diet Editing',
+                null
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  libraryCard('Diet Name:', TextFeatures.normal),
+                  libraryCard('Name:', TextFeatures.normal),
                   SizedBox(
                     width: 200,
                     child: globalTextField(
@@ -386,7 +312,18 @@ class _DietEditPageState extends State<DietEditPage> {
                     TextFeatures.small,
                     alternate: true
                   ),
-                  CupertinoSwitch(
+                  isAndroid() ? Switch(
+                    activeColor: Colors.green,
+                    activeTrackColor: const Color.fromARGB(78, 78, 158, 80),
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: const Color.fromARGB(255, 248, 176, 171),
+                    value: !dietIsProhibitive,
+                    onChanged: (final newValue) {
+                      setState(() {
+                        dietIsProhibitive = !newValue;
+                      });
+                    },
+                  ) : CupertinoSwitch(
                     trackColor: Colors.red,
                     activeColor: Colors.green,
                     value: !dietIsProhibitive,

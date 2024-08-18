@@ -44,13 +44,22 @@ class _DietPageState extends State<DietPage> {
                             shrinkWrap: true,
                             itemCount: DietState.getDietList().length,
                             itemBuilder: (final context, final index) {
+                              final List<Widget>? icons = (DietState.getDietList()[index] is PresetDiet) ? // check whether the diet is preset
+                                [(DietState.getDietList()[index] as PresetDiet).iconWidget] : 
+                                ((DietState.getDietList()[index].isCustom()) &&
+                                (DietState.getDietList()[index] as CustomDiet).dietFeatures != null &&
+                                (DietState.getDietList()[index] as CustomDiet).dietFeatures!.isNotEmpty) ? // check whether the diet is custom and has a non empty dietFeatures list
+                                (DietState.getDietList()[index] as CustomDiet)
+                                  .dietFeatures!
+                                  .map((final diet) => diet.iconWidget) // Convert each diet feature into its icon
+                                  .toList() :
+                                null;
                               return LabeledCheckbox(
                                 isChecked: DietState.getDietList()[index].isChecked,
                                 hidden: DietState.getDietList()[index].hidden,
                                 label: (DietState.getDietList()[index].name=='')
                                   ? '[unnamed diet]' : DietState.getDietList()[index].name,
-                                icon: (DietState.getDietList()[index] is PresetDiet) ? 
-                                      (DietState.getDietList()[index] as PresetDiet).iconWidget : null,
+                                icons: icons,
                                 onChecked: (final bool? newValue) {
                                   if (newValue!) {
                                     DietState().toggleIsChecked(index);

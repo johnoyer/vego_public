@@ -149,7 +149,7 @@ class LabeledCheckbox extends StatelessWidget {
   const LabeledCheckbox({
     super.key,
     required this.label,
-    this.icon,
+    this.icons,
     required this.isChecked,
     required this.editMode,
     required this.hidden,
@@ -159,7 +159,7 @@ class LabeledCheckbox extends StatelessWidget {
   });
 
   final String label;
-  final Widget? icon;
+  final List<Widget>? icons;
   final bool isChecked;
   final bool editMode;
   final bool hidden;
@@ -199,10 +199,10 @@ class LabeledCheckbox extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  icon == null ? Container() : Padding(
+                  if (icons != null) ...icons!.map((final widget) => Padding(
                     padding: const EdgeInsets.only(right: 8.0),
-                    child: icon!,
-                  ),
+                    child: widget,
+                  )),
                   Text(
                     label, 
                     style: kStyle1(Colors.white)

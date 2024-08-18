@@ -23,7 +23,6 @@ class _DietDetailPageState extends State<DietDetailPage> {
 
   @override
   Widget build(final BuildContext context) {
-  final String dietName = (DietState.getDietList()[widget.dietIndex].name=='') ? '[unnamed]' : DietState.getDietList()[widget.dietIndex].name;
     return SafeArea(
       child: Stack(
         children: [
@@ -33,6 +32,7 @@ class _DietDetailPageState extends State<DietDetailPage> {
               BlendMode.darken,
             ),
             child: Consumer<DietState>(builder: (final context, final dietState, final _) {
+              final String dietName = (DietState.getDietList()[widget.dietIndex].name=='') ? '[unnamed]' : DietState.getDietList()[widget.dietIndex].name;
               return Scaffold(
                 body: Center(
                   child: Column(
@@ -193,7 +193,7 @@ class _DietDetailPageState extends State<DietDetailPage> {
           ),
           InfoSlider(
             isInfoShown: _isInfoShown,
-            title: '$dietName Diet Info',
+            title: '${(DietState.getDietList()[widget.dietIndex].name=='') ? '[unnamed]' : DietState.getDietList()[widget.dietIndex].name} Diet Info',
             info: DietState.getDietList()[widget.dietIndex].dietInfo == '' ?
             '[no diet info has been entered yet]' : DietState.getDietList()[widget.dietIndex].dietInfo,
             onClose: () => setState(() {

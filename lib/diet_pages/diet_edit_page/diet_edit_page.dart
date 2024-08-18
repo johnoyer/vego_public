@@ -89,7 +89,7 @@ class _DietEditPageState extends State<DietEditPage> {
       showErrorMessage(context, 'The diet must be named.');
     } else {
       if (!mounted) return; 
-      showAlert(context, 1, 'Diet Successfuly Saved!');
+      showAlert(context, 1, 'Diet Successfully Saved!');
     }
   }
 

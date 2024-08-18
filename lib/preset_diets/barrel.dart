@@ -1,0 +1,11 @@
+export 'package:vego_flutter_project/preset_diets/vegan.dart';
+export 'package:vego_flutter_project/preset_diets/vegetarian.dart';
+export 'package:vego_flutter_project/preset_diets/glutenfree.dart';
+export 'package:vego_flutter_project/preset_diets/additivefree.dart';
+export 'package:vego_flutter_project/preset_diets/fooddyefree.dart';
+export 'package:vego_flutter_project/preset_diets/treenutfree.dart';
+export 'package:vego_flutter_project/preset_diets/seafoodfree/seafoodfree.dart';
+export 'package:vego_flutter_project/preset_diets/seafoodfree/crustaceanshellfishfree.dart';
+export 'package:vego_flutter_project/preset_diets/seafoodfree/molluskfree.dart';
+export 'package:vego_flutter_project/preset_diets/seafoodfree/roefree.dart';
+export 'package:vego_flutter_project/preset_diets/seafoodfree/fishfree.dart';

@@ -232,9 +232,10 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
         const Padding(padding: EdgeInsets.all(5)),
         LibraryButton(
           onTap: stageSevenOnTap,
-          child: const SizedBox(
+          child: SizedBox(
             height: 60,
             width: 280,
+            child: foundationCard()
           ),
         )
       ],
@@ -287,9 +288,10 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
         const Padding(padding: EdgeInsets.all(5)),
         LibraryButton(
           onTap: stageSixOnTap,
-          child: const SizedBox(
+          child: SizedBox(
             height: 60,
             width: 75,
+            child: foundationCard()
           ),
         )
       ],
@@ -367,9 +369,10 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
         const Padding(padding: EdgeInsets.all(5)),
         LibraryButton(
           onTap: stageFiveOnTap,
-          child: const SizedBox(
+          child: SizedBox(
             height: 60,
             width: 75,
+            child: foundationCard()
           ),
         )
       ],
@@ -475,9 +478,10 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
         const Padding(padding: EdgeInsets.all(5)),
         LibraryButton(
           onTap: stageFourOnTap,
-          child: const SizedBox(
+          child: SizedBox(
             height: 60,
             width: 75,
+            child: foundationCard()
           ),
         )
       ],
@@ -527,9 +531,10 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
         const Padding(padding: EdgeInsets.all(5)),
         LibraryButton(
           onTap: stageThreeOnTap,
-          child: const SizedBox(
+          child: SizedBox(
             height: 60,
             width: 75,
+            child: foundationCard()
           ),
         )
       ],
@@ -641,9 +646,10 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
         const Padding(padding: EdgeInsets.all(5)),
         LibraryButton(
           onTap: () async => await stageTwoOnTap(),
-          child: const SizedBox(
+          child: SizedBox(
             height: 60,
             width: 75,
+            child: foundationCard()
           ),
         )
       ],
@@ -654,10 +660,10 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
     if(_animationDone) {
       for(DietAttributeContainer dietAttributeContainer in DietState.dietAttributesManager.dietAttributes) {
         if(dietAttributeContainer.selectionStatus!=SelectionStatus.notSelected){
-          if(dietAttributeContainer.diet.isProhibitive) {
+          if(dietAttributeContainer.diet.isProhibitive) { // prohibitive diet
             if(!(_enforcingProhibitive==null||_enforcingProhibitive==true)) throw Exception('enforcingProhibitive issue');
             _enforcingProhibitive = true;
-          } else {
+          } else { // allowing diet
             if(!(_enforcingProhibitive==null||_enforcingProhibitive==false)) throw Exception('enforcingProhibitive issue');
             _enforcingProhibitive = false;
           }
@@ -726,9 +732,10 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
         const Padding(padding: EdgeInsets.all(5)),
         LibraryButton(
           onTap: () async => await stageOneOnTap(),
-          child: const SizedBox(
+          child: SizedBox(
             height: 60,
             width: 75,
+            child: foundationCard(),
           ),
         )
       ],

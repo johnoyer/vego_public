@@ -83,3 +83,10 @@ class NextCard extends StatelessWidget {
     );
   }
 }
+
+Widget foundationCard() {
+  return const Card(
+    color: Colors.transparent,
+    shadowColor: Colors.transparent,
+  );
+}

@@ -49,7 +49,10 @@ class _DietDetailPageState extends State<DietDetailPage> {
                         });
                       },
                     ),
-                    DietState.getDietList()[widget.dietIndex].isPresetDietWithSubDiets() ? 
+                    DietState.getDietList()[widget.dietIndex].isPresetDietWithSubDiets() || // if the diet is a PresetDietWithSubDiets
+                      (DietState.getDietList()[widget.dietIndex].isCustom() &&
+                      (DietState.getDietList()[widget.dietIndex] as CustomDiet).dietFeatures != null &&
+                      (DietState.getDietList()[widget.dietIndex] as CustomDiet).dietFeatures!.isNotEmpty) ? // if the diet is a CustomDiet, and it does not have a null or empty dietFeatures list
                     // Column(
                     //   children: [ TODO
                     //     libraryCard(
@@ -61,14 +64,19 @@ class _DietDetailPageState extends State<DietDetailPage> {
                           height: 54, // TODO: need to fix this
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: (DietState.getDietList()[widget.dietIndex] as PresetDietWithSubdiets).subDiets.length,
+                            itemCount: DietState.getDietList()[widget.dietIndex].isPresetDietWithSubDiets() ?
+                              (DietState.getDietList()[widget.dietIndex] as PresetDietWithSubdiets).subDiets.length : // if the diet is a PresetDietWithSubdiets get the subDiets length
+                              (DietState.getDietList()[widget.dietIndex] as CustomDiet).dietFeatures!.length, // if the diet is a CustomDiet get the dietFeatures length
                             itemBuilder: (final context, final index) {
-                              final String name = (DietState.getDietList()[widget.dietIndex] as PresetDietWithSubdiets).subDiets[index].name;
+                              final String name = DietState.getDietList()[widget.dietIndex].isPresetDietWithSubDiets() ?
+                                (DietState.getDietList()[widget.dietIndex] as PresetDietWithSubdiets).subDiets[index].name :
+                                (DietState.getDietList()[widget.dietIndex] as CustomDiet).dietFeatures![index].name;
                               return libraryCard(
                                 name,
                                 TextFeatures.smallnormal,
-                                fancyIcon: 
-                                  (DietState.getDietList()[widget.dietIndex] as PresetDietWithSubdiets).subDiets[index].iconWidget
+                                fancyIcon: DietState.getDietList()[widget.dietIndex].isPresetDietWithSubDiets() ?
+                                  (DietState.getDietList()[widget.dietIndex] as PresetDietWithSubdiets).subDiets[index].iconWidget :
+                                  (DietState.getDietList()[widget.dietIndex] as CustomDiet).dietFeatures![index].iconWidget 
                               );
                             },
                           ),
@@ -119,10 +127,7 @@ class _DietDetailPageState extends State<DietDetailPage> {
                       child: globalDivider(),
                     ),
                     itemsDisplayWidget(DietState.getDietList()[widget.dietIndex].primaryItems),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: globalDivider(),
-                    ),
+                    globalDivider(),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: RichText(

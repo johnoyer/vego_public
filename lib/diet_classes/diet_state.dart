@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vego_flutter_project/library/barrel.dart';
 import 'package:vego_flutter_project/diet_classes/diet_attributes.dart';
 import 'package:vego_flutter_project/diet_classes/diet_class.dart';
-import 'package:vego_flutter_project/preset_diets/preset_diets_container.dart';
+import 'package:vego_flutter_project/preset_diets/barrel.dart';
 
 
 class DietState extends ChangeNotifier {
@@ -233,11 +233,15 @@ class DietState extends ChangeNotifier {
           primaryItemsToAddSet.addAll(primaryItems);
           final List<String> secondaryItems = diet.subDiets[i].secondaryItems;
           secondaryItemsToAddSet.addAll(secondaryItems);
+          setDietAttributes(index, {diet.subDiets[i]}, true);
         }
       }
     } else { // Normal PresetDiet
       primaryItemsToAddSet = lowerCaseEveryWord(diet.primaryItems).toSet();
       secondaryItemsToAddSet = lowerCaseEveryWord(diet.secondaryItems).toSet();
+
+      // Add the diet to the diet attributes
+      setDietAttributes(index, {diet}, true);
     }
     primaryItemsInitialSet.addAll(primaryItemsToAddSet);
     secondaryItemsInitialSet.removeAll(primaryItemsToAddSet);
@@ -249,6 +253,18 @@ class DietState extends ChangeNotifier {
     _diets[index].secondaryItems.sort();
     notifyListeners();
     await _saveDietsAndSettings();
+  }
+
+  // Used to set which other diets are featured in the custom diet
+
+  void setDietAttributes(final int index, final Set<PresetDiet> diets, final bool adding) {
+    if(adding) {
+      if((_diets[index] as CustomDiet).dietFeatures==null) {
+        (_diets[index] as CustomDiet).dietFeatures = []; // initialize if necessary
+      }
+      (_diets[index] as CustomDiet).dietFeatures!.addAll(diets);
+      // await _saveDietsAndSettings();
+    }
   }
 
   Future<bool?> addDiet() async {

@@ -1,4 +1,5 @@
 import 'package:vego_flutter_project/diet_classes/diet_state.dart';
+import 'package:vego_flutter_project/diet_classes/alldiets.dart';
 import 'package:flutter/material.dart';
 
 abstract class Diet {
@@ -36,6 +37,12 @@ abstract class Diet {
 
   factory Diet.fromJson(final Map<String, dynamic> json) {
     if (json['isCustom'] == true) {
+      final List<String> dietFeaturesString = List<String>.from(json['dietFeatures'] ?? []);
+      final List<PresetDiet> dietFeaturesDiet = dietFeaturesString
+          .map((final name) => allDiets.firstWhere((final diet) => diet.name == name))
+          .toList();
+          print(dietFeaturesString);
+
       return CustomDiet(
         name: json['name'],
         dietInfo: json['dietInfo'],
@@ -44,6 +51,7 @@ abstract class Diet {
         hidden: json['hidden'],
         primaryItems: List<String>.from(json['primaryItems'] ?? []),
         secondaryItems: List<String>.from(json['secondaryItems'] ?? []),
+        dietFeatures: dietFeaturesDiet,
       );
     } else {
       final int dietIndex = DietState.getDietList().indexWhere((final diet) => diet.name == json['name']);
@@ -86,12 +94,16 @@ class CustomDiet extends Diet {
     super.isChecked,
     super.primaryItems,
     super.secondaryItems,
+    this.dietFeatures,
   });
+
+  List<PresetDiet>? dietFeatures;
 
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();
     json['isCustom'] = true; // Add a flag for custom diet
+    json['dietFeatures'] = dietFeatures?.map((final diet) => diet.name).toList();
     return json;
   }
 }

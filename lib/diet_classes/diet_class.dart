@@ -41,7 +41,6 @@ abstract class Diet {
       final List<PresetDiet> dietFeaturesDiet = dietFeaturesString
           .map((final name) => allDiets.firstWhere((final diet) => diet.name == name))
           .toList();
-          print(dietFeaturesString);
 
       return CustomDiet(
         name: json['name'],

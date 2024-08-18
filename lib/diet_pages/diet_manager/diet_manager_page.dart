@@ -72,12 +72,12 @@ class _DietPageState extends State<DietPage> {
                                   }
                                 },
                                 onTap: () {
-                                  if(_isInfoShown) return;
-                                  Navigator.push( // do nothing if the page info is shown
+                                  if(_isInfoShown) return; // do nothing if the page info is shown
+                                  Navigator.push( 
                                     context,
                                     MaterialPageRoute(
                                       builder: (final context) =>
-                                          DietDetailPage(dietIndex: index),
+                                          DietDetailPage(dietIndex: index), // the diet will be from the mutable list in DietState
                                     ),
                                   );
                                 },

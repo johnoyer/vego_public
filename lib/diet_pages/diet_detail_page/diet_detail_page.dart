@@ -4,14 +4,17 @@ import 'package:vego_flutter_project/library/barrel.dart';
 import 'package:vego_flutter_project/global_widgets/barrel.dart';
 import 'package:vego_flutter_project/diet_classes/diet_class.dart';
 import 'package:vego_flutter_project/diet_classes/diet_state.dart';
+import 'package:vego_flutter_project/diet_classes/alldiets.dart';
 import 'package:vego_flutter_project/diet_pages/diet_detail_page/diet_detail_page_helper_functions.dart';
 
 
 class DietDetailPage extends StatefulWidget {
-  final int dietIndex;
+  final int? dietIndex;
+  final Diet? fixedDiet;
 
   const DietDetailPage({
-    required this.dietIndex,
+    this.dietIndex,
+    this.fixedDiet,
   });
 
   @override
@@ -23,6 +26,8 @@ class _DietDetailPageState extends State<DietDetailPage> {
 
   @override
   Widget build(final BuildContext context) {
+    // If the diet is variable, it is chosen from the mutable list in DietState, otherwise it is chosen from the fixed list of base diets
+    final Diet diet = widget.dietIndex != null ? DietState.getDietList()[widget.dietIndex!] : widget.fixedDiet!;
     return SafeArea(
       child: Stack(
         children: [
@@ -32,7 +37,11 @@ class _DietDetailPageState extends State<DietDetailPage> {
               BlendMode.darken,
             ),
             child: Consumer<DietState>(builder: (final context, final dietState, final _) {
-              final String dietName = (DietState.getDietList()[widget.dietIndex].name=='') ? '[unnamed]' : DietState.getDietList()[widget.dietIndex].name;
+              final String dietName = (diet.name=='') ? '[unnamed]' : diet.name;
+              final bool showDietAttributes = diet.isPresetDietWithSubDiets() || // if the diet is a PresetDietWithSubDiets
+                      (diet.isCustom() &&
+                      (diet as CustomDiet).dietFeatures != null &&
+                      diet.dietFeatures!.isNotEmpty); // if the diet is a CustomDiet, and it does not have a null or empty dietFeatures list
               return Scaffold(
                 body: Center(
                   child: Column(
@@ -48,11 +57,9 @@ class _DietDetailPageState extends State<DietDetailPage> {
                           _isInfoShown = true;
                         });
                       },
+                      (diet is PresetDiet) ? diet.iconWidget : null
                     ),
-                    DietState.getDietList()[widget.dietIndex].isPresetDietWithSubDiets() || // if the diet is a PresetDietWithSubDiets
-                      (DietState.getDietList()[widget.dietIndex].isCustom() &&
-                      (DietState.getDietList()[widget.dietIndex] as CustomDiet).dietFeatures != null &&
-                      (DietState.getDietList()[widget.dietIndex] as CustomDiet).dietFeatures!.isNotEmpty) ? // if the diet is a CustomDiet, and it does not have a null or empty dietFeatures list
+                    showDietAttributes ? 
                     // Column(
                     //   children: [ TODO
                     //     libraryCard(
@@ -64,29 +71,44 @@ class _DietDetailPageState extends State<DietDetailPage> {
                           height: 54, // TODO: need to fix this
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: DietState.getDietList()[widget.dietIndex].isPresetDietWithSubDiets() ?
-                              (DietState.getDietList()[widget.dietIndex] as PresetDietWithSubdiets).subDiets.length : // if the diet is a PresetDietWithSubdiets get the subDiets length
-                              (DietState.getDietList()[widget.dietIndex] as CustomDiet).dietFeatures!.length, // if the diet is a CustomDiet get the dietFeatures length
+                            itemCount: diet.isPresetDietWithSubDiets() ?
+                              (diet as PresetDietWithSubdiets).subDiets.length : // if the diet is a PresetDietWithSubdiets get the subDiets length
+                              (diet as CustomDiet).dietFeatures!.length, // if the diet is a CustomDiet get the dietFeatures length
                             itemBuilder: (final context, final index) {
-                              final String name = DietState.getDietList()[widget.dietIndex].isPresetDietWithSubDiets() ?
-                                (DietState.getDietList()[widget.dietIndex] as PresetDietWithSubdiets).subDiets[index].name :
-                                (DietState.getDietList()[widget.dietIndex] as CustomDiet).dietFeatures![index].name;
-                              return libraryCard(
-                                name,
-                                TextFeatures.smallnormal,
-                                fancyIcon: DietState.getDietList()[widget.dietIndex].isPresetDietWithSubDiets() ?
-                                  (DietState.getDietList()[widget.dietIndex] as PresetDietWithSubdiets).subDiets[index].iconWidget :
-                                  (DietState.getDietList()[widget.dietIndex] as CustomDiet).dietFeatures![index].iconWidget 
+                              final String name = diet.isPresetDietWithSubDiets() ?
+                                (diet as PresetDietWithSubdiets).subDiets[index].name :
+                                (diet as CustomDiet).dietFeatures![index].name;
+                              final Diet fixedDiet = diet.isPresetDietWithSubDiets() ?
+                                (diet as PresetDietWithSubdiets).subDiets[index] :
+                                (diet as CustomDiet).dietFeatures![index];
+                              return LibraryButton(
+                                onTap: () {
+                                  if(_isInfoShown) return; // do nothing if the page info is shown
+                                  Navigator.push( 
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (final context) =>
+                                          DietDetailPage(fixedDiet: fixedDiet), // the diet will be from the fixed attribute list
+                                    ),
+                                  );
+                                },
+                                child: libraryCard(
+                                  name,
+                                  TextFeatures.smallnormal,
+                                  fancyIcon: diet.isPresetDietWithSubDiets() ?
+                                    (diet as PresetDietWithSubdiets).subDiets[index].iconWidget :
+                                    (diet as CustomDiet).dietFeatures![index].iconWidget 
+                                ),
                               );
                             },
                           ),
                         // ),
                     //   ],
                     ) : Container(),
-                    DietState.getDietList()[widget.dietIndex].isPresetDietWithSubDiets() ? 
+                    showDietAttributes ? 
                       const Padding(padding: EdgeInsets.only(top: 2)) : 
                       Container(),
-                    DietState.getDietList()[widget.dietIndex].isPresetDietWithSubDiets() ? 
+                    showDietAttributes ? 
                       globalDivider() :
                       Container(),
                     Padding(
@@ -99,7 +121,7 @@ class _DietDetailPageState extends State<DietDetailPage> {
                               style: kStyle4(Colors.black)
                             ),
                             TextSpan(
-                              text: DietState.getDietList()[widget.dietIndex].name.toLowerCase(),
+                              text: diet.name.toLowerCase(),
                               style: kStyle4(ColorReturner().primary),
                             ),
                             TextSpan(
@@ -107,10 +129,10 @@ class _DietDetailPageState extends State<DietDetailPage> {
                               style: kStyle4(Colors.black)
                             ),
                             TextSpan(
-                              text: DietState.getDietList()[widget.dietIndex].isProhibitive
+                              text: diet.isProhibitive
                                   ? 'prohibited'
                                   : 'allowed',
-                              style: kStyle4(DietState.getDietList()[widget.dietIndex].isProhibitive
+                              style: kStyle4(diet.isProhibitive
                                     ? Colors.red
                                     : Colors.green,),
                             ),
@@ -126,7 +148,7 @@ class _DietDetailPageState extends State<DietDetailPage> {
                       width: 380,
                       child: globalDivider(),
                     ),
-                    itemsDisplayWidget(DietState.getDietList()[widget.dietIndex].primaryItems),
+                    itemsDisplayWidget(diet.primaryItems),
                     globalDivider(),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -150,13 +172,13 @@ class _DietDetailPageState extends State<DietDetailPage> {
                               ),
                             ),
                             TextSpan(
-                              text: DietState.getDietList()[widget.dietIndex].isProhibitive
+                              text: diet.isProhibitive
                                   ? 'prohibited'
                                   : 'allowed',
                               style: TextStyle(
                                 // fontWeight: FontWeight.bold,
                                 fontSize: 16,
-                                color: DietState.getDietList()[widget.dietIndex].isProhibitive
+                                color: diet.isProhibitive
                                     ? Colors.red
                                     : Colors.green,
                               ),
@@ -178,12 +200,12 @@ class _DietDetailPageState extends State<DietDetailPage> {
                       width: 300,
                       child: globalDivider(),
                     ),
-                    itemsDisplayWidget(DietState.getDietList()[widget.dietIndex].secondaryItems),
-                    !(DietState.getDietList()[widget.dietIndex].isCustom())
+                    itemsDisplayWidget(diet.secondaryItems),
+                    !(diet.isCustom())
                     ? Container()
                     : Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: editDietButton(context, widget.dietIndex, _isInfoShown)
+                      child: editDietButton(context, widget.dietIndex!, _isInfoShown)
                     ),
                   ],
                   )
@@ -193,9 +215,9 @@ class _DietDetailPageState extends State<DietDetailPage> {
           ),
           InfoSlider(
             isInfoShown: _isInfoShown,
-            title: '${(DietState.getDietList()[widget.dietIndex].name=='') ? '[unnamed]' : DietState.getDietList()[widget.dietIndex].name} Diet Info',
-            info: DietState.getDietList()[widget.dietIndex].dietInfo == '' ?
-            '[no diet info has been entered yet]' : DietState.getDietList()[widget.dietIndex].dietInfo,
+            title: '${(diet.name=='') ? '[unnamed]' : diet.name} Diet Info',
+            info: diet.dietInfo == '' ?
+            '[no diet info has been entered yet]' : diet.dietInfo,
             onClose: () => setState(() {
               _isInfoShown = false;
             }),

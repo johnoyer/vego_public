@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vego_flutter_project/library/barrel.dart';
 import 'package:vego_flutter_project/global_widgets/button.dart';
 
-Widget libraryNavigationBar(final VoidCallback onExit, final text, final VoidCallback? onQuestion) {
+Widget libraryNavigationBar(final VoidCallback onExit, final text, final VoidCallback? onQuestion, final Widget? fancyIcon) {
   return Container(
     height: 50,
     decoration: BoxDecoration(
@@ -28,6 +28,8 @@ Widget libraryNavigationBar(final VoidCallback onExit, final text, final VoidCal
           ),
         ),
         const Spacer(),
+        fancyIcon ?? Container(),
+        fancyIcon !=null ? const Padding(padding: const EdgeInsets.only(right: 4.0)) : Container(), // add padding if there is an icon
         Card( // Provides text
           color: Colors.transparent,
           shadowColor: Colors.transparent,

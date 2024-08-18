@@ -262,6 +262,7 @@ class _DietEditPageState extends State<DietEditPage> {
               libraryNavigationBar(
                 backButtonOnPressed, 
                 '${getDietNameUpperCase()} Diet Editing',
+                null,
                 null
               ),
               Row(

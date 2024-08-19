@@ -3,7 +3,6 @@ import 'package:vego_flutter_project/library/barrel.dart';
 import 'package:vego_flutter_project/diet_classes/diet_state.dart';
 import 'package:vego_flutter_project/global_widgets/barrel.dart';
 import 'package:vego_flutter_project/manual_entry/helper_functions.dart';
-import 'dart:math';
 
 class ManualEntry extends StatefulWidget {
   const ManualEntry({super.key});
@@ -41,30 +40,22 @@ class _ManualEntry extends State<ManualEntry> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Padding(padding: EdgeInsets.only(right: 10)),
+                      const Padding(padding: EdgeInsets.only(right: 5)),
                       const SizedBox(
                         width: 60,
-                        height: 70,
                       ),
                       const Spacer(),
-                      SizedBox(
-                        width: min(MediaQuery.of(context).size.width, 334), // 334 is enough for the "enter ingredient to get started" text
-                        child: buildDietInfo(context)
-                      ),
+                      buildDietInfo(context),
                       const Spacer(),
-                      SizedBox(
-                        width: 60,
-                        child: 
-                        LibraryButton(
-                          onTap: () {
-                            setState(() {
-                              _isInfoShown = true;
-                            });
-                          },
-                          child: questionMarkIconCard(),
-                        )
+                      LibraryButton(
+                        onTap: () {
+                          setState(() {
+                            _isInfoShown = true;
+                          });
+                        },
+                        child: questionMarkIconCard(),
                       ),
-                      const Padding(padding: EdgeInsets.only(right: 10)),
+                      const Padding(padding: EdgeInsets.only(right: 5)),
                     ],
                   )
                 ),
@@ -215,12 +206,12 @@ class _BuildIngredientEntryState extends State<BuildIngredientEntry> {
                       );
                     });
                   },
-                  style: kStyle4(Colors.transparent),// Hide default text
+                  style: googleFonts(17, color:Colors.blue),// Hide default text
                   cursorColor: Colors.black, // Keep the cursor visible
                   // cursorWidth: 2.0,
                 ),
                 Padding(
-                  padding: isAndroid() ? const EdgeInsets.symmetric(horizontal: 16, vertical: 8) : const EdgeInsets.symmetric(horizontal: 7, vertical: 7),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: Column(
                     children: [
                       IgnorePointer(

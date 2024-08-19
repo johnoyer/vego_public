@@ -66,6 +66,7 @@ Widget cameraIconCard() {
   return libraryCard(
     null,
     TextFeatures.large, // doesn't do anything in this case
+    elevated: true,
     alternate: false,
     icon: Icons.camera_alt_sharp,
     iconSize: 50,

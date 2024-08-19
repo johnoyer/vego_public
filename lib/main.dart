@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -10,7 +9,6 @@ import 'package:vego_flutter_project/diet_classes/diet_state.dart';
 import 'package:vego_flutter_project/diet_pages/diet_manager/diet_manager_page.dart';
 import 'package:vego_flutter_project/settings/settings_page.dart';
 import 'package:vego_flutter_project/library/barrel.dart';
-import 'package:vego_flutter_project/global_widgets/barrel.dart';
 
 void main() async {
   // BindingBase.debugZoneErrorsAreFatal = true;
@@ -79,53 +77,29 @@ class _HomePageState extends State<HomePage> {
   Widget build(final BuildContext context) {
     return SafeArea(
       child: Consumer<DietState>(builder: (final context, final dietState, final child) {
-        return PlatformWidget(
-          android: (final context) => Scaffold(
-            body: _getPage(DietState().getSelectedIndex()),
-            bottomNavigationBar: BottomNavigationBar(
-              backgroundColor: const Color.fromARGB(255, 161, 151, 177),
-              selectedItemColor: const Color.fromARGB(255, 70, 20, 16),
-              unselectedItemColor: Colors.white,
-              enableFeedback: false,
-              type: BottomNavigationBarType.fixed,
-              showSelectedLabels: false,
-              showUnselectedLabels: false,
-              iconSize: 27.0,
-              items: bottomNavigationItems,
-              currentIndex: DietState().getSelectedIndex(),
-              onTap: (final index) {
-                if(DietState().getNumberSelected() >= 1 || index==0 || index==4) { // If at least one is selected or diet page/settings is tapped
-                  DietState().updateSelectedIndex(index);
-                  DietState.persistentIngredients ? null : DietState().clearIngredientInfo();
-                } else {
-                  DietState().updateSelectedIndex(0);
-                  showErrorMessage(context, 'Please select at least one diet');
-                }
-              },
-            ),
-          ),
-          ios: (final context) => Scaffold(
-            body: _getPage(DietState().getSelectedIndex()),
-            bottomNavigationBar: CupertinoTabBar(
-              // backgroundColor: const Color.fromARGB(255, 161, 151, 177),
-              backgroundColor: const Color.fromARGB(255, 205, 231, 237),
-              // activeColor: const Color.fromARGB(255, 70, 20, 16),
-              activeColor: Color.fromARGB(255, 102, 40, 36),
-              // inactiveColor: Colors.white,
-              inactiveColor: Colors.black,
-              iconSize: 27.0,
-              items: bottomNavigationItems,
-              currentIndex: DietState().getSelectedIndex(),
-              onTap: (final index) {
-                if(DietState().getNumberSelected() >= 1 || index==0 || index==4) { // If at least one is selected or diet page/settings is tapped
-                  DietState().updateSelectedIndex(index);
-                  DietState.persistentIngredients ? null : DietState().clearIngredientInfo();
-                } else {
-                  DietState().updateSelectedIndex(0);
-                  showErrorMessage(context, 'Please select at least one diet.');
-                }
-              },
-            ),
+        return Scaffold(
+          body: _getPage(DietState().getSelectedIndex()),
+          backgroundColor: ColorReturner().backGroundColor,
+          bottomNavigationBar: BottomNavigationBar(
+            backgroundColor: const Color.fromARGB(255, 161, 151, 177),
+            selectedItemColor: const Color.fromARGB(255, 70, 20, 16),
+            unselectedItemColor: Colors.white,
+            enableFeedback: false,
+            type: BottomNavigationBarType.fixed,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            iconSize: 27.0,
+            items: bottomNavigationItems,
+            currentIndex: DietState().getSelectedIndex(),
+            onTap: (final index) {
+              if(DietState().getNumberSelected() >= 1 || index==0 || index==4) { // If at least one is selected or diet page/settings is tapped
+                DietState().updateSelectedIndex(index);
+                DietState.persistentIngredients ? null : DietState().clearIngredientInfo();
+              } else {
+                DietState().updateSelectedIndex(0);
+                showErrorMessage(context, 'Please select at least one diet');
+              }
+            },
           ),
         );
       }),
@@ -134,57 +108,62 @@ class _HomePageState extends State<HomePage> {
 
   List<BottomNavigationBarItem> get bottomNavigationItems {
     return <BottomNavigationBarItem>[
-      BottomNavigationBarItem(
-        label: isAndroid() ? 'Manage Diets' : null,
-        icon: const Tooltip(
+      const BottomNavigationBarItem(
+        // label: isAndroid() ? 'Manage Diets' : null,
+        label: 'Manage Diets',
+        icon: Tooltip(
           message: 'Manage Diets',
           child: Icon(Icons.local_dining_rounded),
         ),
-        activeIcon: const Tooltip(
+        activeIcon: Tooltip(
           message: 'Manage Diets',
           child: Icon(Icons.local_dining_sharp),
         ),
       ),
-      BottomNavigationBarItem(
-        label: isAndroid() ? 'Scan Barcode' : null,
-        icon: const Tooltip(
+      const BottomNavigationBarItem(
+        // label: isAndroid() ? 'Scan Barcode' : null,
+        label: 'Scan Barcode',
+        icon: Tooltip(
           message: 'Scan Barcode',
           child: Icon(Icons.qr_code),
         ),
-        activeIcon: const Tooltip(
+        activeIcon: Tooltip(
           message: 'Scan Barcode',
           child: Icon(Icons.qr_code_scanner),
         ),
       ),
-      BottomNavigationBarItem(
-        label: isAndroid() ? 'Manual Entry' : null,
-        icon: const Tooltip(
+      const BottomNavigationBarItem(
+        // label: isAndroid() ? 'Manual Entry' : null,
+        label: 'Manual Entry',
+        icon: Tooltip(
           message: 'Manual Entry',
           child: Icon(Icons.edit),
         ),
-        activeIcon: const Tooltip(
+        activeIcon: Tooltip(
           message: 'Manual Entry',
           child: Icon(Icons.edit_note),
         ),
       ),
-      BottomNavigationBarItem(
-        label: isAndroid() ? 'Scan Ingredients' : null,
-        icon: const Tooltip(
+      const BottomNavigationBarItem(
+        // label: isAndroid() ? 'Scan Ingredients' : null,
+        label: 'Scan Ingredients',
+        icon: Tooltip(
           message: 'Scan Ingredients',
           child: Icon(Icons.document_scanner_outlined),
         ),
-        activeIcon: const Tooltip(
+        activeIcon: Tooltip(
           message: 'Scan Ingredients',
           child: Icon(Icons.document_scanner),
         ),
       ),
-      BottomNavigationBarItem(
-        label: isAndroid() ? 'Settings' : null,
-        icon: const Tooltip(
+      const BottomNavigationBarItem(
+        // label: isAndroid() ? 'Settings' : null,
+        label: 'Settings',
+        icon: Tooltip(
           message: 'Settings',
           child: Icon(Icons.settings_applications_outlined)
         ),
-        activeIcon: const Tooltip(
+        activeIcon: Tooltip(
           message: 'Settings',
           child: Icon(Icons.settings_applications),
         ),

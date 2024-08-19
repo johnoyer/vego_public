@@ -74,6 +74,17 @@ Widget buildDietInfo(final BuildContext context) {
             decoration: BoxDecoration(
               color: color,
               borderRadius: BorderRadius.circular(iconSize/2),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.white.withOpacity(0.5),
+                  // spreadRadius: 0,
+                  blurRadius: 2,
+                ),
+              ],
+              border: Border.all(
+                // color: Colors.black,
+                width: 1.5
+              ),
             ),
             child: Center(
               child: Icon(

@@ -10,6 +10,7 @@ Widget addNewDietCard() {
     'Add New Diet',
     TextFeatures.normal,
     alternate: false,
+    elevated: true,
     icon: Icons.add
   );
 }
@@ -24,10 +25,23 @@ class HideDietsCard extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    return Card(
-      shape: globalBorder,
-      color: ColorReturner().primaryFixed,
-      elevation: interactableElevation,
+    return Container(
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.white.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 2,
+          ),
+        ],
+        border: Border.all(
+          // color: Colors.black,
+          width: 1.5
+        ),
+        borderRadius: BorderRadius.circular(10.0), 
+        // side: const BorderSide(color: Color.fromARGB(255, 4, 3, 49)),
+        color: ColorReturner().primaryFixed
+      ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
@@ -48,7 +62,7 @@ class HideDietsCard extends StatelessWidget {
             ),
             Text(
               ' Hide Diets', 
-              style: kStyle1(Colors.white)
+              style: googleFonts(20)
             )
           ],
         ),
@@ -171,13 +185,29 @@ class LabeledCheckbox extends StatelessWidget {
   Widget build(final BuildContext context) {
     return hidden && !editMode
     ? Container()
-    : LibraryButton(
-      onTap: onTap,
-      child: Card(
-        shape: globalBorder,
-        color: ColorReturner().primary,
-        elevation: 2,
-        child: _row(),
+    : Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+      child: LibraryButton(
+        onTap: onTap,
+        child: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.white.withOpacity(0.5),
+                spreadRadius: 2,
+                blurRadius: 2,
+              ),
+            ],
+            border: Border.all(
+              // color: Colors.black,
+              width: 1.5
+            ),
+            borderRadius: BorderRadius.circular(10.0), 
+            // side: const BorderSide(color: Color.fromARGB(255, 4, 3, 49)),
+            color: ColorReturner().primary
+          ),
+          child: _row(),
+        ),
       ),
     );
   }
@@ -205,7 +235,7 @@ class LabeledCheckbox extends StatelessWidget {
                   )),
                   Text(
                     label, 
-                    style: kStyle1(Colors.white)
+                    style: googleFonts(20),
                   ),
                 ],
               )

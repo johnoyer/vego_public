@@ -10,8 +10,15 @@ class InfoSlider extends StatelessWidget {
   final String title;
   final String info;
   final VoidCallback onClose;
+  final Widget? icon;
 
-  const InfoSlider({required this.isInfoShown, required this.title, required this.info, required this.onClose});
+  const InfoSlider({
+    required this.isInfoShown,
+    required this.title,
+    required this.info,
+    required this.onClose,
+    this.icon
+  });
 
   @override
   Widget build(final BuildContext context) {
@@ -41,8 +48,9 @@ class InfoSlider extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               libraryCard(
-                title,
+                icon==null ? title : 'Info', // if there is an icon provided override the normal title
                 TextFeatures.normal,
+                fancyIcon: icon
               ),
               const Padding(padding: EdgeInsets.only(top: 5)),
               Expanded(
@@ -52,7 +60,6 @@ class InfoSlider extends StatelessWidget {
                     child: 
                     Card(
                       shape: globalBorder,
-                      elevation: notInteractableElevation,
                       color: ColorReturner().secondaryFixed,
                       child: Padding(
                         padding: const EdgeInsets.all(8),

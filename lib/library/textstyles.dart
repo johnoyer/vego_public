@@ -1,45 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 
 // googlefonts.lato, googlefonts.roboto
 // Text styles
-TextStyle kStyle1(final Color color) {
-  return TextStyle(
-    color: color,
-    fontSize: 20,
-    fontWeight: FontWeight.w100,
-  );
-}
-TextStyle kStyle2(final Color color) {
-  return TextStyle(
-    color: color,
-    fontWeight: FontWeight.w100,
-    fontSize: 15.0,
-  );
-}
-TextStyle kStyle3(final Color color) {
-  return TextStyle(
-    color: color,
-    fontWeight: FontWeight.w100,
-    fontSize: 30.0,
-  );
-}
-TextStyle kStyle4(final Color color) {
-  return TextStyle(
-    color: color,
-    fontSize: 16,
-    letterSpacing: 0,
-    height: 1.2,
-  );
-}
-const TextStyle kStyle5black = TextStyle(
-  color: Colors.black,
-  fontWeight: FontWeight.w500,
-  fontSize: 18.0,
-);
-TextStyle kStyle6(final Color color) {
-  return TextStyle(
-    color: color,
-    fontWeight: FontWeight.w100,
-    fontSize: 17.0,
+
+TextStyle googleFonts(final double fontSize, {final Color? color, final bool? shadow, final double? offset, final Color? shadowColor}) {
+  return GoogleFonts.inter(
+    textStyle: TextStyle(
+      fontWeight: FontWeight.w400,
+      fontSize: fontSize,
+      color: color ?? Colors.white, // default to white
+      shadows: (shadow!=null && shadow!=false) ? [
+        Shadow(
+          // offset and blurradius are a function of fontsize if not provided
+          offset: Offset(offset ?? fontSize/15 + .4, offset ?? fontSize/15 + .4),
+          blurRadius: offset ?? fontSize/15 + .4,
+          color: shadowColor ?? 
+              ((color==null || color == Colors.white) ? 
+              Colors.black : Colors.white),
+        ),
+      ] : null,
+    )
   );
 }

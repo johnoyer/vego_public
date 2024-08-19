@@ -105,13 +105,14 @@ class _DietPageState extends State<DietPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const SizedBox(
-                        width: 70,
+                        width: 50 // to compensate for the width of the questionMarkIconCard
                       ),
                       const Spacer(),
                       LibraryButton( // Add new diet
                         onTap: () async => _isInfoShown ? null : await addNewDiet(context), // do nothing if the page info is shown
                         child: addNewDietCard()
                       ),
+                      const Padding(padding: EdgeInsets.only(right: 5)),
                       LibraryButton( // Hide Diets
                         onTap: () => _isInfoShown ? null : _switchMode(), // do nothing if the page info is shown
                         child: HideDietsCard(editMode: _editMode),
@@ -124,9 +125,6 @@ class _DietPageState extends State<DietPage> {
                           });
                         },
                         child: questionMarkIconCard(),
-                      ),
-                      const SizedBox(
-                        width: 20,
                       ),
                     ],
                   ),

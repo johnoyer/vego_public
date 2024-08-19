@@ -29,7 +29,7 @@ Widget libraryNavigationBar(final VoidCallback onExit, final text, final VoidCal
         ),
         const Spacer(),
         fancyIcon ?? Container(),
-        fancyIcon !=null ? const Padding(padding: const EdgeInsets.only(right: 4.0)) : Container(), // add padding if there is an icon
+        fancyIcon !=null ? const Padding(padding: EdgeInsets.only(right: 4.0)) : Container(), // add padding if there is an icon
         Card( // Provides text
           color: Colors.transparent,
           shadowColor: Colors.transparent,

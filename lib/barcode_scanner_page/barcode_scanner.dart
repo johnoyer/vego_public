@@ -198,7 +198,6 @@ Widget buildIngredientInfo(final Map<String, dynamic>? ingredientInfo, final Bui
         padding: const EdgeInsets.only(left: 8.0, right: 8.0),  
         child: Text(
           itemName,
-          style: kStyle2(Colors.black),
         ),
       ) : Container(),
       libraryCard('Ingredients:', TextFeatures.normal),
@@ -206,7 +205,6 @@ Widget buildIngredientInfo(final Map<String, dynamic>? ingredientInfo, final Bui
         padding: const EdgeInsets.only(left: 8.0, right: 8.0),
         child: Text(
           ingredients,
-          style: kStyle2(Colors.black),
         ),
       ) : Container(),
     ],

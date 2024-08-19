@@ -26,7 +26,7 @@ Widget globalTextField(
     ),
     onChanged: onChanged,
     maxLength: maxLength,
-    style: kStyle4(Colors.black),
+    style: googleFonts(16, color: Colors.black),
     cursorColor: Colors.black, // Keep the cursor visible
   );
 }

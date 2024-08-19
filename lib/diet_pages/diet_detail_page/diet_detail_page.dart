@@ -4,7 +4,6 @@ import 'package:vego_flutter_project/library/barrel.dart';
 import 'package:vego_flutter_project/global_widgets/barrel.dart';
 import 'package:vego_flutter_project/diet_classes/diet_class.dart';
 import 'package:vego_flutter_project/diet_classes/diet_state.dart';
-import 'package:vego_flutter_project/diet_classes/alldiets.dart';
 import 'package:vego_flutter_project/diet_pages/diet_detail_page/diet_detail_page_helper_functions.dart';
 
 
@@ -51,7 +50,7 @@ class _DietDetailPageState extends State<DietDetailPage> {
                       () {
                         Navigator.of(context).pop();
                       },
-                      '$dietName Diet Details',
+                      '$dietName Diet',
                       () {
                         setState(() {
                           _isInfoShown = true;
@@ -118,27 +117,27 @@ class _DietDetailPageState extends State<DietDetailPage> {
                           children: [
                             TextSpan(
                               text: 'In the ',
-                              style: kStyle4(Colors.black)
+                              style: googleFonts(17, color: Colors.black)
                             ),
                             TextSpan(
                               text: diet.name.toLowerCase(),
-                              style: kStyle4(ColorReturner().primary),
+                              style: googleFonts(17, color: Colors.black)
                             ),
                             TextSpan(
                               text: ' diet, the following items are ',
-                              style: kStyle4(Colors.black)
+                              style: googleFonts(17, color: Colors.black)
                             ),
                             TextSpan(
                               text: diet.isProhibitive
                                   ? 'prohibited'
                                   : 'allowed',
-                              style: kStyle4(diet.isProhibitive
+                              style: googleFonts(17, color: diet.isProhibitive
                                     ? Colors.red
                                     : Colors.green,),
                             ),
                             TextSpan(
                               text: ': ',
-                              style: kStyle4(Colors.black)
+                              style: googleFonts(17, color:Colors.black)
                             ),
                           ],
                         ),
@@ -155,19 +154,19 @@ class _DietDetailPageState extends State<DietDetailPage> {
                       child: RichText(
                         text: TextSpan(
                           children: [
-                            const TextSpan(
+                            TextSpan(
                               text: 'The following items ',
-                              style: TextStyle(
+                              style: googleFonts(
                                 // fontWeight: FontWeight.bold,
-                                fontSize: 16,
+                                17,
                                 color: Colors.black, 
                               ),
                             ),
-                            const TextSpan(
+                            TextSpan(
                               text: 'may be ',
-                              style: TextStyle(
+                              style: googleFonts(
                                 // fontWeight: FontWeight.bold,
-                                fontSize: 16,
+                                17,
                                 color: Colors.orange,
                               ),
                             ),
@@ -175,9 +174,9 @@ class _DietDetailPageState extends State<DietDetailPage> {
                               text: diet.isProhibitive
                                   ? 'prohibited'
                                   : 'allowed',
-                              style: TextStyle(
+                              style: googleFonts(
                                 // fontWeight: FontWeight.bold,
-                                fontSize: 16,
+                                17,
                                 color: diet.isProhibitive
                                     ? Colors.red
                                     : Colors.green,
@@ -187,7 +186,7 @@ class _DietDetailPageState extends State<DietDetailPage> {
                               text: ': ',
                               style: TextStyle(
                                 // fontWeight: FontWeight.bold,
-                                fontSize: 16,
+                                fontSize: 17,
                                 color:
                                     Colors.black, // Default color for the main text
                               ),
@@ -216,6 +215,7 @@ class _DietDetailPageState extends State<DietDetailPage> {
           InfoSlider(
             isInfoShown: _isInfoShown,
             title: '${(diet.name=='') ? '[unnamed]' : diet.name} Diet Info',
+            icon: (diet is PresetDiet) ? diet.iconWidget : null,
             info: diet.dietInfo == '' ?
             '[no diet info has been entered yet]' : diet.dietInfo,
             onClose: () => setState(() {

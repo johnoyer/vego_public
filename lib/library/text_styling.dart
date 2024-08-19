@@ -20,7 +20,7 @@ StatusStyledTextReturn getStyledText(final List<String> list, final String endTe
     localStatus = returnVal.status ?? localStatus;
     spans.add(returnVal.word);
   }
-  spans.add(TextSpan(text: endText, style: kStyle4(Colors.black)));
+  spans.add(TextSpan(text: endText, style: googleFonts(17, color:Colors.black)));
   return StatusStyledTextReturn(
     localStatus,
     TextSpan(children: spans),
@@ -43,19 +43,19 @@ StatusStyledWordReturn getStyledWord(final String word, final Status currentStat
   final String modifiedWord = removePrefixes(word);
   if (isRedWord(modifiedWord)) {
     returnStatus = Status.doesntFit;
-    returnWord = TextSpan(text: word, style: kStyle4(Colors.red));
+    returnWord = TextSpan(text: word, style: googleFonts(17, color:Colors.red));
     color = Colors.red;
   } else if (isOrangeWord(modifiedWord)) {
     if(currentStatus!=Status.doesntFit) {
       returnStatus = Status.possiblyFits;
     }
-    returnWord = TextSpan(text: word, style: kStyle4(Colors.orange));
+    returnWord = TextSpan(text: word, style: googleFonts(17, color:Colors.orange));
     color = Colors.orange;
   } else {
     if(currentStatus==Status.none) {
       returnStatus = Status.doesFit;
     }
-    returnWord = TextSpan(text: word, style: kStyle4(Colors.black));
+    returnWord = TextSpan(text: word, style: googleFonts(17, color:Colors.black));
     color = Colors.green;
   }
   // Create a new TextSpan to append the comma if the end has not been reached
@@ -63,7 +63,7 @@ StatusStyledWordReturn getStyledWord(final String word, final Status currentStat
     returnWord = TextSpan(
       children: <TextSpan>[
         returnWord,
-        TextSpan(text: ',', style: kStyle4(Colors.black))
+        TextSpan(text: ',', style: googleFonts(17, color:Colors.black))
       ]
     );
   }

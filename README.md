@@ -39,5 +39,9 @@
   - <a href="https://www.flaticon.com/free-icons/roe" title="roe icons">Roe icons created by Nadiinko - Flaticon</a>
 - **"Fish-Free" Icon**: 
   - <a href="https://www.flaticon.com/free-icons/fish" title="fish icons">Fish icons created by DinosoftLabs - Flaticon</a>
+- **"Tree Nut-Free" Icon**
+  - <a href="https://www.flaticon.com/free-icons/joshua-tree" title="joshua tree icons">Joshua tree icons created by VectorPortal - Flaticon</a>
+- **"Food Dye-Free" Icon**
+  - <a href="https://www.flaticon.com/free-icons/dropper" title="dropper icons">Dropper icons created by Nsu Rabo Elijah - Flaticon</a>
 
 

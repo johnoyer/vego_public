@@ -600,7 +600,7 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
                                     ),
                                     Text(
                                       dietAttributeContainer.diet.name,
-                                      style: kStyle1(Colors.black)
+                                      style: googleFonts(20, color: Colors.black)
                                     ),
                                   ],
                                 ),

@@ -27,157 +27,52 @@ class _SettingsPageState extends State<SettingsPage> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: libraryCard(
+                  child: Text(
                     'Settings',
-                    TextFeatures.large,
-                  ),
+                    style: googleFonts(30, shadow: true)
+                  )
                 ),
                 globalDivider(),
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Spacer(),
-                      SizedBox(
-                        width: selectorWidth,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            libraryCard(
-                              'Enable new diet animations: ',
-                              TextFeatures.small,
-                              alternate: true,
-                            ),
-                            const Spacer(),
-                            isAndroid() ? Switch(
-                              value: DietState.dietCreationAnimations,
-                              onChanged: (final newValue) {
-                                _isInfoShown ? null : DietState().toggleDietCreationAnimations(); // do nothing if the info page is shown
-                              },
-                              activeColor: ColorReturner().primary,
-                            ) : CupertinoSwitch(
-                              value: DietState.dietCreationAnimations,
-                              onChanged: (final newValue) {
-                                _isInfoShown ? null : DietState().toggleDietCreationAnimations(); // do nothing if the info page is shown
-                              },
-                              activeColor: ColorReturner().primary,
-                            ),
-                          ],
-                        ),
+                      SettingsRow(
+                        isInfoShown: _isInfoShown,
+                        switchValue: DietState.dietCreationAnimations,
+                        toggleFunction: DietState().toggleDietCreationAnimations,
+                        text: 'Enable new diet animations: '
                       ),
-                      const Spacer(),
-                      SizedBox(
-                        width: selectorWidth,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            libraryCard(
-                              'Enable slow diet animations: ',
-                              TextFeatures.small,
-                              alternate: true
-                            ),
-                            const Spacer(),
-                            isAndroid() ? Switch(
-                              value: DietState.slowAnimations,
-                              onChanged: (final newValue) {
-                                _isInfoShown ? null : DietState().toggleSlowAnimations(); // do nothing if info page is shown
-                              },
-                              activeColor: ColorReturner().primary,
-                            ) : CupertinoSwitch(
-                              value: DietState.slowAnimations,
-                              onChanged: (final newValue) {
-                                _isInfoShown ? null : DietState().toggleSlowAnimations(); // do nothing if info page is shown
-                              },
-                              activeColor: ColorReturner().primary,
-                            ),
-                          ],
-                        ),
+                      globalDivider(),
+                      SettingsRow(
+                        isInfoShown: _isInfoShown,
+                        switchValue: DietState.slowAnimations,
+                        toggleFunction: DietState().toggleSlowAnimations,
+                        text: 'Enable slow diet animations: '
                       ),
-                      const Spacer(),
-                      SizedBox(
-                        width: selectorWidth,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            libraryCard(
-                              'Enable slow animations in ingredient recognition: ',
-                              TextFeatures.small,
-                              alternate: true,
-                            ),
-                            const Spacer(),
-                            isAndroid() ? Switch(
-                              value: DietState.slowIngredientAnimations,
-                              onChanged: (final newValue) {
-                                _isInfoShown ? null : DietState().toggleSlowIngredientAnimations(); // do nothing if info page is shown
-                              },
-                              activeColor: ColorReturner().primary,
-                            ) : CupertinoSwitch(
-                              value: DietState.slowIngredientAnimations,
-                              onChanged: (final newValue) {
-                                _isInfoShown ? null : DietState().toggleSlowIngredientAnimations(); // do nothing if info page is shown
-                              },
-                              activeColor: ColorReturner().primary,
-                            ),
-                          ],
-                        ),
+                      globalDivider(),
+                      SettingsRow(
+                        isInfoShown: _isInfoShown,
+                        switchValue: DietState.slowIngredientAnimations,
+                        toggleFunction: DietState().toggleSlowIngredientAnimations,
+                        text: 'Enable slow animations in ingredient recognition: ',
                       ),
-                      const Spacer(),
-                      SizedBox(
-                        width: selectorWidth,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            libraryCard(
-                              'Enable ingredient persistence: ',
-                              TextFeatures.small,
-                              alternate: true
-                            ),
-                            const Spacer(),
-                            isAndroid() ? Switch(
-                              value: DietState.persistentIngredients,
-                              onChanged: (final newValue) {
-                                _isInfoShown ? null : DietState().togglePersistentIngredients(); // do nothing if info page is shown
-                              },
-                              activeColor: ColorReturner().primary,
-                            ) : CupertinoSwitch(
-                              value: DietState.persistentIngredients,
-                              onChanged: (final newValue) {
-                                _isInfoShown ? null : DietState().togglePersistentIngredients(); // do nothing if info page is shown
-                              },
-                              activeColor: ColorReturner().primary,
-                            ),
-                          ],
-                        ),
+                      globalDivider(),
+                      SettingsRow(
+                        isInfoShown: _isInfoShown,
+                        switchValue: DietState.persistentIngredients,
+                        toggleFunction: DietState().togglePersistentIngredients,
+                        text: 'Enable ingredient persistence: '
                       ),
-                      const Spacer(),
-                      SizedBox(
-                        width: selectorWidth,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            libraryCard(
-                              'Enable spell checking during ingredient recognition: ',
-                              TextFeatures.small,
-                              alternate: true
-                            ),
-                            const Spacer(),
-                            isAndroid() ? Switch(
-                              value: DietState.spellCheck,
-                              onChanged: (final newValue) {
-                                _isInfoShown ? null : DietState().toggleSpellCheck(); // do nothing if info page is shown
-                              },
-                              activeColor: ColorReturner().primary,
-                            ) : CupertinoSwitch(
-                              value: DietState.spellCheck,
-                              onChanged: (final newValue) {
-                                _isInfoShown ? null : DietState().toggleSpellCheck(); // do nothing if info page is shown
-                              },
-                              activeColor: ColorReturner().primary,
-                            ),
-                          ],
-                        ),
+                      globalDivider(),
+                      SettingsRow(
+                        isInfoShown: _isInfoShown,
+                        switchValue: DietState.spellCheck,
+                        toggleFunction: DietState().toggleSpellCheck,
+                        text: 'Enable spell checking during ingredient recognition: '
                       ),
-                      const Spacer(),
+                      globalDivider(),
+                      // const Spacer(),
                       LibraryButton(
                         onTap: () {
                           _isInfoShown ? null : showCupertinoDialog( // do nothing if the info page is shown
@@ -201,7 +96,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const SizedBox(width: 100),
+                          const SizedBox(width: 60),
                           const Spacer(),
                           LibraryButton(
                             onTap: () {
@@ -223,24 +118,20 @@ class _SettingsPageState extends State<SettingsPage> {
                             )
                           ),
                           const Spacer(),
-                          SizedBox(
-                            width: 100,
-                            child: LibraryButton(
-                              onTap: () {
-                                _isInfoShown ? null : setState(() { // do nothing if the page info is shown
-                                  _isInfoShown = true;
-                                }); 
-                              },
-                              child: questionMarkIconCard(),
-                            ),
+                          LibraryButton(
+                            onTap: () {
+                              _isInfoShown ? null : setState(() { // do nothing if the page info is shown
+                                _isInfoShown = true;
+                              }); 
+                            },
+                            child: questionMarkIconCard(),
                           ),
                         ],
                       ),
                       const Spacer(),
                     ],
                   ),
-                ),
-              ],
+                ),],
             ),
           ),
           InfoSlider(

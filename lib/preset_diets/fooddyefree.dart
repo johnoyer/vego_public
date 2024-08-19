@@ -1,6 +1,7 @@
 import 'package:vego_flutter_project/diet_classes/diet_class.dart';
 import 'package:flutter/material.dart';
 import 'package:vego_flutter_project/global_widgets/barrel.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class FoodDyeFree extends PresetDiet {
 
@@ -21,9 +22,11 @@ class FoodDyeFree extends PresetDiet {
 
   static Widget foodDyeFreeIcon() {
     return dietIconWrapper(
-      const Icon(
-        Icons.water_drop,
-        color: Color.fromARGB(255, 238, 64, 51),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4),
+        child: SvgPicture.asset(
+          'assets/food_dye_icon.svg',
+        ),
       ),
       true
     );

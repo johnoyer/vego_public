@@ -24,6 +24,13 @@ Widget libraryNavigationBar(final VoidCallback onExit, final text, final VoidCal
               Icons.arrow_back,
               size: 30,
               color: Colors.white,
+              shadows: [
+                BoxShadow(
+                  offset: Offset(2, 2),
+                  blurRadius: 2,
+                  // color: Colors.black,
+                ),
+              ]
             ),
           ),
         ),
@@ -35,10 +42,7 @@ Widget libraryNavigationBar(final VoidCallback onExit, final text, final VoidCal
           shadowColor: Colors.transparent,
           child: Text(
             text,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-            )
+            style: googleFonts(20, shadow: true)
           ),
         ),
         const Spacer(),
@@ -51,6 +55,13 @@ Widget libraryNavigationBar(final VoidCallback onExit, final text, final VoidCal
               Icons.question_mark,
               size: 30,
               color: Colors.white,
+              shadows: [
+                BoxShadow(
+                    offset: Offset(2, 2),
+                    blurRadius: 2,
+                    // color: Colors.black,
+                ),
+              ]
             ),
           ) : 
           Container(),

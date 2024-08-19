@@ -116,27 +116,15 @@ class _DietDetailPageState extends State<DietDetailPage> {
                         text: TextSpan(
                           children: [
                             TextSpan(
-                              text: 'In the ',
-                              style: googleFonts(17, color: Colors.black)
-                            ),
-                            TextSpan(
-                              text: diet.name.toLowerCase(),
-                              style: googleFonts(17, color: Colors.black)
-                            ),
-                            TextSpan(
-                              text: ' diet, the following items are ',
-                              style: googleFonts(17, color: Colors.black)
-                            ),
-                            TextSpan(
                               text: diet.isProhibitive
-                                  ? 'prohibited'
-                                  : 'allowed',
+                                  ? 'Prohibited'
+                                  : 'Allowed',
                               style: googleFonts(17, color: diet.isProhibitive
                                     ? Colors.red
                                     : Colors.green,),
                             ),
                             TextSpan(
-                              text: ': ',
+                              text: ' items: ',
                               style: googleFonts(17, color:Colors.black)
                             ),
                           ],
@@ -155,15 +143,7 @@ class _DietDetailPageState extends State<DietDetailPage> {
                         text: TextSpan(
                           children: [
                             TextSpan(
-                              text: 'The following items ',
-                              style: googleFonts(
-                                // fontWeight: FontWeight.bold,
-                                17,
-                                color: Colors.black, 
-                              ),
-                            ),
-                            TextSpan(
-                              text: 'may be ',
+                              text: 'Possibly ',
                               style: googleFonts(
                                 // fontWeight: FontWeight.bold,
                                 17,
@@ -183,7 +163,7 @@ class _DietDetailPageState extends State<DietDetailPage> {
                               ),
                             ),
                             const TextSpan(
-                              text: ': ',
+                              text: ' items: ',
                               style: TextStyle(
                                 // fontWeight: FontWeight.bold,
                                 fontSize: 17,

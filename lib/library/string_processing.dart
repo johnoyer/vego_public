@@ -1,8 +1,4 @@
 import 'package:vego_flutter_project/diet_classes/diet_state.dart';
-export 'package:vego_flutter_project/library/textstyles.dart';
-export 'package:vego_flutter_project/library/constants.dart';
-export 'package:vego_flutter_project/library/structural_elements.dart';
-export 'package:vego_flutter_project/library/messages.dart';
 
 // String processing functions
 

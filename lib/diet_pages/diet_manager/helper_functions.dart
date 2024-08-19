@@ -30,8 +30,8 @@ class HideDietsCard extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: Colors.white.withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 2,
+            offset: const Offset(2, 2),
+            blurRadius: 1,
           ),
         ],
         border: Border.all(
@@ -62,7 +62,7 @@ class HideDietsCard extends StatelessWidget {
             ),
             Text(
               ' Hide Diets', 
-              style: googleFonts(20)
+              style: googleFonts(20, shadow: true)
             )
           ],
         ),
@@ -194,8 +194,8 @@ class LabeledCheckbox extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 color: Colors.white.withOpacity(0.5),
-                spreadRadius: 2,
-                blurRadius: 2,
+                offset: const Offset(2, 2),
+                blurRadius: 1,
               ),
             ],
             border: Border.all(
@@ -235,7 +235,7 @@ class LabeledCheckbox extends StatelessWidget {
                   )),
                   Text(
                     label, 
-                    style: googleFonts(20),
+                    style: googleFonts(20, shadow: true),
                   ),
                 ],
               )

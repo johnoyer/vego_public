@@ -40,8 +40,9 @@ Widget libraryCard(
         boxShadow: [
           BoxShadow(
             color: Colors.white.withOpacity(0.5),
-            spreadRadius: elevated ? 2 : 0,
-            blurRadius: 2,
+            // spreadRadius: elevated ? 1 : 0,
+            offset: Offset(elevated ? 2 : 0, elevated ? 2 : 0),
+            blurRadius: 1,
           ),
         ],
         border: Border.all(
@@ -76,7 +77,15 @@ Widget libraryCard(
                 : Icon(
                   icon,
                   color: (iconColor!=null) ? iconColor : (alternate!=null) ? Colors.black : Colors.white,
-                  size: iconSize
+                  size: iconSize,
+                  shadows: [
+                    BoxShadow(
+                      offset: const Offset(1, 1),
+                      blurRadius: 1,
+                      color: (colorToUse == Colors.white ? 
+                          Colors.black : Colors.white),
+                    ),
+                  ]
                 ),
                 (fancyIcon==null) ? Container()
                 : fancyIcon,

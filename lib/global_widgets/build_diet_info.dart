@@ -78,7 +78,8 @@ Widget buildDietInfo(final BuildContext context) {
                 BoxShadow(
                   color: Colors.white.withOpacity(0.5),
                   // spreadRadius: 0,
-                  blurRadius: 2,
+                  offset: const Offset(1,1), //TODO
+                  blurRadius: 1,
                 ),
               ],
               border: Border.all(

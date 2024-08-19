@@ -3,6 +3,7 @@ import 'package:vego_flutter_project/library/barrel.dart';
 import 'package:vego_flutter_project/diet_classes/diet_state.dart';
 import 'package:vego_flutter_project/global_widgets/barrel.dart';
 import 'package:vego_flutter_project/manual_entry/helper_functions.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ManualEntry extends StatefulWidget {
   const ManualEntry({super.key});
@@ -206,12 +207,21 @@ class _BuildIngredientEntryState extends State<BuildIngredientEntry> {
                       );
                     });
                   },
-                  style: googleFonts(17, color:Colors.blue),// Hide default text
+                  style: GoogleFonts.inter(
+                    textStyle: const TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 17,
+                      letterSpacing: 0,
+                      wordSpacing: 0,
+                      height: 1.55,
+                      color: Colors.blue, // Hide default text
+                    )
+                  ),
                   cursorColor: Colors.black, // Keep the cursor visible
                   // cursorWidth: 2.0,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.only(left: 16, right: 18.5, top: 7),
                   child: Column(
                     children: [
                       IgnorePointer(

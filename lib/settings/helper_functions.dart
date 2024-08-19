@@ -92,6 +92,7 @@ class SettingsRow extends StatelessWidget {
             child: Center(
               child: Text(
                 text,
+                textAlign: TextAlign.center,
                 style: googleFonts(17, shadow: true)
               ),
             ),

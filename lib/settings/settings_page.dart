@@ -72,7 +72,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         text: 'Enable spell checking during ingredient recognition: '
                       ),
                       globalDivider(),
-                      // const Spacer(),
+                      const Spacer(),
                       LibraryButton(
                         onTap: () {
                           _isInfoShown ? null : showCupertinoDialog( // do nothing if the info page is shown
@@ -87,9 +87,10 @@ class _SettingsPageState extends State<SettingsPage> {
                         },
                         child: libraryCard(
                           'Delete custom diets and restore default app state',
-                          TextFeatures.small,
+                          TextFeatures.smallnormal,
                           icon: Icons.delete,
                           alternate: false,
+                          elevated: true,
                         )
                       ),
                       const Spacer(),
@@ -112,9 +113,10 @@ class _SettingsPageState extends State<SettingsPage> {
                             },
                             child: libraryCard(
                               'Restore Settings to defaults',
-                              TextFeatures.small,
+                              TextFeatures.smallnormal,
                               icon: Icons.refresh,
                               alternate: false,
+                              elevated: true,
                             )
                           ),
                           const Spacer(),

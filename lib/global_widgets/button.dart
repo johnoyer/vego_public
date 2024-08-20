@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 // This button shrinks when tapped
 
 class LibraryButton extends StatefulWidget {
-  final Widget child;
+  final Widget Function(double animationValue) childBuilder;
   final VoidCallback onTap;
 
   const LibraryButton({
     super.key,
-    required this.child,
+    required this.childBuilder,
     required this.onTap,
   });
 
@@ -19,7 +19,6 @@ class LibraryButton extends StatefulWidget {
 class LibraryButtonState extends State<LibraryButton> with SingleTickerProviderStateMixin {
   late final AnimationController _animationController;
   late final Animation<double> _scaleAnimation;
-  // bool _isHovering = false;
 
   @override
   void initState() {
@@ -37,8 +36,6 @@ class LibraryButtonState extends State<LibraryButton> with SingleTickerProviderS
   Widget build(final BuildContext context) {
     return MouseRegion(
       cursor: SystemMouseCursors.click, // Change cursor to indicate clickable
-      // onEnter: (final _) => setState(() => _isHovering = true),
-      // onExit: (final _) => setState(() => _isHovering = false),
       child: GestureDetector(
         onTapDown: (final _) {
           _animationController.forward(); // Shrink on tap down
@@ -52,10 +49,11 @@ class LibraryButtonState extends State<LibraryButton> with SingleTickerProviderS
         },
         child: ScaleTransition(
           scale: _scaleAnimation,
-          child: Container(
-            // color: _isHovering ? Colors.blue.shade700 : Colors.blue, // Change color on hover
-            // color: const Color.fromARGB(85, 244, 67, 54),
-            child: widget.child,
+          child: AnimatedBuilder(
+            animation: _scaleAnimation,
+            builder: (context, child) {
+              return widget.childBuilder(_scaleAnimation.value);
+            },
           ),
         ),
       ),

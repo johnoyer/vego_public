@@ -91,34 +91,37 @@ class _SettingsPageState extends State<SettingsPage> {
                           icon: Icons.delete,
                           alternate: false,
                           elevated: true,
+                          iconColor: Colors.red
                         )
                       ),
+                      const Spacer(),
+                        LibraryButton(
+                          onTap: () {
+                            _isInfoShown ? null : showCupertinoDialog( // do nothing if the info page is shown
+                              context: context,
+                              builder: (final BuildContext context) {
+                                return const DeletionWidget(
+                                  titleText: 'Reset Settings', 
+                                  noticeText: 'Are you sure you want to reset settings?'
+                                );
+                              },
+                            );
+                          },
+                          child: libraryCard(
+                            'Restore Settings to defaults',
+                            TextFeatures.smallnormal,
+                            icon: Icons.refresh,
+                            alternate: false,
+                            elevated: true,
+                            iconColor: Colors.green
+                          )
+                        ),
                       const Spacer(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const SizedBox(width: 60),
-                          const Spacer(),
-                          LibraryButton(
-                            onTap: () {
-                              _isInfoShown ? null : showCupertinoDialog( // do nothing if the info page is shown
-                                context: context,
-                                builder: (final BuildContext context) {
-                                  return const DeletionWidget(
-                                    titleText: 'Reset Settings', 
-                                    noticeText: 'Are you sure you want to reset settings?'
-                                  );
-                                },
-                              );
-                            },
-                            child: libraryCard(
-                              'Restore Settings to defaults',
-                              TextFeatures.smallnormal,
-                              icon: Icons.refresh,
-                              alternate: false,
-                              elevated: true,
-                            )
-                          ),
+                          // const SizedBox(width: 60),
+                          // const Spacer(),
                           const Spacer(),
                           LibraryButton(
                             onTap: () {
@@ -130,7 +133,6 @@ class _SettingsPageState extends State<SettingsPage> {
                           ),
                         ],
                       ),
-                      const Spacer(),
                     ],
                   ),
                 ),],

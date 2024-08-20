@@ -34,16 +34,19 @@ Widget editDietButton (final BuildContext context, final int dietIndex, final bo
         ),
       );
     },
-    child: editDietCard()
+    childBuilder: (final double animationValue) {
+      return editDietCard(animationValue);
+    }
   );
 }
 
-Widget editDietCard() {
+Widget editDietCard(final double animationValue) {
   return libraryCard(
     'Edit Diet',
     TextFeatures.normal,
     icon: Icons.edit,
-    alternate: false
+    alternate: false,
+    animationValue: animationValue
   );
 }
 

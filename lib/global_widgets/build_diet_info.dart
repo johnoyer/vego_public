@@ -99,7 +99,9 @@ Widget buildDietInfo(final BuildContext context) {
             onTap: () {
               print('arrived');
             },
-            child: dietTextCard(shortenedDietText)
+            childBuilder: (final double animationValue) {
+              return dietTextCard(shortenedDietText);
+            }
           ),
         ],
       );

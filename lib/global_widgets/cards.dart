@@ -19,6 +19,7 @@ Widget libraryCard(
     final double? iconSize,
     final bool elevated = false,
     final Widget? fancyIcon,
+    final double? animationValue
   }
 ) {
   if(text!=null) {
@@ -37,14 +38,14 @@ Widget libraryCard(
     padding: const EdgeInsets.all(5),
     child: Container(
       decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.white.withOpacity(0.5),
-            // spreadRadius: elevated ? 1 : 0,
-            offset: Offset(elevated ? 2 : 0, elevated ? 2 : 0),
-            blurRadius: 1,
-          ),
-        ],
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: Colors.white.withOpacity(0.5),
+        //     // spreadRadius: elevated ? 1 : 0,
+        //     offset: Offset(elevated ? 2 : 0, elevated ? 2 : 0),
+        //     blurRadius: 1,
+        //   ),
+        // ],
         border: Border.all(
           // color: Colors.black,
           width: 1.5
@@ -76,7 +77,7 @@ Widget libraryCard(
                 (icon==null) ? Container()
                 : Icon(
                   icon,
-                  color: (iconColor!=null) ? iconColor : (alternate!=null) ? Colors.black : Colors.white,
+                  color: iconColor ?? colorToUse,
                   size: iconSize,
                   shadows: [
                     BoxShadow(

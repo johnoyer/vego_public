@@ -91,13 +91,16 @@ class _DietDetailPageState extends State<DietDetailPage> {
                                     ),
                                   );
                                 },
-                                child: libraryCard(
-                                  name,
-                                  TextFeatures.smallnormal,
-                                  fancyIcon: diet.isPresetDietWithSubDiets() ?
-                                    (diet as PresetDietWithSubdiets).subDiets[index].iconWidget :
-                                    (diet as CustomDiet).dietFeatures![index].iconWidget 
-                                ),
+                                childBuilder: (final double animationValue) {
+                                  return libraryCard(
+                                    name,
+                                    TextFeatures.smallnormal,
+                                    fancyIcon: diet.isPresetDietWithSubDiets() ?
+                                      (diet as PresetDietWithSubdiets).subDiets[index].iconWidget :
+                                      (diet as CustomDiet).dietFeatures![index].iconWidget,
+                                    animationValue: animationValue 
+                                  );
+                                }
                               );
                             },
                           ),

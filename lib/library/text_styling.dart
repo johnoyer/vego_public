@@ -7,7 +7,18 @@ import 'package:google_fonts/google_fonts.dart';
 // googlefonts.lato, googlefonts.roboto
 // Text styles
 
-TextStyle googleFonts(final double fontSize, {final Color? color, final bool? shadow, final double? offset, final Color? shadowColor}) {
+TextStyle googleFonts(
+  final double fontSize, 
+  {
+    final Color? color, 
+    final bool? shadow, 
+    final double? offset, 
+    final Color? shadowColor,
+    final bool? isPressed
+  }
+) {
+  final bool isPressedLocal = isPressed ?? false;
+  final bool localShadow = (shadow!=null && shadow!=false) || shadow==null;
   return GoogleFonts.inter(
     textStyle: TextStyle(
       fontWeight: FontWeight.w400,
@@ -16,13 +27,13 @@ TextStyle googleFonts(final double fontSize, {final Color? color, final bool? sh
       wordSpacing: 0,
       height: 1.5,
       color: color ?? Colors.white, // default to white
-      shadows: (shadow!=null && shadow!=false) ? [
-        Shadow(
+      shadows: localShadow ? [
+        isPressedLocal ? const Shadow() : Shadow(// if the text is "pressed" remove the shadow
           // offset and blurradius are a function of fontsize if not provided
           offset: Offset(offset ?? fontSize/15 + .4, offset ?? fontSize/15 + .4),
           blurRadius: offset ?? fontSize/15 + .4,
           color: shadowColor ?? 
-              ((color==null || color == Colors.white) ? 
+              ((color==null || color != Colors.black) ? 
               Colors.black : Colors.white),
         ),
       ] : null,

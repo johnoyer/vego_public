@@ -20,18 +20,16 @@ Widget libraryNavigationBar(final VoidCallback onExit, final text, final VoidCal
           width: 50,
           child: LibraryButton(
             onTap: onExit,
-            child: const Icon(
-              Icons.arrow_back,
-              size: 30,
-              color: Colors.white,
-              shadows: [
-                BoxShadow(
-                  offset: Offset(2, 2),
-                  blurRadius: 2,
-                  // color: Colors.black,
-                ),
-              ]
-            ),
+            childBuilder: (final double animationValue) {
+              return Icon(
+                Icons.arrow_back,
+                size: 30,
+                color: Colors.white,
+                shadows: [
+                  animationValue != 1 ? const BoxShadow() : globalShadow(false, color: Colors.black, blurRadius: 2)
+                ]
+              );
+            }
           ),
         ),
         const Spacer(),
@@ -51,18 +49,20 @@ Widget libraryNavigationBar(final VoidCallback onExit, final text, final VoidCal
           child: onQuestion != null ? 
           LibraryButton(
             onTap: onQuestion,
-            child: const Icon(
-              Icons.question_mark,
-              size: 30,
-              color: Colors.white,
-              shadows: [
-                BoxShadow(
-                    offset: Offset(2, 2),
+            childBuilder: (final double animationValue) {
+              return Icon(
+                Icons.question_mark,
+                size: 30,
+                color: Colors.white,
+                shadows: [
+                  BoxShadow(
+                    offset: const Offset(2, 2),
                     blurRadius: 2,
-                    // color: Colors.black,
-                ),
-              ]
-            ),
+                    color: animationValue != 1 ? Colors.transparent : Colors.black,
+                  ),
+                ]
+              );
+            }
           ) : 
           Container(),
         )

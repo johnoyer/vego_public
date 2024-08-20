@@ -4,7 +4,7 @@ import 'package:vego_flutter_project/library/barrel.dart';
 import 'package:vego_flutter_project/global_widgets/barrel.dart';
 import 'package:vego_flutter_project/diet_classes/diet_class.dart';
 import 'package:vego_flutter_project/diet_classes/diet_state.dart';
-import 'package:vego_flutter_project/diet_pages/diet_detail_page/diet_detail_page_helper_functions.dart';
+import 'package:vego_flutter_project/diet_pages/diet_detail_page/helper_functions.dart';
 
 
 class DietDetailPage extends StatefulWidget {
@@ -28,21 +28,22 @@ class _DietDetailPageState extends State<DietDetailPage> {
     // If the diet is variable, it is chosen from the mutable list in DietState, otherwise it is chosen from the fixed list of base diets
     final Diet diet = widget.dietIndex != null ? DietState.getDietList()[widget.dietIndex!] : widget.fixedDiet!;
     return SafeArea(
-      child: Stack(
-        children: [
-          ColorFiltered(
-            colorFilter: ColorFilter.mode(
-              _isInfoShown ? Colors.black.withOpacity(0.5) : Colors.transparent, // Dark color with opacity
-              BlendMode.darken,
-            ),
-            child: Consumer<DietState>(builder: (final context, final dietState, final _) {
-              final String dietName = (diet.name=='') ? '[unnamed]' : diet.name;
-              final bool showDietAttributes = diet.isPresetDietWithSubDiets() || // if the diet is a PresetDietWithSubDiets
-                      (diet.isCustom() &&
-                      (diet as CustomDiet).dietFeatures != null &&
-                      diet.dietFeatures!.isNotEmpty); // if the diet is a CustomDiet, and it does not have a null or empty dietFeatures list
-              return Scaffold(
-                body: Center(
+      child: Scaffold(
+        backgroundColor: ColorReturner().backGroundColor,
+        body: Stack(
+          children: [
+            ColorFiltered(
+              colorFilter: ColorFilter.mode(
+                _isInfoShown ? Colors.black.withOpacity(0.5) : Colors.transparent, // Dark color with opacity
+                BlendMode.darken,
+              ),
+              child: Consumer<DietState>(builder: (final context, final dietState, final _) {
+                final String dietName = (diet.name=='') ? '[unnamed]' : diet.name;
+                final bool showDietAttributes = diet.isPresetDietWithSubDiets() || // if the diet is a PresetDietWithSubDiets
+                        (diet.isCustom() &&
+                        (diet as CustomDiet).dietFeatures != null &&
+                        diet.dietFeatures!.isNotEmpty); // if the diet is a CustomDiet, and it does not have a null or empty dietFeatures list
+                return Center(
                   child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -56,7 +57,15 @@ class _DietDetailPageState extends State<DietDetailPage> {
                           _isInfoShown = true;
                         });
                       },
-                      (diet is PresetDiet) ? diet.iconWidget : null
+                      (diet is PresetDiet) ? Container(
+                        decoration: BoxDecoration(
+                        boxShadow: [
+                          globalShadow(false, color: Colors.black)
+                        ],
+                        shape: BoxShape.circle
+                      ),
+                        child: diet.iconWidget
+                      ) : null
                     ),
                     showDietAttributes ? 
                     // Column(
@@ -65,47 +74,45 @@ class _DietDetailPageState extends State<DietDetailPage> {
                     //       'Diet Attributes:',
                     //       TextFeatures.normal,
                     //     ),
-                        SizedBox(
-                          // width: 500,
-                          height: 54, // TODO: need to fix this
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: diet.isPresetDietWithSubDiets() ?
-                              (diet as PresetDietWithSubdiets).subDiets.length : // if the diet is a PresetDietWithSubdiets get the subDiets length
-                              (diet as CustomDiet).dietFeatures!.length, // if the diet is a CustomDiet get the dietFeatures length
-                            itemBuilder: (final context, final index) {
-                              final String name = diet.isPresetDietWithSubDiets() ?
-                                (diet as PresetDietWithSubdiets).subDiets[index].name :
-                                (diet as CustomDiet).dietFeatures![index].name;
-                              final Diet fixedDiet = diet.isPresetDietWithSubDiets() ?
-                                (diet as PresetDietWithSubdiets).subDiets[index] :
-                                (diet as CustomDiet).dietFeatures![index];
-                              return LibraryButton(
-                                onTap: () {
-                                  if(_isInfoShown) return; // do nothing if the page info is shown
-                                  Navigator.push( 
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (final context) =>
-                                          DietDetailPage(fixedDiet: fixedDiet), // the diet will be from the fixed attribute list
-                                    ),
-                                  );
-                                },
-                                childBuilder: (final double animationValue) {
-                                  return libraryCard(
-                                    name,
-                                    TextFeatures.smallnormal,
-                                    fancyIcon: diet.isPresetDietWithSubDiets() ?
-                                      (diet as PresetDietWithSubdiets).subDiets[index].iconWidget :
-                                      (diet as CustomDiet).dietFeatures![index].iconWidget,
-                                    animationValue: animationValue 
-                                  );
-                                }
+                    SizedBox(
+                      // width: 500,
+                      height: 54, // TODO: need to fix this
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: diet.isPresetDietWithSubDiets() ?
+                          (diet as PresetDietWithSubdiets).subDiets.length : // if the diet is a PresetDietWithSubdiets get the subDiets length
+                          (diet as CustomDiet).dietFeatures!.length, // if the diet is a CustomDiet get the dietFeatures length
+                        itemBuilder: (final context, final index) {
+                          final String name = diet.isPresetDietWithSubDiets() ?
+                            (diet as PresetDietWithSubdiets).subDiets[index].name :
+                            (diet as CustomDiet).dietFeatures![index].name;
+                          final Diet fixedDiet = diet.isPresetDietWithSubDiets() ?
+                            (diet as PresetDietWithSubdiets).subDiets[index] :
+                            (diet as CustomDiet).dietFeatures![index];
+                          return LibraryButton(
+                            onTap: () {
+                              if(_isInfoShown) return; // do nothing if the page info is shown
+                              Navigator.push( 
+                                context,
+                                MaterialPageRoute(
+                                  builder: (final context) =>
+                                      DietDetailPage(fixedDiet: fixedDiet), // the diet will be from the fixed attribute list
+                                ),
                               );
                             },
-                          ),
-                        // ),
-                    //   ],
+                            childBuilder: (final double animationValue) {
+                              return libraryCard(
+                                name,
+                                TextFeatures.smallnormal,
+                                fancyIcon: diet.isPresetDietWithSubDiets() ?
+                                  (diet as PresetDietWithSubdiets).subDiets[index].iconWidget :
+                                  (diet as CustomDiet).dietFeatures![index].iconWidget,
+                                animationValue: animationValue 
+                              );
+                            }
+                          );
+                        },
+                      ),
                     ) : Container(),
                     showDietAttributes ? 
                       const Padding(padding: EdgeInsets.only(top: 2)) : 
@@ -128,7 +135,7 @@ class _DietDetailPageState extends State<DietDetailPage> {
                             ),
                             TextSpan(
                               text: ' items: ',
-                              style: googleFonts(17, color:Colors.black)
+                              style: googleFonts(17)
                             ),
                           ],
                         ),
@@ -165,14 +172,9 @@ class _DietDetailPageState extends State<DietDetailPage> {
                                     : Colors.green,
                               ),
                             ),
-                            const TextSpan(
+                            TextSpan(
                               text: ' items: ',
-                              style: TextStyle(
-                                // fontWeight: FontWeight.bold,
-                                fontSize: 17,
-                                color:
-                                    Colors.black, // Default color for the main text
-                              ),
+                              style: googleFonts(17),
                             ),
                           ],
                         ),
@@ -191,21 +193,29 @@ class _DietDetailPageState extends State<DietDetailPage> {
                     ),
                   ],
                   )
+                );
+              }),
+            ),
+            InfoSlider(
+              isInfoShown: _isInfoShown,
+              title: '${(diet.name=='') ? '[unnamed]' : diet.name} Diet Info',
+              icon: (diet is PresetDiet) ? Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    globalShadow(false, color: Colors.black)
+                  ],
+                  shape: BoxShape.circle
                 ),
-              );
-            }),
-          ),
-          InfoSlider(
-            isInfoShown: _isInfoShown,
-            title: '${(diet.name=='') ? '[unnamed]' : diet.name} Diet Info',
-            icon: (diet is PresetDiet) ? diet.iconWidget : null,
-            info: diet.dietInfo == '' ?
-            '[no diet info has been entered yet]' : diet.dietInfo,
-            onClose: () => setState(() {
-              _isInfoShown = false;
-            }),
-          ),
-        ],
+                child: diet.iconWidget
+              ) : null,
+              info: diet.dietInfo == '' ?
+              '[no diet info has been entered yet]' : diet.dietInfo,
+              onClose: () => setState(() {
+                _isInfoShown = false;
+              }),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -109,12 +109,16 @@ class _DietPageState extends State<DietPage> {
                       const Spacer(),
                       LibraryButton( // Add new diet
                         onTap: () async => _isInfoShown ? null : await addNewDiet(context), // do nothing if the page info is shown
-                        child: addNewDietCard()
+                        childBuilder: (final double animationValue) {
+                          return addNewDietCard(animationValue);
+                        }
                       ),
                       const Padding(padding: EdgeInsets.only(right: 5)),
                       LibraryButton( // Hide Diets
                         onTap: () => _isInfoShown ? null : _switchMode(), // do nothing if the page info is shown
-                        child: HideDietsCard(editMode: _editMode),
+                        childBuilder: (final double animationValue) { 
+                          return HideDietsCard(editMode: _editMode, animationValue: animationValue,);
+                        }
                       ),
                       const Spacer(),
                       LibraryButton(
@@ -123,7 +127,9 @@ class _DietPageState extends State<DietPage> {
                             _isInfoShown = true;
                           });
                         },
-                        child: questionMarkIconCard(),
+                        childBuilder: (final double animationValue) {
+                          return questionMarkIconCard(animationValue);
+                        }
                       ),
                     ],
                   ),

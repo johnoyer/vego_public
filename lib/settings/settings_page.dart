@@ -85,14 +85,16 @@ class _SettingsPageState extends State<SettingsPage> {
                             },
                           );
                         },
-                        child: libraryCard(
-                          'Delete custom diets and restore default app state',
-                          TextFeatures.smallnormal,
-                          icon: Icons.delete,
-                          alternate: false,
-                          elevated: true,
-                          iconColor: Colors.red
-                        )
+                        childBuilder: (final double animationValue) {
+                          return libraryCard(
+                            'Delete custom diets and restore default app state',
+                            TextFeatures.smallnormal,
+                            icon: Icons.delete,
+                            alternate: false,
+                            iconColor: Colors.red,
+                            animationValue: animationValue
+                          );
+                        }
                       ),
                       const Spacer(),
                         LibraryButton(
@@ -107,14 +109,16 @@ class _SettingsPageState extends State<SettingsPage> {
                               },
                             );
                           },
-                          child: libraryCard(
-                            'Restore Settings to defaults',
-                            TextFeatures.smallnormal,
-                            icon: Icons.refresh,
-                            alternate: false,
-                            elevated: true,
-                            iconColor: Colors.green
-                          )
+                          childBuilder: (final double animationValue) {
+                            return libraryCard(
+                              'Restore Settings to defaults',
+                              TextFeatures.smallnormal,
+                              icon: Icons.refresh,
+                              alternate: false,
+                              iconColor: Colors.green,
+                              animationValue: animationValue
+                            );
+                          }
                         ),
                       const Spacer(),
                       Row(
@@ -129,7 +133,9 @@ class _SettingsPageState extends State<SettingsPage> {
                                 _isInfoShown = true;
                               }); 
                             },
-                            child: questionMarkIconCard(),
+                            childBuilder: (final double animationValue) {
+                              return questionMarkIconCard(animationValue);
+                            }
                           ),
                         ],
                       ),

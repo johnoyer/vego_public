@@ -15,7 +15,7 @@ Widget globalDivider() {
     child: Container(
       decoration: BoxDecoration(
         boxShadow: [
-          globalShadow(color: Colors.black.withOpacity(0.5))
+          globalShadow(false, color: Colors.black.withOpacity(0.5))
         ],
         border: Border.all(
           // color: Colors.black,

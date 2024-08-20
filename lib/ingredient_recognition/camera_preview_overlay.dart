@@ -36,6 +36,12 @@ class LShapePainter extends CustomPainter {
       ..strokeWidth = 4.0
       ..strokeJoin = StrokeJoin.round;
 
+    final Paint shadowPaint = Paint()
+      ..color = Colors.black.withOpacity(0.5) // Shadow color with opacity
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 4.0
+      ..strokeJoin = StrokeJoin.round
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 1.0); // Apply blur to create shadow effect
 
     const double offset = 20.0;
     // final double length = size.width - offset;
@@ -53,20 +59,37 @@ class LShapePainter extends CustomPainter {
     } else {// bottomLeft or bottomRight
       path.lineTo(0, -offset);
     }
-    
-    // path.close();
-    canvas.drawPath(path, paint);
+
+    // Draw shadow path
+    final Path shadowPath = Path();
+
+    const double shadowOffset = 2;
+
+    if (position==Position.topLeft||position==Position.bottomLeft) {
+      shadowPath.moveTo(offset-shadowOffset, 0+shadowOffset);
+    } else {// bottomRight or topRight
+      shadowPath.moveTo(-offset-shadowOffset, 0+shadowOffset);
+    }
+    shadowPath.lineTo(0-shadowOffset, 0+shadowOffset); 
+    if (position==Position.topLeft||position==Position.topRight) {
+      shadowPath.lineTo(0-shadowOffset, offset+shadowOffset);
+    } else {// bottomLeft or bottomRight
+      shadowPath.lineTo(0-shadowOffset, -offset+shadowOffset);
+    }
+
+    canvas.drawPath(shadowPath, shadowPaint); // Draw shadow first
+    canvas.drawPath(path, paint); // Draw the main path
   }
 
   @override
   bool shouldRepaint(final CustomPainter oldDelegate) => false;
 }
 
-Widget cameraIconCard() {
+Widget cameraIconCard(final double animationValue) {
   return libraryCard(
     null,
     TextFeatures.large, // doesn't do anything in this case
-    elevated: true,
+    animationValue: animationValue,
     alternate: false,
     icon: Icons.camera_alt_sharp,
     iconSize: 50,

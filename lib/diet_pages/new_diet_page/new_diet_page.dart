@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:async/async.dart';
-import 'package:vego_flutter_project/diet_pages/diet_detail_page/diet_detail_page_helper_functions.dart';
+import 'package:vego_flutter_project/diet_pages/diet_detail_page/helper_functions.dart';
 import 'package:vego_flutter_project/diet_pages/new_diet_page/new_diet_page_helper_functions.dart';
 import 'package:vego_flutter_project/library/barrel.dart';
 import 'package:vego_flutter_project/global_widgets/barrel.dart';
@@ -232,11 +232,13 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
         const Padding(padding: EdgeInsets.all(5)),
         LibraryButton(
           onTap: stageSevenOnTap,
-          child: SizedBox(
-            height: 60,
-            width: 280,
-            child: foundationCard()
-          ),
+          childBuilder: (final double animationValue) {
+            return SizedBox(
+              height: 60,
+              width: 280,
+              child: foundationCard()
+            );
+          }
         )
       ],
     );
@@ -288,11 +290,13 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
         const Padding(padding: EdgeInsets.all(5)),
         LibraryButton(
           onTap: stageSixOnTap,
-          child: SizedBox(
-            height: 60,
-            width: 75,
-            child: foundationCard()
-          ),
+          childBuilder: (final double animationValue) {
+            return SizedBox(
+              height: 60,
+              width: 75,
+              child: foundationCard()
+            );
+          }
         )
       ],
     );
@@ -369,11 +373,13 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
         const Padding(padding: EdgeInsets.all(5)),
         LibraryButton(
           onTap: stageFiveOnTap,
-          child: SizedBox(
-            height: 60,
-            width: 75,
-            child: foundationCard()
-          ),
+          childBuilder: (final double animationValue) {
+            return SizedBox(
+              height: 60,
+              width: 75,
+              child: foundationCard()
+            );
+          }
         )
       ],
     );
@@ -478,11 +484,13 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
         const Padding(padding: EdgeInsets.all(5)),
         LibraryButton(
           onTap: stageFourOnTap,
-          child: SizedBox(
-            height: 60,
-            width: 75,
-            child: foundationCard()
-          ),
+          childBuilder: (final double animationValue) {
+            return SizedBox(
+              height: 60,
+              width: 75,
+              child: foundationCard()
+            );
+          }
         )
       ],
     );
@@ -531,11 +539,13 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
         const Padding(padding: EdgeInsets.all(5)),
         LibraryButton(
           onTap: stageThreeOnTap,
-          child: SizedBox(
-            height: 60,
-            width: 75,
-            child: foundationCard()
-          ),
+          childBuilder: (final double animationValue) {
+            return SizedBox(
+              height: 60,
+              width: 75,
+              child: foundationCard()
+            );
+          }
         )
       ],
     );
@@ -646,11 +656,13 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
         const Padding(padding: EdgeInsets.all(5)),
         LibraryButton(
           onTap: () async => await stageTwoOnTap(),
-          child: SizedBox(
-            height: 60,
-            width: 75,
-            child: foundationCard()
-          ),
+          childBuilder: (final double animationValue) {
+            return SizedBox(
+              height: 60,
+              width: 75,
+              child: foundationCard()
+            );
+          }
         )
       ],
     );
@@ -732,11 +744,13 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
         const Padding(padding: EdgeInsets.all(5)),
         LibraryButton(
           onTap: () async => await stageOneOnTap(),
-          child: SizedBox(
-            height: 60,
-            width: 75,
-            child: foundationCard(),
-          ),
+          childBuilder: (final double animationValue) {
+            return SizedBox(
+              height: 60,
+              width: 75,
+              child: foundationCard(),
+            );
+          }
         )
       ],
     );

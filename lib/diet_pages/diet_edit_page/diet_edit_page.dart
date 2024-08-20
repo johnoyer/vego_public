@@ -402,26 +402,30 @@ class _DietEditPageState extends State<DietEditPage> {
                           (final index) {
                             return LibraryButton(
                               onTap: () => _showItemEditDialog(index, false, true),
-                              child: Card(
-                                color: ColorReturner().primaryFixed,
-                                shape: globalBorder,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(6.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(newPrimaryItems[index]),
-                                      LibraryButton(
-                                        onTap: () => onPressedRemoveFunction(index, true),
-                                        child: const Icon(
-                                          Icons.close,
-                                          size: 20.0,
+                              childBuilder: (final double animationValue) {
+                                return Card(
+                                  color: ColorReturner().primaryFixed,
+                                  shape: globalBorder,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(6.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(newPrimaryItems[index]),
+                                        LibraryButton(
+                                          onTap: () => onPressedRemoveFunction(index, true),
+                                          childBuilder: (final double animationValue) {
+                                            return const Icon(
+                                              Icons.close,
+                                              size: 20.0,
+                                            );
+                                          }
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ),
+                                );
+                              }
                             );
                           },
                         ),
@@ -433,13 +437,15 @@ class _DietEditPageState extends State<DietEditPage> {
                               final int newIndex = addDietItem(true);
                               _showItemEditDialog(newIndex, true, true);
                             },
-                            child: const Padding(
-                              padding: EdgeInsets.all(7.0),
-                              child: Icon(
-                                Icons.add,
-                                size: 20.0,
-                              ),
-                            ),
+                            childBuilder: (final double animationValue) {
+                              return const Padding(
+                                padding: EdgeInsets.all(7.0),
+                                child: Icon(
+                                  Icons.add,
+                                  size: 20.0,
+                                ),
+                              );
+                            }
                           ),
                         ),
                       ],
@@ -510,26 +516,30 @@ class _DietEditPageState extends State<DietEditPage> {
                           (final index) {
                             return LibraryButton(
                               onTap: () => _showItemEditDialog(index, false, false),
-                              child: Card(
-                                shape: globalBorder,
-                                color: ColorReturner().primaryFixed,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(6.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(newSecondaryItems[index]),
-                                      LibraryButton(
-                                        onTap: () => onPressedRemoveFunction(index, false),
-                                        child: const Icon(
-                                          Icons.close,
-                                          size: 20.0,
+                              childBuilder: (final double animationValue) {
+                                return Card(
+                                  shape: globalBorder,
+                                  color: ColorReturner().primaryFixed,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(6.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(newSecondaryItems[index]),
+                                        LibraryButton(
+                                          onTap: () => onPressedRemoveFunction(index, false),
+                                          childBuilder: (final double animationValue) {
+                                            return const Icon(
+                                              Icons.close,
+                                              size: 20.0,
+                                            );
+                                          }
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ),
+                                );
+                              }
                             );
                           },
                         ),
@@ -541,13 +551,15 @@ class _DietEditPageState extends State<DietEditPage> {
                               final int newIndex = addDietItem(false);
                               _showItemEditDialog(newIndex, true, false);
                             },
-                            child: const Padding(
-                              padding: EdgeInsets.all(7.0),
-                              child: Icon(
-                                Icons.add,
-                                size: 20.0,
-                              ),
-                            ),
+                            childBuilder: (final double animationValue) {
+                              return const Padding(
+                                padding: EdgeInsets.all(7.0),
+                                child: Icon(
+                                  Icons.add,
+                                  size: 20.0,
+                                ),
+                              );
+                            }
                           ),
                         ),
                       ],
@@ -560,11 +572,15 @@ class _DietEditPageState extends State<DietEditPage> {
                 children: [
                   LibraryButton(
                     onTap: () async => onPressedSaveFunction(),
-                    child: saveDietCard(),
+                    childBuilder: (final double animationValue) {
+                      return saveDietCard();
+                    }
                   ),
                   LibraryButton(
                     onTap: () => _showDietRemovalDialog(context),
-                    child: removeDietCard()
+                    childBuilder: (final double animationValue) {
+                      return removeDietCard();
+                    }
                   ),
                 ],
               )

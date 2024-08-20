@@ -31,7 +31,7 @@ class InfoSlider extends StatelessWidget {
       child: Container(
         width: MediaQuery.of(context).size.width*4/5 + 100,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: ColorReturner().backGroundColor,
           borderRadius: BorderRadius.circular(30),
           border: Border.all(
             width: 3.0
@@ -57,16 +57,9 @@ class InfoSlider extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,
-                    child: 
-                    Card(
-                      shape: globalBorder,
-                      color: ColorReturner().secondaryFixed,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Text(
-                          info
-                        )
-                      ),
+                    child: Text(
+                      info,
+                      style: googleFonts(15)
                     )
                   )
                 )
@@ -74,11 +67,14 @@ class InfoSlider extends StatelessWidget {
               const Padding(padding: EdgeInsets.only(top: 10)),
               LibraryButton(
                 onTap: onClose,
-                child: libraryCard(
-                  'Got it!',
-                  TextFeatures.normal,
-                  alternate: false
-                ) 
+                childBuilder: (final double animationValue) {
+                  return libraryCard(
+                    'Got it!',
+                    TextFeatures.normal,
+                    alternate: false,
+                    animationValue: animationValue,
+                  );
+                }
               )
             ],
           ),

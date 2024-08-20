@@ -41,22 +41,28 @@ class _ManualEntry extends State<ManualEntry> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Padding(padding: EdgeInsets.only(right: 5)),
                       const SizedBox(
-                        width: 60,
+                        width: 70,
                       ),
                       const Spacer(),
                       buildDietInfo(context),
                       const Spacer(),
-                      LibraryButton(
-                        onTap: () {
-                          setState(() {
-                            _isInfoShown = true;
-                          });
-                        },
-                        child: questionMarkIconCard(),
+                      SizedBox(
+                        width: 70,
+                        child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: LibraryButton(
+                            onTap: () {
+                              setState(() {
+                                _isInfoShown = true;
+                              });
+                            },
+                            childBuilder: (final double animationValue) {
+                              return questionMarkIconCard(animationValue);
+                            }
+                          ),
+                        ),
                       ),
-                      const Padding(padding: EdgeInsets.only(right: 5)),
                     ],
                   )
                 ),

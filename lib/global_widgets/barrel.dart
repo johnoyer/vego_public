@@ -7,3 +7,4 @@ export 'package:vego_flutter_project/global_widgets/info_slider.dart';
 export 'package:vego_flutter_project/global_widgets/navigation_bar.dart';
 export 'package:vego_flutter_project/global_widgets/icon_wrapper.dart';
 export 'package:vego_flutter_project/global_widgets/build_diet_info.dart';
+export 'package:vego_flutter_project/global_widgets/bottom_navigation_bar.dart';

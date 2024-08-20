@@ -130,15 +130,20 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
                       const Spacer(),
                       SizedBox(
                         width: 100,
-                        child: LibraryButton(
-                          onTap: () {
-                            _initializationDone ? setState(() {
-                              _isInfoShown = true;
-                            }) : null;
-                          },
-                          child: questionMarkIconCard(),
-                        ),
-                      ),  
+                        child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: LibraryButton(
+                            onTap: () {
+                              _initializationDone ? setState(() {
+                                _isInfoShown = true;
+                              }) : null;
+                            },
+                            childBuilder: (final double animationValue) {
+                              return questionMarkIconCard(animationValue);
+                            }
+                          ),
+                        ), 
+                      ),
                     ],
                   ),
                 ),
@@ -317,40 +322,40 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
   }
 
   Widget _buildPictureTakeButton() {
-    return 
-    PlatformWidget(
-      ios: (final context) => _awaitingResult ? const Center(child: CupertinoActivityIndicator()) :
-        CupertinoButton(
-          onPressed: () {
-            _isInfoShown||!_initializationDone ? null : _operations.add(
-              CancelableOperation.fromFuture(
-                _captureImage() // do nothing if the page info is shown
-              )
-            );
-          },
-          padding: EdgeInsets.zero,
-          borderRadius: BorderRadius.circular(25.0),
-          child: cameraIconCard()
-        ),
-      android: (final context) => _awaitingResult ? const Center(child: CircularProgressIndicator()) :
-        InkWell(
-          onTap: () {
-            _isInfoShown||!_initializationDone ? null : _operations.add(
-              CancelableOperation.fromFuture(
-                _captureImage() // do nothing if the page info is shown
-              )
-            );
-          },
-          borderRadius: BorderRadius.circular(25.0),
-          child: libraryCard(
+        // CupertinoButton(
+        //   onPressed: () {
+        //     _isInfoShown||!_initializationDone ? null : _operations.add(
+        //       CancelableOperation.fromFuture(
+        //         _captureImage() // do nothing if the page info is shown
+        //       )
+        //     );
+        //   },
+        //   padding: EdgeInsets.zero,
+        //   borderRadius: BorderRadius.circular(25.0),
+        //   child: cameraIconCard()
+        // ),
+    return _awaitingResult ? 
+      const Center(child: CircularProgressIndicator()) :
+      LibraryButton(
+        onTap: () {
+          _isInfoShown||!_initializationDone ? null : _operations.add(
+            CancelableOperation.fromFuture(
+              _captureImage() // do nothing if the page info is shown
+            )
+          );
+        },
+        // borderRadius: BorderRadius.circular(25.0),
+        childBuilder: (final double animationValue) {
+          return libraryCard(
             null,
             TextFeatures.large, // doesn't do anything in this case
             alternate: false,
             icon: Icons.camera_alt_sharp,
             iconSize: 50,
-          )
-        ),
-    );
+            animationValue: animationValue
+          );
+        }
+      );
   }
 
   Widget _buildIngredientImage() {
@@ -405,13 +410,17 @@ class _IngredientRecognition extends State<IngredientRecognition> with SingleTic
                       _secondaryView = !_secondaryView;
                     });
                   },
-                  child: swapViewingModeCard()
+                  childBuilder: (final double animationValue) {
+                    return swapViewingModeCard();
+                  }
                 ),
                 LibraryButton(
                   onTap: () {
                     _isInfoShown||!_initializationDone ? null : DietState().updateSelectedIndex(2); // do nothing if the page info is shown
                   },
-                  child: editIngredientInformationCard()
+                  childBuilder: (final double animationValue) {
+                    return editIngredientInformationCard();
+                  }
                 ),
               ],
             ),

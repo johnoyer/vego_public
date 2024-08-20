@@ -15,7 +15,7 @@ Widget itemsDisplayWidget(final List<String> inputList) {
           shadowColor: Colors.transparent,
           child: Text(
             capitalizeFirstLetterOfEveryWord(inputList).join(', '), 
-            style: googleFonts(17, color: Colors.black)
+            style: googleFonts(17)
           )
         ),
       ),

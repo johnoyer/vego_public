@@ -22,7 +22,7 @@ class AdditiveFree extends PresetDiet {
         Icons.science_outlined,
         color: Color.fromARGB(255, 140, 140, 140),
       ),
-      true
+      true,
     );//icons.bubble_chart
   }
 

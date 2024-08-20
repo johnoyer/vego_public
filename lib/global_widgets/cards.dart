@@ -17,7 +17,7 @@ Widget libraryCard(
     final IconData? icon,
     final Color? iconColor,
     final double? iconSize,
-    final bool elevated = false,
+    // final bool elevated = false,
     final Widget? fancyIcon,
     final double? animationValue
   }
@@ -34,18 +34,20 @@ Widget libraryCard(
       : features == TextFeatures.smallnormal
       ? 17
       : 30;
+  final double offset = (animationValue!=null && animationValue!=1) || animationValue==null ? 0 : 2; // use animation value to determine elevation
+  final bool isPressed = (animationValue!=null && animationValue!=1);
   return Padding(
     padding: const EdgeInsets.all(5),
     child: Container(
       decoration: BoxDecoration(
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: Colors.white.withOpacity(0.5),
-        //     // spreadRadius: elevated ? 1 : 0,
-        //     offset: Offset(elevated ? 2 : 0, elevated ? 2 : 0),
-        //     blurRadius: 1,
-        //   ),
-        // ],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.white.withOpacity(0.5),
+            // spreadRadius: elevated ? 1 : 0,
+            offset: Offset(offset, offset),
+            blurRadius: 1,
+          ),
+        ],
         border: Border.all(
           // color: Colors.black,
           width: 1.5
@@ -80,7 +82,7 @@ Widget libraryCard(
                   color: iconColor ?? colorToUse,
                   size: iconSize,
                   shadows: [
-                    BoxShadow(
+                    isPressed ? const BoxShadow() : BoxShadow( // hide the shadow if isPressed is true
                       offset: const Offset(1, 1),
                       blurRadius: 1,
                       color: (colorToUse == Colors.white ? 
@@ -95,7 +97,7 @@ Widget libraryCard(
                   overflow: TextOverflow.ellipsis,
                   maxLines: 3,
                   softWrap: true,
-                  style: googleFonts(fontSize, color: colorToUse, shadow: true),
+                  style: googleFonts(fontSize, color: colorToUse, shadow: true, isPressed: (animationValue ?? 1) != 1), // isPressed is false if animationValue isn't provided
                 ) : Container(),
               ],
             ),
@@ -108,13 +110,14 @@ Widget libraryCard(
 
 // Used for information buttons
 
-Widget questionMarkIconCard() {
+Widget questionMarkIconCard(final double animationValue) {
   return libraryCard(
     null,
     TextFeatures.large,
-    elevated: true,
+    animationValue: animationValue,
     backGroundColor: ColorReturner().secondary,
     icon: Icons.question_mark,
     iconSize: 20,
   );
 }
+

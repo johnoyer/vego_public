@@ -5,12 +5,12 @@ import 'package:vego_flutter_project/library/barrel.dart';
 import 'package:vego_flutter_project/global_widgets/barrel.dart';
 import 'package:vego_flutter_project/diet_pages/new_diet_page/new_diet_page.dart';
 
-Widget addNewDietCard() {
+Widget addNewDietCard(final double animationValue) {
   return libraryCard(
     'Add New Diet',
     TextFeatures.normal,
     alternate: false,
-    elevated: true,
+    animationValue: animationValue,
     icon: Icons.add
   );
 }
@@ -19,18 +19,21 @@ class HideDietsCard extends StatelessWidget {
   const HideDietsCard({
     super.key,
     required final bool editMode,
-  }) : _editMode = editMode;
+    required final double animationValue,
+  }) : _editMode = editMode, _animationValue = animationValue;
 
   final bool _editMode;
+  final double _animationValue;
 
   @override
   Widget build(final BuildContext context) {
+    final double offset = _animationValue != 1 ? 0 : 2;
     return Container(
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
             color: Colors.white.withOpacity(0.5),
-            offset: const Offset(2, 2),
+            offset: Offset(offset, offset),
             blurRadius: 1,
           ),
         ],
@@ -62,7 +65,7 @@ class HideDietsCard extends StatelessWidget {
             ),
             Text(
               ' Hide Diets', 
-              style: googleFonts(20, shadow: true)
+              style: googleFonts(20, shadow: true, isPressed: _animationValue != 1)
             )
           ],
         ),
@@ -189,30 +192,33 @@ class LabeledCheckbox extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
       child: LibraryButton(
         onTap: onTap,
-        child: Container(
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.white.withOpacity(0.5),
-                offset: const Offset(2, 2),
-                blurRadius: 1,
+        childBuilder: (final double animationValue) {
+        final double offset = animationValue != 1 ? 0 : 2;
+          return Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.white.withOpacity(0.5),
+                  offset: Offset(offset, offset),
+                  blurRadius: 1,
+                ),
+              ],
+              border: Border.all(
+                // color: Colors.black,
+                width: 1.5
               ),
-            ],
-            border: Border.all(
-              // color: Colors.black,
-              width: 1.5
+              borderRadius: BorderRadius.circular(10.0), 
+              // side: const BorderSide(color: Color.fromARGB(255, 4, 3, 49)),
+              color: ColorReturner().primary
             ),
-            borderRadius: BorderRadius.circular(10.0), 
-            // side: const BorderSide(color: Color.fromARGB(255, 4, 3, 49)),
-            color: ColorReturner().primary
-          ),
-          child: _row(),
-        ),
+            child: _row(animationValue),
+          );
+        }
       ),
     );
   }
 
-  Widget _row () {
+  Widget _row (final double animationValue) {
     return Row(
       children: <Widget>[
         const Padding(
@@ -231,11 +237,19 @@ class LabeledCheckbox extends StatelessWidget {
                 children: [
                   if (icons != null) ...icons!.map((final widget) => Padding(
                     padding: const EdgeInsets.only(right: 8.0),
-                    child: widget,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          globalShadow(animationValue!=1, color: Colors.black)
+                        ],
+                        shape: BoxShape.circle
+                      ),
+                      child: widget
+                    ),
                   )),
                   Text(
                     label, 
-                    style: googleFonts(20, shadow: true),
+                    style: googleFonts(20, shadow: true, isPressed: animationValue != 1),
                   ),
                 ],
               )
@@ -251,14 +265,18 @@ class LabeledCheckbox extends StatelessWidget {
               child: editMode ? 
               isAndroid() ? LibraryButton(
                 onTap: onHide,
-                child: isChecked 
-                ? visibilityLocked()
-                : VisibilityUnlocked(hidden: hidden),
+                childBuilder: (final double animationValue) {
+                  return isChecked 
+                  ? visibilityLocked()
+                  : VisibilityUnlocked(hidden: hidden);
+                }
               ) : LibraryButton(
                 onTap: onHide,
-                child: isChecked 
-                ? visibilityLocked()
-                : VisibilityUnlocked(hidden: hidden),
+                childBuilder: (final double animationValue) {
+                  return isChecked 
+                  ? visibilityLocked()
+                  : VisibilityUnlocked(hidden: hidden);
+                }
               ) : PlatformWidget(
                 ios: (final context) => CupertinoCheckbox(
                   value: isChecked,

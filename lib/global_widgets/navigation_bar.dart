@@ -26,7 +26,7 @@ Widget libraryNavigationBar(final VoidCallback onExit, final text, final VoidCal
                 size: 30,
                 color: Colors.white,
                 shadows: [
-                  animationValue != 1 ? const BoxShadow() : globalShadow(false, color: Colors.black, blurRadius: 2)
+                  globalShadow(animationValue != 1, color: Colors.black, blurRadius: 2)
                 ]
               );
             }
@@ -55,11 +55,7 @@ Widget libraryNavigationBar(final VoidCallback onExit, final text, final VoidCal
                 size: 30,
                 color: Colors.white,
                 shadows: [
-                  BoxShadow(
-                    offset: const Offset(2, 2),
-                    blurRadius: 2,
-                    color: animationValue != 1 ? Colors.transparent : Colors.black,
-                  ),
+                  globalShadow(animationValue!=1, blurRadius: 2, color: Colors.black)
                 ]
               );
             }

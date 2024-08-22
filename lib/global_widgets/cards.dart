@@ -34,19 +34,15 @@ Widget libraryCard(
       : features == TextFeatures.smallnormal
       ? 17
       : 30;
-  final double offset = (animationValue!=null && animationValue!=1) || animationValue==null ? 0 : 2; // use animation value to determine elevation
   final bool isPressed = (animationValue!=null && animationValue!=1);
+  final bool globalShadowIsPressed = isPressed || animationValue==null; // use animation value to determine elevation
   return Padding(
     padding: const EdgeInsets.all(5),
     child: Container(
       decoration: BoxDecoration(
         boxShadow: [
-          BoxShadow(
-            color: Colors.white.withOpacity(0.5),
-            // spreadRadius: elevated ? 1 : 0,
-            offset: Offset(offset, offset),
-            blurRadius: 1,
-          ),
+          globalShadow(globalShadowIsPressed)
+          // spreadRadius: elevated ? 1 : 0,
         ],
         border: Border.all(
           // color: Colors.black,
@@ -82,9 +78,10 @@ Widget libraryCard(
                   color: iconColor ?? colorToUse,
                   size: iconSize,
                   shadows: [
-                    isPressed ? const BoxShadow() : BoxShadow( // hide the shadow if isPressed is true
-                      offset: const Offset(1, 1),
-                      blurRadius: 1,
+                    globalShadow( // hide the shadow if isPressed is true
+                      isPressed,
+                      offset: 1,
+                      blurRadius: 1, // TODO: check
                       color: (colorToUse == Colors.white ? 
                           Colors.black : Colors.white),
                     ),

@@ -27,13 +27,11 @@ class HideDietsCard extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    final double offset = _animationValue != 1 ? 0 : 2;
     return Container(
       decoration: BoxDecoration(
         boxShadow: [
-          BoxShadow(
-            color: Colors.white.withOpacity(0.5),
-            offset: Offset(offset, offset),
+          globalShadow(
+            _animationValue != 1,
             blurRadius: 1,
           ),
         ],
@@ -193,13 +191,11 @@ class LabeledCheckbox extends StatelessWidget {
       child: LibraryButton(
         onTap: onTap,
         childBuilder: (final double animationValue) {
-        final double offset = animationValue != 1 ? 0 : 2;
           return Container(
             decoration: BoxDecoration(
               boxShadow: [
-                BoxShadow(
-                  color: Colors.white.withOpacity(0.5),
-                  offset: Offset(offset, offset),
+                globalShadow(
+                  animationValue != 1,
                   blurRadius: 1,
                 ),
               ],

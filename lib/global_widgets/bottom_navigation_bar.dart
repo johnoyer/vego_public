@@ -1,4 +1,5 @@
 import 'package:vego_flutter_project/library/barrel.dart';
+import 'package:vego_flutter_project/diet_classes/diet_state.dart';
 import 'package:flutter/material.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
@@ -14,8 +15,8 @@ const int numItems = 5;
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   final Color selectedItemColor =  const Color.fromARGB(255, 70, 20, 16);
 
-  int _previouslySelectedIndex = 0;
-  int _selectedIndex = 0;
+  int _previouslySelectedIndex = DietState().getSelectedIndex();
+  int _selectedIndex = DietState().getSelectedIndex();
   static const double containerHeight = 60;
 
   @override
@@ -29,8 +30,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           AnimatedPositioned( // blue section of the bottom bar
             top: 2, // need to push it a bit down so that the path has enough room
             curve: Curves.easeInOutQuad,
-            left: (availableWidth/(numItems+1))/(numItems+1) + availableWidth/(numItems+1)*(numItems+2)/(numItems+1)*_selectedIndex - availableWidth,
-            duration: Duration(milliseconds: ((_previouslySelectedIndex-_selectedIndex).abs()+2)*150),
+            left: (availableWidth/(numItems+1))/(numItems+1) + availableWidth/(numItems+1)*(numItems+2)/(numItems+1)*DietState().getSelectedIndex() - availableWidth,
+            duration: Duration(milliseconds: ((_previouslySelectedIndex-DietState().getSelectedIndex()).abs()+2)*150),
             child: ClipPath(
               clipper: SemiCircularClipper(boxWidth: availableWidth/(numItems+1), boxHeight: containerHeight-10),
               child: Container(
@@ -51,8 +52,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           AnimatedPositioned( // black outlining the bottom bar
             top: 2, // need to push it a bit down so that the path has enough room
             curve: Curves.easeInOutQuad,
-            left: (availableWidth/(numItems+1))/(numItems+1) + availableWidth/(numItems+1)*(numItems+2)/(numItems+1)*_selectedIndex - availableWidth,
-            duration: Duration(milliseconds: ((_previouslySelectedIndex-_selectedIndex).abs()+2)*150),
+            left: (availableWidth/(numItems+1))/(numItems+1) + availableWidth/(numItems+1)*(numItems+2)/(numItems+1)*DietState().getSelectedIndex() - availableWidth,
+            duration: Duration(milliseconds: ((_previouslySelectedIndex-DietState().getSelectedIndex()).abs()+2)*150),
             child: CustomPaint(painter: CurvedBorderPainter(boxWidth: availableWidth/(numItems+1), boxHeight: containerHeight-10))
           ),
           Positioned.fill(
@@ -83,11 +84,21 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   Widget _buildNavItem(final int index, final double availableWidth) {
     return GestureDetector(
       onTap: () {
-        setState(() {
+        if(DietState().getNumberSelected() >= 1 || index==0 || index==4) { // If at least one is selected or diet page/settings is tapped
           _previouslySelectedIndex = _selectedIndex;
-          _selectedIndex = index;
-        });
-        print(_selectedIndex);
+          DietState().updateSelectedIndex(index);
+          setState(() {
+            _selectedIndex = index;
+          });
+          DietState.persistentIngredients ? null : DietState().clearIngredientInfo();
+        } else {
+          _previouslySelectedIndex = _selectedIndex;
+          DietState().updateSelectedIndex(0);
+          setState(() {
+            _selectedIndex = 0;
+          });
+          showErrorMessage(context, 'Please select at least one diet');
+        }
       },
       child: MouseRegion(
         cursor: SystemMouseCursors.click,

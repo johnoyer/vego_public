@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> {
         return Scaffold(
           body: _getPage(DietState().getSelectedIndex()),
           backgroundColor: ColorReturner().backGroundColor,
-          bottomNavigationBar: CustomBottomNavigationBar()
+          bottomNavigationBar: const CustomBottomNavigationBar()
         );
       }),
     );

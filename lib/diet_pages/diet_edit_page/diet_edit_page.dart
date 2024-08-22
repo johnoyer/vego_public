@@ -255,6 +255,7 @@ class _DietEditPageState extends State<DietEditPage> {
   Widget build(final BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: ColorReturner().backGroundColor,
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -278,7 +279,7 @@ class _DietEditPageState extends State<DietEditPage> {
                           dietName = text;
                         });
                       },
-                      30, 
+                      20, 
                       1,
                       hintText: 'Enter name here', 
                     ),
@@ -289,8 +290,7 @@ class _DietEditPageState extends State<DietEditPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   libraryCard('Diet Info:', TextFeatures.normal, icon: Icons.question_mark),
-                  SizedBox(
-                    width: 400,
+                  Expanded(
                     child: globalTextField(
                       _dietInfoController, 
                       (final text) {
@@ -300,9 +300,10 @@ class _DietEditPageState extends State<DietEditPage> {
                       }, 
                       300, 
                       2,
-                      hintText: 'Enter some information about the diet here (optional)', 
+                      hintText: 'Enter information about the diet here (optional)', 
                     ),
                   ),
+                  const Padding(padding: EdgeInsets.only(left: 10))
                 ],
               ),
               Row(
@@ -341,49 +342,19 @@ class _DietEditPageState extends State<DietEditPage> {
                 child: RichText( // In the ____ the following items are ____
                   text: TextSpan(
                     children: [
-                      const TextSpan(
-                        text: 'In the ',
-                        style: TextStyle(
-                          // fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.black,
-                        ),
-                      ),
-                      TextSpan(
-                        text: getDietNameLowerCase(),
-                        style: TextStyle(
-                          // fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: ColorReturner().primary,
-                        ),
-                      ),
-                      const TextSpan(
-                        text: ' diet, the following items are ',
-                        style: TextStyle(
-                          // fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.black,
-                        ),
-                      ),
                       TextSpan(
                         text: dietIsProhibitive
-                            ? 'prohibited'
-                            : 'allowed',
-                        style: TextStyle(
-                          // fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                            ? 'Prohibited'
+                            : 'Allowed',
+                        style: googleFonts(16,
                           color: dietIsProhibitive
                               ? Colors.red
                               : Colors.green,
                         ),
                       ),
-                      const TextSpan(
-                        text: ': ',
-                        style: TextStyle(
-                          // fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.black,
-                        ),
+                      TextSpan(
+                        text: ' items:',
+                        style: googleFonts(16),
                       ),
                     ],
                   ),
@@ -462,19 +433,9 @@ class _DietEditPageState extends State<DietEditPage> {
                   child: RichText(
                     text: TextSpan(
                       children: [
-                        const TextSpan(
-                          text: 'The following items ',
-                          style: TextStyle(
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: Colors.black, 
-                          ),
-                        ),
-                        const TextSpan(
-                          text: 'may be ',
-                          style: TextStyle(
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                        TextSpan(
+                          text: 'Possibly ',
+                          style: googleFonts(16,
                             color: Colors.orange,
                           ),
                         ),
@@ -482,22 +443,15 @@ class _DietEditPageState extends State<DietEditPage> {
                           text: dietIsProhibitive
                               ? 'prohibited'
                               : 'allowed',
-                          style: TextStyle(
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                          style: googleFonts(16,
                             color: dietIsProhibitive
                                 ? Colors.red
                                 : Colors.green,
                           ),
                         ),
-                        const TextSpan(
-                          text: ': ',
-                          style: TextStyle(
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color:
-                                Colors.black, // Default color for the main text
-                          ),
+                        TextSpan(
+                          text: ' items:',
+                          style: googleFonts(16),
                         ),
                       ],
                     ),
@@ -573,13 +527,13 @@ class _DietEditPageState extends State<DietEditPage> {
                   LibraryButton(
                     onTap: () async => onPressedSaveFunction(),
                     childBuilder: (final double animationValue) {
-                      return saveDietCard();
+                      return saveDietCard(animationValue);
                     }
                   ),
                   LibraryButton(
                     onTap: () => _showDietRemovalDialog(context),
                     childBuilder: (final double animationValue) {
-                      return removeDietCard();
+                      return removeDietCard(animationValue);
                     }
                   ),
                 ],

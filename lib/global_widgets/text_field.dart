@@ -22,12 +22,14 @@ Widget globalTextField(
     ],
     decoration: InputDecoration(
       hintText: hintText,
+      hintStyle: googleFonts(16),
       labelText: labelText,
+      labelStyle: googleFonts(16),
     ),
     onChanged: onChanged,
     maxLength: maxLength,
-    style: googleFonts(16, color: Colors.black),
-    cursorColor: Colors.black, // Keep the cursor visible
+    style: googleFonts(16),
+    cursorColor: Colors.white, // Keep the cursor visible
   );
 }
 
@@ -42,5 +44,6 @@ Widget counter(
   return Text(
     '$currentLength of $maxLength characters',
     semanticsLabel: 'character count',
+    style: googleFonts(13, color: Colors.white)
   );
 }

@@ -51,7 +51,7 @@ class LibraryButtonState extends State<LibraryButton> with SingleTickerProviderS
           scale: _scaleAnimation,
           child: AnimatedBuilder(
             animation: _scaleAnimation,
-            builder: (context, child) {
+            builder: (final BuildContext context, final Widget? child) {
               return widget.childBuilder(_scaleAnimation.value);
             },
           ),

@@ -76,7 +76,7 @@ class _DietDetailPageState extends State<DietDetailPage> {
                     //     ),
                     SizedBox(
                       // width: 500,
-                      height: 54, // TODO: need to fix this
+                      height: 60, // TODO: need to fix this
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: diet.isPresetDietWithSubDiets() ?

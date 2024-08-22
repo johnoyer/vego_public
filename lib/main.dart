@@ -90,26 +90,6 @@ class _HomePageState extends State<HomePage> {
   
 }
 
-class TestPage extends StatelessWidget {
-  @override
-  Widget build(final BuildContext context) {
-    return LibraryButton(
-      onTap: () {
-
-      },
-      childBuilder: (final double animationValue) {
-        return libraryCard(
-          'test',
-          TextFeatures.large,
-          animationValue: animationValue
-        );
-      }
-    );
-  }
-}
-
-
-
 class ColorTestPage extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {

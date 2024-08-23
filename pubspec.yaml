@@ -14,7 +14,7 @@ dependencies:
   flutter_svg: ^2.0.10
   async: ^2.11.0
   camera: ^0.11.0
-  camera_web: ^0.3.0
+  # camera_web: ^0.3.0
   cross_file_image: ^1.1.0
   english_words: ^4.0.0
   flutter_dotenv: ^5.1.0

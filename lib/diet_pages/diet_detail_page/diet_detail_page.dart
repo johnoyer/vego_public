@@ -145,7 +145,7 @@ class _DietDetailPageState extends State<DietDetailPage> {
                       width: 380,
                       child: globalDivider(),
                     ),
-                    itemsDisplayWidget(diet.primaryItems),
+                    itemsDisplayWidget(DietState.getDietItems(widget.dietIndex!, true)),
                     globalDivider(),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -184,7 +184,7 @@ class _DietDetailPageState extends State<DietDetailPage> {
                       width: 300,
                       child: globalDivider(),
                     ),
-                    itemsDisplayWidget(diet.secondaryItems),
+                    itemsDisplayWidget(DietState.getDietItems(widget.dietIndex!, false)),
                     !(diet.isCustom())
                     ? Container()
                     : Padding(

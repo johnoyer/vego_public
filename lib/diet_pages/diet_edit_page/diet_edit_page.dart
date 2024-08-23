@@ -33,8 +33,8 @@ class _DietEditPageState extends State<DietEditPage> {
     dietName = DietState.getDietList()[widget.dietIndex].name;
     dietInfo = DietState.getDietList()[widget.dietIndex].dietInfo;
     dietIsProhibitive = DietState.getDietList()[widget.dietIndex].isProhibitive;
-    newPrimaryItems = capitalizeFirstLetterOfEveryWord(DietState.getDietList()[widget.dietIndex].primaryItems);
-    newSecondaryItems = capitalizeFirstLetterOfEveryWord(DietState.getDietList()[widget.dietIndex].secondaryItems);
+    newPrimaryItems = capitalizeFirstLetterOfEveryWord(DietState.getDietItems(widget.dietIndex,true));
+    newSecondaryItems = capitalizeFirstLetterOfEveryWord(DietState.getDietItems(widget.dietIndex,false));
   }
   
   String getDietNameUpperCase() {
@@ -173,7 +173,7 @@ class _DietEditPageState extends State<DietEditPage> {
 
     // Item by item check is necessary because list comparison compares if the objects are equal not the contents
     bool primaryItemsChanged = false;
-    final List<String> oldPrimaryItems = capitalizeFirstLetterOfEveryWord(DietState.getDietList()[widget.dietIndex].primaryItems);
+    final List<String> oldPrimaryItems = capitalizeFirstLetterOfEveryWord(DietState.getDietItems(widget.dietIndex, true));
     if(oldPrimaryItems.length!=newPrimaryItems.length) {
       primaryItemsChanged = true;
     } else {
@@ -185,7 +185,7 @@ class _DietEditPageState extends State<DietEditPage> {
     }
 
     bool secondaryItemsChanged = false;
-    final List<String> oldSecondaryItems = capitalizeFirstLetterOfEveryWord(DietState.getDietList()[widget.dietIndex].secondaryItems);
+    final List<String> oldSecondaryItems = capitalizeFirstLetterOfEveryWord(DietState.getDietItems(widget.dietIndex, false));
     if(oldSecondaryItems.length!=newSecondaryItems.length) {
       secondaryItemsChanged = true;
     } else {

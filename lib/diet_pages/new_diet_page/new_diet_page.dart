@@ -680,7 +680,8 @@ class _NewDietPageState extends State<NewDietPage> with TickerProviderStateMixin
             _enforcingProhibitive = false;
           }
           DietState().updateIsProhibitive(widget.index, _enforcingProhibitive!);
-          await DietState().addDietItemsFromDiet(widget.index, dietAttributeContainer.diet, dietAttributeContainer.itemSelectedList);
+          //TODO
+          // await DietState().addDietItemsFromDiet(widget.index, dietAttributeContainer.diet, dietAttributeContainer.itemSelectedList);
         }
         dietAttributeContainer.selectionStatus=SelectionStatus.notSelected;
       }

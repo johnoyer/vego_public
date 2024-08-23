@@ -129,6 +129,78 @@ class DietState extends ChangeNotifier {
     _diets[dietIndex].secondaryItems.sort();
   }
 
+// Future<void> addDietItemsFromDiet(final int index, final PresetDiet diet, final List<bool>? indices) async {
+    // final Set<String> primaryItemsInitialSet = lowerCaseEveryWord(_diets[index].primaryItems).toSet();
+    // final Set<String> secondaryItemsInitialSet = lowerCaseEveryWord(_diets[index].secondaryItems).toSet();
+    // Set<String> primaryItemsToAddSet = {};
+    // Set<String> secondaryItemsToAddSet = {};
+    // if(indices!=null && diet is! PresetDietWithSubdiets) { // PresetDiet some selected (only primary items will be present)
+    //   assert(diet.secondaryItems.isEmpty); // Confirm that secondaryItems is empty
+    //   assert(indices.length==diet.primaryItems.length);
+    //   for (int i = 0; i < indices.length; i++) {
+    //     if (indices[i]) {
+    //       if(!lowerCaseEveryWord(_diets[index].primaryItems).contains(diet.primaryItems[i].toLowerCase())) {
+    //         primaryItemsToAddSet.add(diet.primaryItems[i].toLowerCase());
+    //       }
+    //     }
+    //   }
+    // } else if (indices!=null) { // PresetDietWithSubDiets some selected
+    //   for(int i=0; i<indices.length; i++) {
+    //     if(indices[i]) { // TODO: test
+    //       final List<String> primaryItems = (diet as PresetDietWithSubdiets).subDiets[i].primaryItems;
+    //       primaryItemsToAddSet.addAll(primaryItems);
+    //       final List<String> secondaryItems = diet.subDiets[i].secondaryItems;
+    //       secondaryItemsToAddSet.addAll(secondaryItems);
+    //       setDietAttributes(index, {diet.subDiets[i]}, true);
+    //     }
+    //   }
+    // } else { // Normal PresetDiet
+    //   primaryItemsToAddSet = lowerCaseEveryWord(diet.primaryItems).toSet();
+    //   secondaryItemsToAddSet = lowerCaseEveryWord(diet.secondaryItems).toSet();
+
+    //   // Add the diet to the diet attributes
+    //   setDietAttributes(index, {diet}, true);
+    // }
+    // primaryItemsInitialSet.addAll(primaryItemsToAddSet);
+    // secondaryItemsInitialSet.removeAll(primaryItemsToAddSet);
+    // secondaryItemsToAddSet.removeAll(primaryItemsInitialSet);
+    // secondaryItemsInitialSet.addAll(secondaryItemsToAddSet);
+    // _diets[index].primaryItems = primaryItemsInitialSet.toList();
+    // _diets[index].primaryItems.sort();
+    // _diets[index].secondaryItems = secondaryItemsInitialSet.toList();
+    // _diets[index].secondaryItems.sort();
+    // // notifyListeners();
+    // await _saveDietsAndSettings();
+  // }
+
+
+  static List<String> getDietItems(final int dietIndex, final bool primary) {
+    if(_diets[dietIndex] is PresetDiet) {
+      return primary ? _diets[dietIndex].primaryItems : _diets[dietIndex].secondaryItems;
+    } else { // CustomDiet
+      late Set<String> setForm;
+      late List<String> listForm;
+      if(primary) {
+        setForm = _diets[dietIndex].primaryItems.toSet();
+        if((_diets[dietIndex] as CustomDiet).dietFeatures!=null) {
+          for(int i=0; i<(_diets[dietIndex] as CustomDiet).dietFeatures!.length; i++) {
+            setForm.addAll((_diets[dietIndex] as CustomDiet).dietFeatures![i].primaryItems);
+          }
+        }
+      } else {
+        setForm = _diets[dietIndex].secondaryItems.toSet();
+        if((_diets[dietIndex] as CustomDiet).dietFeatures!=null) {
+          for(int i=0; i<(_diets[dietIndex] as CustomDiet).dietFeatures!.length; i++) {
+            setForm.addAll((_diets[dietIndex] as CustomDiet).dietFeatures![i].secondaryItems);
+          }
+        }
+      }
+      listForm = setForm.toList();
+      listForm.sort();
+      return listForm;
+    }
+  }
+
   static Future<void> _saveDietsAndSettings() async {
     if(_preferences==null) throw Exception('unitialized preferences');
     await _preferences!.setString('diets', json.encode(_diets));
@@ -206,50 +278,6 @@ class DietState extends ChangeNotifier {
     _diets[index].primaryItems = itemsSet.toList();
     _diets[index].secondaryItems = secondaryItemsSet.toList();
     _diets[index].primaryItems.sort();
-    _diets[index].secondaryItems.sort();
-    notifyListeners();
-    await _saveDietsAndSettings();
-  }
-
-  Future<void> addDietItemsFromDiet(final int index, final PresetDiet diet, final List<bool>? indices) async {
-    final Set<String> primaryItemsInitialSet = lowerCaseEveryWord(_diets[index].primaryItems).toSet();
-    final Set<String> secondaryItemsInitialSet = lowerCaseEveryWord(_diets[index].secondaryItems).toSet();
-    Set<String> primaryItemsToAddSet = {};
-    Set<String> secondaryItemsToAddSet = {};
-    if(indices!=null && diet is! PresetDietWithSubdiets) { // PresetDiet some selected (only primary items will be present)
-      assert(diet.secondaryItems.isEmpty); // Confirm that secondaryItems is empty
-      assert(indices.length==diet.primaryItems.length);
-      for (int i = 0; i < indices.length; i++) {
-        if (indices[i]) {
-          if(!lowerCaseEveryWord(_diets[index].primaryItems).contains(diet.primaryItems[i].toLowerCase())) {
-            primaryItemsToAddSet.add(diet.primaryItems[i].toLowerCase());
-          }
-        }
-      }
-    } else if (indices!=null) { // PresetDietWithSubDiets some selected
-      for(int i=0; i<indices.length; i++) {
-        if(indices[i]) { // TODO: test
-          final List<String> primaryItems = (diet as PresetDietWithSubdiets).subDiets[i].primaryItems;
-          primaryItemsToAddSet.addAll(primaryItems);
-          final List<String> secondaryItems = diet.subDiets[i].secondaryItems;
-          secondaryItemsToAddSet.addAll(secondaryItems);
-          setDietAttributes(index, {diet.subDiets[i]}, true);
-        }
-      }
-    } else { // Normal PresetDiet
-      primaryItemsToAddSet = lowerCaseEveryWord(diet.primaryItems).toSet();
-      secondaryItemsToAddSet = lowerCaseEveryWord(diet.secondaryItems).toSet();
-
-      // Add the diet to the diet attributes
-      setDietAttributes(index, {diet}, true);
-    }
-    primaryItemsInitialSet.addAll(primaryItemsToAddSet);
-    secondaryItemsInitialSet.removeAll(primaryItemsToAddSet);
-    secondaryItemsToAddSet.removeAll(primaryItemsInitialSet);
-    secondaryItemsInitialSet.addAll(secondaryItemsToAddSet);
-    _diets[index].primaryItems = primaryItemsInitialSet.toList();
-    _diets[index].primaryItems.sort();
-    _diets[index].secondaryItems = secondaryItemsInitialSet.toList();
     _diets[index].secondaryItems.sort();
     notifyListeners();
     await _saveDietsAndSettings();

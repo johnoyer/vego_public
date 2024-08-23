@@ -18,7 +18,7 @@ dependencies:
   cross_file_image: ^1.1.0
   english_words: ^4.0.0
   flutter_dotenv: ^5.1.0
-  google_ml_kit: ^0.18.0 
+  # google_ml_kit: ^0.18.0 
   http: ^1.2.1
   image: ^4.2.0
   image_picker: ^1.0.4
